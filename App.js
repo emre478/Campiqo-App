@@ -1,18 +1,12 @@
-import { StatusBar } from "expo-status-bar";
-import { SafeAreaView, Text } from "react-native";
+import { Provider } from "react-redux";
+
+import { store } from "./src/redux/store";
+import RootNavigator from "./src/navigation/RootNavigator";
 
 export default function App() {
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Campiqo Mobile</Text>
-
-      <StatusBar style="auto" />
-    </SafeAreaView>
+    <Provider store={store}>
+      <RootNavigator />
+    </Provider>
   );
 }
