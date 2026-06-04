@@ -1,26 +1,30 @@
-import { TextInput } from "react-native";
+import { TouchableOpacity, Text } from "react-native";
 
-export default function CustomInput({
-  placeholder,
-  value,
-  onChangeText,
-  secureTextEntry = false,
+export default function CustomButton({
+  title,
+  onPress,
 }) {
   return (
-    <TextInput
-      placeholder={placeholder}
-      value={value}
-      onChangeText={onChangeText}
-      secureTextEntry={secureTextEntry}
+    <TouchableOpacity
+      onPress={onPress}
       style={{
         width: "100%",
         height: 50,
-        borderWidth: 1,
-        borderColor: "#ccc",
+        backgroundColor: "#000",
         borderRadius: 10,
-        paddingHorizontal: 15,
-        marginBottom: 15,
+        justifyContent: "center",
+        alignItems: "center",
       }}
-    />
+    >
+      <Text
+        style={{
+          color: "#fff",
+          fontSize: 16,
+          fontWeight: "600",
+        }}
+      >
+        {title}
+      </Text>
+    </TouchableOpacity>
   );
 }
