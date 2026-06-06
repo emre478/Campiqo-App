@@ -1,5 +1,12 @@
 import React from "react";
-import { Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+	Image,
+	ScrollView,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Button } from "react-native-paper";
@@ -13,7 +20,7 @@ const categoryMap = {
 	Survival: "Hayatta Kalma",
 };
 
-const CampDetailScreen = ({ route }) => {
+const CampDetailScreen = ({ route, navigation }) => {
 	const { camp } = route.params;
 	const [isFavorited, setIsFavorited] = React.useState(
 		camp.isFavorited ?? false
@@ -93,7 +100,16 @@ const CampDetailScreen = ({ route }) => {
 		<ScrollView style={styles.container}>
 			<View style={styles.imageContainer}>
 				<Image source={imageSource} style={styles.image} />
-
+				<TouchableOpacity
+					style={styles.backButton}
+					onPress={() => navigation.goBack()}
+				>
+					<MaterialCommunityIcons
+						name="arrow-left"
+						size={28}
+						color="#fff"
+					/>
+				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.favoriteButton}
 					onPress={() => setIsFavorited(!isFavorited)}
@@ -277,5 +293,17 @@ const styles = StyleSheet.create({
 
 		justifyContent: "center",
 		alignItems: "center",
+	},
+	backButton: {
+		position: "absolute",
+		top: 45,
+		left: 20,
+		width: 44,
+		height: 44,
+		borderRadius: 22,
+		backgroundColor: "rgba(0,0,0,0.35)",
+		justifyContent: "center",
+		alignItems: "center",
+		zIndex: 10,
 	},
 });
