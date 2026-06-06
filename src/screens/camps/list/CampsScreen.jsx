@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
-import CampCard from "../../components/camps/CampCard";
-import CampFilter from "../../components/camps/CampFilter";
-import { getCamps } from "../../services/campService";
+import CampCard from "../../../components/camps/CampCard";
+import CampFilter from "../../../components/camps/CampFilter";
+import { getCamps } from "../../../services/campService";
 
 const CampsScreen = () => {
 	const [camps, setCamps] = useState([]);

@@ -1,11 +1,11 @@
-import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import React from "react";
 
-import HomeScreen from "../screens/home/HomeScreen";
-import CampsScreen from "../screens/camps/CampsScreen";
+import CampsScreen from "../screens/camps/list/CampsScreen";
 import CreateCampScreen from "../screens/create/CreateCampScreen";
 import FavoritesScreen from "../screens/favorites/FavoritesScreen";
+import HomeScreen from "../screens/home/HomeScreen";
 import ProfileScreen from "../screens/profile/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
