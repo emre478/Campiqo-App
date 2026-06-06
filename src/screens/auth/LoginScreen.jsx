@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
 	},
 
 	inputOutline: {
-		borderRadius: 14,
+		borderRadius: 16,
 	},
 
 	button: {
@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
 		height: 52,
 		justifyContent: "center",
 		borderRadius: 14,
+		backgroundColor: "#388E3C",
 	},
 
 	registerButton: {

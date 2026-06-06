@@ -15,10 +15,13 @@ export default AuthCard;
 const styles = StyleSheet.create({
 	card: {
 		marginHorizontal: 20,
-		marginTop: -70,
-		borderRadius: 24,
-		elevation: 10,
-		paddingVertical: 20,
-		paddingHorizontal: 10,
+		marginTop: 80,
+		borderRadius: 30,
+		elevation: 12,
+
+		backgroundColor: "rgba(255,255,255,0.97)",
+
+		paddingVertical: 24,
+		paddingHorizontal: 12,
 	},
 });
