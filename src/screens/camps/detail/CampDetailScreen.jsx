@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Button } from "react-native-paper";
@@ -15,7 +15,9 @@ const categoryMap = {
 
 const CampDetailScreen = ({ route }) => {
 	const { camp } = route.params;
-
+	const [isFavorited, setIsFavorited] = React.useState(
+		camp.isFavorited ?? false
+	);
 	const getButtonConfig = () => {
 		if (camp.isOwner) {
 			return {
@@ -89,7 +91,20 @@ const CampDetailScreen = ({ route }) => {
 
 	return (
 		<ScrollView style={styles.container}>
-			<Image source={imageSource} style={styles.image} />
+			<View style={styles.imageContainer}>
+				<Image source={imageSource} style={styles.image} />
+
+				<TouchableOpacity
+					style={styles.favoriteButton}
+					onPress={() => setIsFavorited(!isFavorited)}
+				>
+					<MaterialCommunityIcons
+						name={isFavorited ? "heart" : "heart-outline"}
+						size={28}
+						color={isFavorited ? "#E53935" : "#FFFFFF"}
+					/>
+				</TouchableOpacity>
+			</View>
 
 			<View style={styles.content}>
 				<Text style={styles.title}>{camp.title}</Text>
@@ -243,5 +258,24 @@ const styles = StyleSheet.create({
 	},
 	disabledButton: {
 		backgroundColor: "#9E9E9E",
+	},
+	imageContainer: {
+		position: "relative",
+	},
+
+	favoriteButton: {
+		position: "absolute",
+		top: 45,
+		right: 20,
+
+		width: 44,
+		height: 44,
+
+		borderRadius: 22,
+
+		backgroundColor: "rgba(0,0,0,0.35)",
+
+		justifyContent: "center",
+		alignItems: "center",
 	},
 });
