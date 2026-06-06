@@ -1,58 +1,66 @@
 import React from "react";
-import {
-	View,
-	Text,
-	Image,
-	StyleSheet,
-	TouchableOpacity,
-} from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const CampCard = ({ camp }) => {
+	const imageSource =
+		camp.imageUrl && camp.imageUrl !== "string"
+			? { uri: camp.imageUrl }
+			: {
+					uri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+				};
+
+	const startDate = new Date(camp.startDate);
+
+	const formattedDate = startDate.toLocaleDateString("tr-TR", {
+		day: "numeric",
+		month: "long",
+	});
+
 	return (
-		<TouchableOpacity style={styles.card}>
-			<Image
-				source={{ uri: camp.imageUrl }}
-				style={styles.image}
-			/>
+		<TouchableOpacity activeOpacity={0.9} style={styles.card}>
+			<Image source={imageSource} style={styles.image} />
 
 			<View style={styles.content}>
-				<Text style={styles.title}>
-					{camp.title}
-				</Text>
-
-				<View style={styles.row}>
-					<MaterialCommunityIcons
-						name="map-marker-outline"
-						size={16}
-						color="#666"
-					/>
-
-					<Text style={styles.text}>
-						{camp.location}
+				<View style={styles.header}>
+					<Text numberOfLines={2} style={styles.title}>
+						{camp.title}
 					</Text>
 				</View>
 
-				<View style={styles.row}>
+				<View style={styles.infoRow}>
 					<MaterialCommunityIcons
-						name="account-group-outline"
-						size={16}
+						name="map-marker-outline"
+						size={18}
 						color="#666"
 					/>
 
-					<Text style={styles.text}>
-						{camp.participantCount}/
-						{camp.maxParticipantCount}
+					<Text style={styles.infoText}>{camp.location}</Text>
+				</View>
+
+				<View style={styles.infoRow}>
+					<MaterialCommunityIcons
+						name="calendar-month-outline"
+						size={18}
+						color="#666"
+					/>
+
+					<Text style={styles.infoText}>{formattedDate}</Text>
+				</View>
+
+				<View style={styles.infoRow}>
+					<MaterialCommunityIcons
+						name="account-group-outline"
+						size={18}
+						color="#666"
+					/>
+
+					<Text style={styles.infoText}>
+						Katılım: {camp.participantCount}/{camp.maxParticipantCount}
 					</Text>
 				</View>
 			</View>
-
-			<MaterialCommunityIcons
-				name="bookmark-outline"
-				size={24}
-				color="#666"
-			/>
 		</TouchableOpacity>
 	);
 };
@@ -63,38 +71,59 @@ const styles = StyleSheet.create({
 	card: {
 		backgroundColor: "#fff",
 		borderRadius: 20,
-		padding: 10,
-		marginBottom: 15,
+		marginHorizontal: 16,
+		marginBottom: 16,
+		padding: 12,
+
 		flexDirection: "row",
-		alignItems: "center",
-		elevation: 3,
+
+		elevation: 4,
+
+		shadowColor: "#000",
+		shadowOpacity: 0.08,
+		shadowRadius: 8,
+		shadowOffset: {
+			width: 0,
+			height: 3,
+		},
 	},
 
 	image: {
 		width: 110,
 		height: 110,
-		borderRadius: 15,
+		borderRadius: 16,
 	},
 
 	content: {
 		flex: 1,
-		marginLeft: 12,
+		marginLeft: 14,
+		justifyContent: "center",
 	},
 
-	title: {
-		fontSize: 18,
-		fontWeight: "700",
+	header: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "flex-start",
 		marginBottom: 10,
 	},
 
-	row: {
-		flexDirection: "row",
-		alignItems: "center",
-		marginBottom: 5,
+	title: {
+		flex: 1,
+		fontSize: 20,
+		fontWeight: "700",
+		color: "#222",
+		marginRight: 10,
 	},
 
-	text: {
-		marginLeft: 5,
+	infoRow: {
+		flexDirection: "row",
+		alignItems: "center",
+		marginBottom: 6,
+	},
+
+	infoText: {
+		marginLeft: 6,
+		fontSize: 14,
 		color: "#666",
 	},
 });

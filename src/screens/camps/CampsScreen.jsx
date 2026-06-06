@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-import {
-	View,
-	Text,
-	StyleSheet,
-	FlatList,
-} from "react-native";
+import { FlatList, StyleSheet, Text, View } from "react-native";
 
 import CampCard from "../../components/camps/CampCard";
+import CampFilter from "../../components/camps/CampFilter";
 import { getCamps } from "../../services/campService";
 
 const CampsScreen = () => {
 	const [camps, setCamps] = useState([]);
+	const [filter, setFilter] = useState("all");
 
 	useEffect(() => {
 		loadCamps();
@@ -28,19 +25,22 @@ const CampsScreen = () => {
 		}
 	};
 
+	const filteredCamps =
+		filter === "all"
+			? camps
+			: camps.filter((camp) => new Date(camp.startDate) > new Date());
+
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>
-				Kamplar
-			</Text>
+			<Text style={styles.title}>Kamplar</Text>
 
 			<FlatList
-				data={camps}
+				data={filteredCamps}
 				keyExtractor={(item) => item.id}
-				renderItem={({ item }) => (
-					<CampCard camp={item} />
-				)}
-				showsVerticalScrollIndicator={false}
+				ListHeaderComponent={
+					<CampFilter selected={filter} onChange={setFilter} />
+				}
+				renderItem={({ item }) => <CampCard camp={item} />}
 			/>
 		</View>
 	);
