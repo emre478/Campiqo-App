@@ -22,7 +22,7 @@ const CampsScreen = () => {
 
 			console.log(response);
 
-			setCamps(response.items || []);
+			setCamps(response.data.items);
 		} catch (error) {
 			console.log(error);
 		}
