@@ -11,3 +11,12 @@ export const login = async (
 
   return response.data;
 };
+
+export const register = async (data: any) => {
+  const response = await apiClient.post(
+    "/Auth/register",
+    data
+  );
+
+  return response.data;
+};

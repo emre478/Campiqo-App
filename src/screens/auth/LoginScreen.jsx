@@ -7,7 +7,7 @@ import { loginSuccess } from "../../redux/slices/authSlice";
 import { login } from "../../services/authService";
 import { saveToken } from "../../services/tokenService";
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
 	const dispatch = useDispatch();
 
 	const [email, setEmail] = useState("");
