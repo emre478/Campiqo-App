@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { KeyboardAvoidingView, Platform, StyleSheet, } from "react-native";
-import { Snackbar, Button, TextInput } from "react-native-paper";
+import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
+import { Button, Snackbar, TextInput } from "react-native-paper";
 import { useDispatch } from "react-redux";
 import AuthCard from "../../components/auth/AuthCard";
 import AuthHeader from "../../components/auth/AuthHeader";
@@ -69,6 +69,7 @@ const LoginScreen = ({ navigation }) => {
 						onChangeText={setEmail}
 						keyboardType="email-address"
 						autoCapitalize="none"
+						outlineStyle={styles.inputOutline}
 						style={styles.input}
 					/>
 
@@ -78,6 +79,7 @@ const LoginScreen = ({ navigation }) => {
 						secureTextEntry
 						value={password}
 						onChangeText={setPassword}
+						outlineStyle={styles.inputOutline}
 						style={styles.input}
 					/>
 
@@ -87,12 +89,16 @@ const LoginScreen = ({ navigation }) => {
 						loading={loading}
 						disabled={loading}
 						style={styles.button}
+						contentStyle={{
+							height: 52,
+						}}
 					>
 						Giriş Yap
 					</Button>
 
 					<Button
 						mode="text"
+						style={styles.registerButton}
 						onPress={() => navigation.navigate("Register")}
 					>
 						Hesabın yok mu? Kayıt Ol
@@ -116,7 +122,26 @@ export default LoginScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		backgroundColor: "#F5F5F5",
+	},
+
+	input: {
+		marginBottom: 18,
+		backgroundColor: "#fff",
+	},
+
+	inputOutline: {
+		borderRadius: 14,
+	},
+
+	button: {
+		marginTop: 12,
+		height: 52,
 		justifyContent: "center",
-		padding: 20,
+		borderRadius: 14,
+	},
+
+	registerButton: {
+		marginTop: 8,
 	},
 });
