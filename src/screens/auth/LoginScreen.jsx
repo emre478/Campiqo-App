@@ -35,6 +35,7 @@ const LoginScreen = ({ navigation }) => {
 						user: null,
 					})
 				);
+				navigation.replace("Main");
 
 				console.log("Login başarılı");
 			} else {
