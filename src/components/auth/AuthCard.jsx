@@ -15,7 +15,7 @@ export default AuthCard;
 const styles = StyleSheet.create({
 	card: {
 		marginHorizontal: 20,
-		marginTop: 80,
+		marginTop: 40,
 		borderRadius: 30,
 		elevation: 12,
 

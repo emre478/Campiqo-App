@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
 
-import { Button, Card, Snackbar, Text, TextInput } from "react-native-paper";
+import { Button, Snackbar, TextInput } from "react-native-paper";
+
+import AuthCard from "../../components/auth/AuthCard";
+import AuthHeader from "../../components/auth/AuthHeader";
+
 import { register } from "../../services/authService";
 
 const RegisterScreen = ({ navigation }) => {
@@ -30,7 +34,13 @@ const RegisterScreen = ({ navigation }) => {
 			});
 
 			if (response === "User created") {
-				navigation.replace("Login");
+				setMessage("Kayıt başarılı.");
+
+				setVisible(true);
+
+				setTimeout(() => {
+					navigation.replace("Login");
+				}, 1500);
 			} else {
 				setMessage(response);
 				setVisible(true);
@@ -44,22 +54,21 @@ const RegisterScreen = ({ navigation }) => {
 	};
 
 	return (
-		<KeyboardAvoidingView
-			style={styles.container}
-			behavior={Platform.OS === "ios" ? "padding" : undefined}
-		>
-			<Card style={styles.card}>
-				<Card.Content>
-					<Text variant="headlineMedium" style={styles.title}>
-						Kayıt Ol
-					</Text>
+		<>
+			<AuthHeader />
 
+			<KeyboardAvoidingView
+				style={styles.container}
+				behavior={Platform.OS === "ios" ? "padding" : undefined}
+			>
+				<AuthCard>
 					<TextInput
 						label="Ad"
 						mode="outlined"
 						value={firstName}
 						onChangeText={setFirstName}
 						style={styles.input}
+						outlineStyle={styles.inputOutline}
 					/>
 
 					<TextInput
@@ -68,6 +77,7 @@ const RegisterScreen = ({ navigation }) => {
 						value={lastName}
 						onChangeText={setLastName}
 						style={styles.input}
+						outlineStyle={styles.inputOutline}
 					/>
 
 					<TextInput
@@ -78,6 +88,7 @@ const RegisterScreen = ({ navigation }) => {
 						keyboardType="email-address"
 						autoCapitalize="none"
 						style={styles.input}
+						outlineStyle={styles.inputOutline}
 					/>
 
 					<TextInput
@@ -87,6 +98,7 @@ const RegisterScreen = ({ navigation }) => {
 						value={password}
 						onChangeText={setPassword}
 						style={styles.input}
+						outlineStyle={styles.inputOutline}
 					/>
 
 					<TextInput
@@ -96,30 +108,38 @@ const RegisterScreen = ({ navigation }) => {
 						value={confirmPassword}
 						onChangeText={setConfirmPassword}
 						style={styles.input}
+						outlineStyle={styles.inputOutline}
 					/>
 
 					<Button
 						mode="contained"
 						onPress={handleRegister}
 						style={styles.button}
+						contentStyle={{
+							height: 52,
+						}}
 					>
 						Kayıt Ol
 					</Button>
 
-					<Button mode="text" onPress={() => navigation.navigate("Login")}>
+					<Button
+						mode="text"
+						style={styles.loginButton}
+						onPress={() => navigation.navigate("Login")}
+					>
 						Zaten hesabın var mı? Giriş Yap
 					</Button>
-				</Card.Content>
-			</Card>
+				</AuthCard>
 
-			<Snackbar
-				visible={visible}
-				onDismiss={() => setVisible(false)}
-				duration={3000}
-			>
-				{message}
-			</Snackbar>
-		</KeyboardAvoidingView>
+				<Snackbar
+					visible={visible}
+					onDismiss={() => setVisible(false)}
+					duration={3000}
+				>
+					{message}
+				</Snackbar>
+			</KeyboardAvoidingView>
+		</>
 	);
 };
 
@@ -128,26 +148,25 @@ export default RegisterScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: "center",
-		padding: 20,
-	},
-
-	card: {
-		borderRadius: 20,
-	},
-
-	title: {
-		textAlign: "center",
-		marginBottom: 25,
-		fontWeight: "bold",
+		backgroundColor: "#F5F5F5",
 	},
 
 	input: {
-		marginBottom: 12,
+		marginBottom: 18,
+		backgroundColor: "#fff",
+	},
+
+	inputOutline: {
+		borderRadius: 14,
 	},
 
 	button: {
-		marginTop: 10,
-		marginBottom: 10,
+		marginTop: 12,
+		borderRadius: 14,
+		backgroundColor: "#388E3C",
+	},
+
+	loginButton: {
+		marginTop: 8,
 	},
 });
