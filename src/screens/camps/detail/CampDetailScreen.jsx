@@ -1,37 +1,49 @@
 import React from "react";
-import {
-	View,
-	Text,
-	Image,
-	StyleSheet,
-	ScrollView,
-} from "react-native";
+import { Image, ScrollView, StyleSheet, Text, View } from "react-native";
 
-import { Button } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Button } from "react-native-paper";
+
+const categoryMap = {
+	Nature: "Doğa",
+	Caravan: "Karavan",
+	Mountain: "Dağ",
+	Sea: "Deniz",
+	Winter: "Kış",
+	Survival: "Hayatta Kalma",
+};
 
 const CampDetailScreen = ({ route }) => {
 	const { camp } = route.params;
 
 	const imageSource =
-		camp.imageUrl &&
-		camp.imageUrl !== "string"
+		camp.imageUrl && camp.imageUrl !== "string"
 			? { uri: camp.imageUrl }
 			: {
 					uri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-			  };
+				};
+
+	const startDate = new Date(camp.startDate);
+	const endDate = new Date(camp.endDate);
+
+	const formattedStartDate = startDate.toLocaleDateString("tr-TR", {
+		day: "numeric",
+		month: "long",
+		year: "numeric",
+	});
+
+	const formattedEndDate = endDate.toLocaleDateString("tr-TR", {
+		day: "numeric",
+		month: "long",
+		year: "numeric",
+	});
 
 	return (
 		<ScrollView style={styles.container}>
-			<Image
-				source={imageSource}
-				style={styles.image}
-			/>
+			<Image source={imageSource} style={styles.image} />
 
 			<View style={styles.content}>
-				<Text style={styles.title}>
-					{camp.title}
-				</Text>
+				<Text style={styles.title}>{camp.title}</Text>
 
 				<View style={styles.row}>
 					<MaterialCommunityIcons
@@ -40,22 +52,18 @@ const CampDetailScreen = ({ route }) => {
 						color="#666"
 					/>
 
-					<Text style={styles.text}>
-						{camp.location}
-					</Text>
+					<Text style={styles.text}>{camp.location}</Text>
 				</View>
 
 				<View style={styles.row}>
 					<MaterialCommunityIcons
-						name="calendar-month-outline"
+						name="calendar-range"
 						size={20}
 						color="#666"
 					/>
 
 					<Text style={styles.text}>
-						{new Date(
-							camp.startDate
-						).toLocaleDateString("tr-TR")}
+						{formattedStartDate} - {formattedEndDate}
 					</Text>
 				</View>
 
@@ -67,45 +75,29 @@ const CampDetailScreen = ({ route }) => {
 					/>
 
 					<Text style={styles.text}>
-						{camp.participantCount}/
-						{camp.maxParticipantCount}
+						{camp.participantCount}/{camp.maxParticipantCount}
 					</Text>
 				</View>
 
-				<View style={styles.section}>
-					<Text style={styles.sectionTitle}>
-						Kategori
+				<View style={styles.infoCard}>
+					<Text style={styles.sectionTitle}>Kategori</Text>
+
+					<Text style={styles.sectionValue}>
+						{categoryMap[camp.categoryName] ||
+							camp.categoryName ||
+							camp.category}
 					</Text>
 
-					<Text style={styles.sectionText}>
-						{camp.categoryName}
-					</Text>
+					<Text style={styles.sectionTitle}>Oluşturan</Text>
+
+					<Text style={styles.sectionValue}>{camp.ownerName}</Text>
+
+					<Text style={styles.sectionTitle}>Açıklama</Text>
+
+					<Text style={styles.description}>{camp.description}</Text>
 				</View>
 
-				<View style={styles.section}>
-					<Text style={styles.sectionTitle}>
-						Oluşturan
-					</Text>
-
-					<Text style={styles.sectionText}>
-						{camp.ownerName}
-					</Text>
-				</View>
-
-				<View style={styles.section}>
-					<Text style={styles.sectionTitle}>
-						Açıklama
-					</Text>
-
-					<Text style={styles.sectionText}>
-						{camp.description}
-					</Text>
-				</View>
-
-				<Button
-					mode="contained"
-					style={styles.joinButton}
-				>
+				<Button mode="contained" style={styles.joinButton}>
 					Katıl
 				</Button>
 			</View>
@@ -118,12 +110,12 @@ export default CampDetailScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#fff",
+		backgroundColor: "#F5F5F5",
 	},
 
 	image: {
 		width: "100%",
-		height: 250,
+		height: 260,
 	},
 
 	content: {
@@ -131,9 +123,10 @@ const styles = StyleSheet.create({
 	},
 
 	title: {
-		fontSize: 28,
-		fontWeight: "bold",
+		fontSize: 30,
+		fontWeight: "700",
 		marginBottom: 20,
+		color: "#222",
 	},
 
 	row: {
@@ -145,28 +138,49 @@ const styles = StyleSheet.create({
 	text: {
 		marginLeft: 8,
 		fontSize: 16,
-		color: "#555",
+		color: "#666",
 	},
 
-	section: {
-		marginTop: 24,
+	infoCard: {
+		backgroundColor: "#fff",
+		borderRadius: 20,
+		padding: 20,
+		marginTop: 20,
+
+		elevation: 4,
+
+		shadowColor: "#000",
+		shadowOpacity: 0.08,
+		shadowRadius: 8,
+		shadowOffset: {
+			width: 0,
+			height: 3,
+		},
 	},
 
 	sectionTitle: {
 		fontSize: 18,
 		fontWeight: "700",
-		marginBottom: 8,
+		color: "#222",
+		marginBottom: 6,
+		marginTop: 16,
 	},
 
-	sectionText: {
+	sectionValue: {
+		fontSize: 16,
+		color: "#666",
+	},
+
+	description: {
 		fontSize: 16,
 		lineHeight: 24,
 		color: "#555",
 	},
 
 	joinButton: {
-		marginTop: 32,
-		borderRadius: 12,
+		marginTop: 24,
+		marginBottom: 30,
+		borderRadius: 14,
 		paddingVertical: 6,
 	},
 });

@@ -28,7 +28,11 @@ export default function RootNavigator() {
 					component={BottomTabNavigator}
 					options={{ headerShown: false }}
 				/>
-				<Stack.Screen name="CampDetail" component={CampDetailScreen} />
+				<Stack.Screen
+					name="CampDetail"
+					component={CampDetailScreen}
+					options={{ headerShown: false }}
+				/>
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
