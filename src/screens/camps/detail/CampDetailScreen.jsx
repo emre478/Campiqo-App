@@ -16,6 +16,55 @@ const categoryMap = {
 const CampDetailScreen = ({ route }) => {
 	const { camp } = route.params;
 
+	const getButtonConfig = () => {
+		if (camp.isOwner) {
+			return {
+				text: "👑 Kamp Sahibi",
+				color: "#E8F5E9",
+				textColor: "#2E7D32",
+				disabled: true,
+			};
+		}
+
+		if (camp.isParticipant) {
+			return {
+				text: "✓ Katıldın",
+				color: "#E8F5E9",
+				textColor: "#2E7D32",
+				disabled: true,
+			};
+		}
+
+		if (camp.isFull) {
+			return {
+				text: "⚠ Kamp Dolu",
+				color: "#FFF3E0",
+				textColor: "#EF6C00",
+				disabled: true,
+			};
+		}
+
+		return {
+			text: "Katıl",
+			color: "#2E7D32",
+			textColor: "#FFFFFF",
+			disabled: false,
+		};
+	};
+
+	const buttonConfig = getButtonConfig();
+
+	const getButtonText = () => {
+		if (camp.isOwner) return "Kamp Sahibi";
+
+		if (camp.isParticipant) return "Katıldın";
+
+		if (camp.isFull) return "Kamp Dolu";
+
+		return "Katıl";
+	};
+
+	const isDisabled = camp.isOwner || camp.isParticipant || camp.isFull;
 	const imageSource =
 		camp.imageUrl && camp.imageUrl !== "string"
 			? { uri: camp.imageUrl }
@@ -97,8 +146,18 @@ const CampDetailScreen = ({ route }) => {
 					<Text style={styles.description}>{camp.description}</Text>
 				</View>
 
-				<Button mode="contained" style={styles.joinButton}>
-					Katıl
+				<Button
+					mode="contained"
+					buttonColor={buttonConfig.color}
+					textColor={buttonConfig.textColor}
+					style={styles.joinButton}
+					onPress={() => {
+						if (!buttonConfig.disabled) {
+							console.log("Katıl");
+						}
+					}}
+				>
+					{buttonConfig.text}
 				</Button>
 			</View>
 		</ScrollView>
@@ -179,8 +238,10 @@ const styles = StyleSheet.create({
 
 	joinButton: {
 		marginTop: 24,
-		marginBottom: 30,
 		borderRadius: 14,
 		paddingVertical: 6,
+	},
+	disabledButton: {
+		backgroundColor: "#9E9E9E",
 	},
 });
