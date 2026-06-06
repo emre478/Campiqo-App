@@ -1,11 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { SafeAreaView, StyleSheet } from "react-native";
+
+import HomeHeader from "../../components/home/HomeHeader";
+import SearchBar from "../../components/home/SearchBar";
 
 const HomeScreen = () => {
 	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>Ana Sayfa</Text>
-		</View>
+		<SafeAreaView style={styles.container}>
+			<HomeHeader />
+
+			<SearchBar />
+		</SafeAreaView>
 	);
 };
 
@@ -14,11 +19,6 @@ export default HomeScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	title: {
-		fontSize: 24,
-		fontWeight: "bold",
+		backgroundColor: "#F5F5F5",
 	},
 });
