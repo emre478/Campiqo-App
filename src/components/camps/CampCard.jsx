@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const CampCard = ({ camp }) => {
+const CampCard = ({ camp, onPress }) => {
 	const imageSource =
 		camp.imageUrl && camp.imageUrl !== "string"
 			? { uri: camp.imageUrl }
@@ -19,7 +19,7 @@ const CampCard = ({ camp }) => {
 	});
 
 	return (
-		<TouchableOpacity activeOpacity={0.9} style={styles.card}>
+		<TouchableOpacity activeOpacity={0.9} style={styles.card} onPress={onPress}>
 			<Image source={imageSource} style={styles.image} />
 
 			<View style={styles.content}>

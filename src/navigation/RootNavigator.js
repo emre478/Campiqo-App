@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import LoginScreen from "../screens/auth/LoginScreen";
 import RegisterScreen from "../screens/auth/RegisterScreen";
+import CampDetailScreen from "../screens/camps/detail/CampDetailScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
 
 const Stack = createNativeStackNavigator();
@@ -27,6 +28,7 @@ export default function RootNavigator() {
 					component={BottomTabNavigator}
 					options={{ headerShown: false }}
 				/>
+				<Stack.Screen name="CampDetail" component={CampDetailScreen} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);

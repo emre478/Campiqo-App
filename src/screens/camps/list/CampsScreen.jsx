@@ -5,7 +5,7 @@ import CampCard from "../../../components/camps/CampCard";
 import CampFilter from "../../../components/camps/CampFilter";
 import { getCamps } from "../../../services/campService";
 
-const CampsScreen = () => {
+const CampsScreen = ({ navigation }) => {
 	const [camps, setCamps] = useState([]);
 	const [filter, setFilter] = useState("all");
 
@@ -40,7 +40,14 @@ const CampsScreen = () => {
 				ListHeaderComponent={
 					<CampFilter selected={filter} onChange={setFilter} />
 				}
-				renderItem={({ item }) => <CampCard camp={item} />}
+				renderItem={({ item }) => (
+					<CampCard
+						camp={item}
+						onPress={() =>
+							navigation.navigate("CampDetail", { camp: item })
+						}
+					/>
+				)}
 			/>
 		</View>
 	);
