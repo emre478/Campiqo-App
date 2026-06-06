@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import HomeScreen from "../screens/home/HomeScreen";
 import CampsScreen from "../screens/camps/CampsScreen";
 import CreateCampScreen from "../screens/create/CreateCampScreen";
-import NotificationsScreen from "../screens/notifications/NotificationsScreen";
+import FavoritesScreen from "../screens/favorites/FavoritesScreen";
 import ProfileScreen from "../screens/profile/ProfileScreen";
 
 const Tab = createBottomTabNavigator();
@@ -65,13 +65,13 @@ export default function BottomTabNavigator() {
 			/>
 
 			<Tab.Screen
-				name="Notifications"
-				component={NotificationsScreen}
+				name="Favoriler"
+				component={FavoritesScreen}
 				options={{
-					title: "Bildirimler",
+					title: "Favoriler",
 					tabBarIcon: ({ color, size }) => (
 						<MaterialCommunityIcons
-							name="bell"
+							name="heart-outline"
 							color={color}
 							size={size}
 						/>
