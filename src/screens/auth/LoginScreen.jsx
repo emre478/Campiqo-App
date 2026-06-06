@@ -1,13 +1,14 @@
 import React, { useState } from "react";
-import { KeyboardAvoidingView, Platform, StyleSheet } from "react-native";
-import { Button, Card, Snackbar, Text, TextInput } from "react-native-paper";
-
+import { KeyboardAvoidingView, Platform, StyleSheet, } from "react-native";
+import { Snackbar, Button, TextInput } from "react-native-paper";
 import { useDispatch } from "react-redux";
+import AuthCard from "../../components/auth/AuthCard";
+import AuthHeader from "../../components/auth/AuthHeader";
 import { loginSuccess } from "../../redux/slices/authSlice";
 import { login } from "../../services/authService";
 import { saveToken } from "../../services/tokenService";
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
 	const dispatch = useDispatch();
 
 	const [email, setEmail] = useState("");
@@ -53,16 +54,14 @@ const LoginScreen = ({navigation}) => {
 	};
 
 	return (
-		<KeyboardAvoidingView
-			style={styles.container}
-			behavior={Platform.OS === "ios" ? "padding" : undefined}
-		>
-			<Card style={styles.card}>
-				<Card.Content>
-					<Text variant="headlineMedium" style={styles.title}>
-						Campiqo
-					</Text>
+		<>
+			<AuthHeader />
 
+			<KeyboardAvoidingView
+				style={styles.container}
+				behavior={Platform.OS === "ios" ? "padding" : undefined}
+			>
+				<AuthCard>
 					<TextInput
 						label="E-Posta"
 						mode="outlined"
@@ -91,23 +90,24 @@ const LoginScreen = ({navigation}) => {
 					>
 						Giriş Yap
 					</Button>
+
 					<Button
 						mode="text"
 						onPress={() => navigation.navigate("Register")}
 					>
 						Hesabın yok mu? Kayıt Ol
 					</Button>
-				</Card.Content>
-			</Card>
+				</AuthCard>
 
-			<Snackbar
-				visible={visible}
-				onDismiss={() => setVisible(false)}
-				duration={3000}
-			>
-				{errorMessage}
-			</Snackbar>
-		</KeyboardAvoidingView>
+				<Snackbar
+					visible={visible}
+					onDismiss={() => setVisible(false)}
+					duration={3000}
+				>
+					{errorMessage}
+				</Snackbar>
+			</KeyboardAvoidingView>
+		</>
 	);
 };
 
@@ -118,24 +118,5 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		padding: 20,
-	},
-
-	card: {
-		borderRadius: 20,
-	},
-
-	title: {
-		textAlign: "center",
-		marginBottom: 25,
-		fontWeight: "bold",
-	},
-
-	input: {
-		marginBottom: 15,
-	},
-
-	button: {
-		marginTop: 10,
-		paddingVertical: 5,
 	},
 });
