@@ -52,7 +52,9 @@ const LoginScreen = () => {
         setVisible(true);
       }
     } catch (error) {
-      console.log(error);
+      console.log("LOGIN ERROR");
+      console.log(error?.response?.data);
+      console.log(error?.message);
 
       setErrorMessage("Giriş yapılırken hata oluştu.");
       setVisible(true);
