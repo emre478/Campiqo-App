@@ -10,6 +10,11 @@ import {
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Button } from "react-native-paper";
+import { useDispatch } from "react-redux";
+import {
+	addFavorite,
+	removeFavorite,
+} from "../../../redux/slices/favoriteSlice";
 import { favoriteCamp, unfavoriteCamp } from "../../../services/campService";
 
 const categoryMap = {
@@ -24,14 +29,26 @@ const categoryMap = {
 const CampDetailScreen = ({ route, navigation }) => {
 	const { camp } = route.params;
 	const [isFavorited, setIsFavorited] = useState(camp.isFavorited);
+	const dispatch = useDispatch();
 
 	const handleFavorite = async () => {
 		try {
 			if (isFavorited) {
 				await unfavoriteCamp(camp.id);
+
+				dispatch(removeFavorite(camp.id));
+
 				setIsFavorited(false);
 			} else {
 				await favoriteCamp(camp.id);
+
+				dispatch(
+					addFavorite({
+						...camp,
+						isFavorited: true,
+					})
+				);
+
 				setIsFavorited(true);
 			}
 		} catch (error) {
@@ -125,7 +142,7 @@ const CampDetailScreen = ({ route, navigation }) => {
 					/>
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={styles.favoriteButton }
+					style={styles.favoriteButton}
 					onPress={handleFavorite}
 				>
 					<MaterialCommunityIcons
