@@ -15,6 +15,7 @@ import {
 	addFavorite,
 	removeFavorite,
 } from "../../../redux/slices/favoriteSlice";
+import { requestJoinCamp } from "../../../services/campJoinRequestService";
 import { favoriteCamp, unfavoriteCamp } from "../../../services/campService";
 
 const categoryMap = {
@@ -53,6 +54,15 @@ const CampDetailScreen = ({ route, navigation }) => {
 			}
 		} catch (error) {
 			console.log(error);
+		}
+	};
+	const handleJoin = async () => {
+		try {
+			const response = await requestJoinCamp(camp.id);
+
+			console.log(response);
+		} catch (error) {
+			console.log(JSON.stringify(error.response?.data, null, 2));
 		}
 	};
 
@@ -215,7 +225,7 @@ const CampDetailScreen = ({ route, navigation }) => {
 					style={styles.joinButton}
 					onPress={() => {
 						if (!buttonConfig.disabled) {
-							console.log("Katıl");
+							handleJoin();
 						}
 					}}
 				>
