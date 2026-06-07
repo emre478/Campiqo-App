@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
 	Image,
 	ScrollView,
@@ -10,6 +10,7 @@ import {
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Button } from "react-native-paper";
+import { favoriteCamp, unfavoriteCamp } from "../../../services/campService";
 
 const categoryMap = {
 	Nature: "Doğa",
@@ -22,9 +23,22 @@ const categoryMap = {
 
 const CampDetailScreen = ({ route, navigation }) => {
 	const { camp } = route.params;
-	const [isFavorited, setIsFavorited] = React.useState(
-		camp.isFavorited ?? false
-	);
+	const [isFavorited, setIsFavorited] = useState(camp.isFavorited);
+
+	const handleFavorite = async () => {
+		try {
+			if (isFavorited) {
+				await unfavoriteCamp(camp.id);
+				setIsFavorited(false);
+			} else {
+				await favoriteCamp(camp.id);
+				setIsFavorited(true);
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	const getButtonConfig = () => {
 		if (camp.isOwner) {
 			return {
@@ -111,8 +125,8 @@ const CampDetailScreen = ({ route, navigation }) => {
 					/>
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={styles.favoriteButton}
-					onPress={() => setIsFavorited(!isFavorited)}
+					style={styles.favoriteButton }
+					onPress={handleFavorite}
 				>
 					<MaterialCommunityIcons
 						name={isFavorited ? "heart" : "heart-outline"}
