@@ -2,8 +2,15 @@ import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
 const CampCard = ({ camp, onPress }) => {
+	const pendingCampIds = useSelector(
+		(state) => state.joinRequest.pendingCampIds
+	);
+
+	const hasPendingRequest =
+		camp.hasPendingRequest || pendingCampIds.includes(camp.id);
 	const imageSource =
 		camp.imageUrl && camp.imageUrl !== "string"
 			? { uri: camp.imageUrl }
@@ -19,7 +26,11 @@ const CampCard = ({ camp, onPress }) => {
 	});
 
 	return (
-		<TouchableOpacity activeOpacity={0.9} style={styles.card} onPress={onPress}>
+		<TouchableOpacity
+			activeOpacity={0.9}
+			style={styles.card}
+			onPress={onPress}
+		>
 			<Image source={imageSource} style={styles.image} />
 
 			<View style={styles.content}>
@@ -27,6 +38,12 @@ const CampCard = ({ camp, onPress }) => {
 					<Text numberOfLines={2} style={styles.title}>
 						{camp.title}
 					</Text>
+
+					{hasPendingRequest && (
+						<View style={styles.pendingBadge}>
+							<Text style={styles.pendingText}>İstek Gönderildi</Text>
+						</View>
+					)}
 				</View>
 
 				<View style={styles.infoRow}>
@@ -125,5 +142,17 @@ const styles = StyleSheet.create({
 		marginLeft: 6,
 		fontSize: 14,
 		color: "#666",
+	},
+	pendingBadge: {
+		backgroundColor: "#FFF3E0",
+		paddingHorizontal: 10,
+		paddingVertical: 4,
+		borderRadius: 10,
+	},
+
+	pendingText: {
+		color: "#EF6C00",
+		fontSize: 12,
+		fontWeight: "700",
 	},
 });
