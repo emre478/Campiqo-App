@@ -52,7 +52,7 @@ const ProfileScreen = ({ navigation }) => {
 			<ProfileMenuItem
 				icon="🤝"
 				title="Katıldığım Kamplar"
-				onPress={() => console.log("Joined Camps")}
+				onPress={() => navigation.navigate("MyJoinedCamps")}
 			/>
 
 			<ProfileMenuItem
