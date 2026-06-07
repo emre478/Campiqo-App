@@ -24,6 +24,43 @@ const CampCard = ({ camp, onPress }) => {
 		day: "numeric",
 		month: "long",
 	});
+	const getStatusBadge = () => {
+		if (camp.isOwner) {
+			return {
+				text: "Kamp Sahibi",
+				color: "#E8F5E9",
+				textColor: "#2E7D32",
+			};
+		}
+
+		if (camp.isParticipant) {
+			return {
+				text: "Katıldın",
+				color: "#E8F5E9",
+				textColor: "#2E7D32",
+			};
+		}
+
+		if (hasPendingRequest) {
+			return {
+				text: "İstek Gönderildi",
+				color: "#FFF3E0",
+				textColor: "#EF6C00",
+			};
+		}
+
+		if (camp.isFull) {
+			return {
+				text: "Kamp Dolu",
+				color: "#FFEBEE",
+				textColor: "#C62828",
+			};
+		}
+
+		return null;
+	};
+
+	const badge = getStatusBadge();
 
 	return (
 		<TouchableOpacity
@@ -39,9 +76,18 @@ const CampCard = ({ camp, onPress }) => {
 						{camp.title}
 					</Text>
 
-					{hasPendingRequest && (
-						<View style={styles.pendingBadge}>
-							<Text style={styles.pendingText}>İstek Gönderildi</Text>
+					{badge && (
+						<View
+							style={[
+								styles.statusBadge,
+								{ backgroundColor: badge.color },
+							]}
+						>
+							<Text
+								style={[styles.statusText, { color: badge.textColor }]}
+							>
+								{badge.text}
+							</Text>
 						</View>
 					)}
 				</View>
@@ -152,6 +198,16 @@ const styles = StyleSheet.create({
 
 	pendingText: {
 		color: "#EF6C00",
+		fontSize: 12,
+		fontWeight: "700",
+	},
+	statusBadge: {
+		paddingHorizontal: 10,
+		paddingVertical: 4,
+		borderRadius: 10,
+	},
+
+	statusText: {
 		fontSize: 12,
 		fontWeight: "700",
 	},
