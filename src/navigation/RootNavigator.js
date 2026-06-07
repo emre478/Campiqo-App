@@ -33,6 +33,10 @@ export default function RootNavigator() {
 					component={CampDetailScreen}
 					options={{ headerShown: false }}
 				/>
+				<Stack.Screen
+					name="MyCreatedCamps"
+					component={MyCreatedCampsScreen}
+				/>
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
