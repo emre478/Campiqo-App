@@ -14,23 +14,15 @@ const ProfileHeader = ({ profile }) => {
 				{profile?.firstName} {profile?.lastName}
 			</Text>
 
-			<Text style={styles.email}>
-				{profile?.email}
-			</Text>
+			<Text style={styles.email}>{profile?.email}</Text>
 
 			<View style={styles.badge}>
-				<Text style={styles.badgeText}>
-					{profile?.experienceLevelName}
-				</Text>
+				<Text style={styles.badgeText}>{profile?.experienceLevelName}</Text>
 			</View>
 
-			<Text style={styles.city}>
-				📍 {profile?.city}
-			</Text>
+			<Text style={styles.city}>📍 {profile?.city}</Text>
 
-			<Text style={styles.bio}>
-				{profile?.bio}
-			</Text>
+			<Text style={styles.bio}>{profile?.bio}</Text>
 		</View>
 	);
 };
