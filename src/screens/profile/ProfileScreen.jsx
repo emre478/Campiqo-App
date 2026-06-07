@@ -58,7 +58,7 @@ const ProfileScreen = ({ navigation }) => {
 			<ProfileMenuItem
 				icon="✏️"
 				title="Profili Düzenle"
-				onPress={() => console.log("Edit Profile")}
+				onPress={() => navigation.navigate("EditProfile")}
 			/>
 
 			<ProfileMenuItem

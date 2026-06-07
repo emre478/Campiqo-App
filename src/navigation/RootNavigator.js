@@ -6,6 +6,7 @@ import RegisterScreen from "../screens/auth/RegisterScreen";
 import CampDetailScreen from "../screens/camps/detail/CampDetailScreen";
 import MyCreatedCampsScreen from "../screens/profile/MyCreatedCampsScreen";
 import MyJoinedCampsScreen from "../screens/profile/MyJoinedCampsScreen";
+import EditProfileScreen from "../screens/profile/EditProfileScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
 
 const Stack = createNativeStackNavigator();
@@ -43,6 +44,11 @@ export default function RootNavigator() {
 				<Stack.Screen
 					name="MyJoinedCamps"
 					component={MyJoinedCampsScreen}
+					options={{ headerShown: false }}
+				/>
+				<Stack.Screen
+					name="EditProfile"
+					component={EditProfileScreen}
 					options={{ headerShown: false }}
 				/>
 			</Stack.Navigator>
