@@ -7,7 +7,7 @@ import {
 	View,
 } from "react-native";
 
-import CampCard from "../../components/CampCard";
+import CampCard from "../../components/camps/CampCard";
 import { getMyCreatedCamps } from "../../services/myCampService";
 
 const MyCreatedCampsScreen = ({ navigation }) => {

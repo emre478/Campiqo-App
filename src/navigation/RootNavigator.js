@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../screens/auth/LoginScreen";
 import RegisterScreen from "../screens/auth/RegisterScreen";
 import CampDetailScreen from "../screens/camps/detail/CampDetailScreen";
+import MyCreatedCampsScreen from "../screens/profile/MyCreatedCampsScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
 
 const Stack = createNativeStackNavigator();
@@ -36,6 +37,7 @@ export default function RootNavigator() {
 				<Stack.Screen
 					name="MyCreatedCamps"
 					component={MyCreatedCampsScreen}
+					options={{ headerShown: false }}
 				/>
 			</Stack.Navigator>
 		</NavigationContainer>

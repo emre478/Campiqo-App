@@ -12,7 +12,7 @@ import {
 
 import { getMyProfile } from "../../services/userService";
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ navigation }) => {
 	const [profile, setProfile] = useState(null);
 	const [createdCount, setCreatedCount] = useState(0);
 	const [joinedCount, setJoinedCount] = useState(0);
@@ -46,7 +46,7 @@ const ProfileScreen = () => {
 			<ProfileMenuItem
 				icon="🏕️"
 				title="Oluşturduğum Kamplar"
-				onPress={() => console.log("Created Camps")}
+				onPress={() => navigation.navigate("MyCreatedCamps")}
 			/>
 
 			<ProfileMenuItem
