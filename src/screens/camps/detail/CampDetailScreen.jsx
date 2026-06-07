@@ -10,11 +10,12 @@ import {
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Button } from "react-native-paper";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
 	addFavorite,
 	removeFavorite,
 } from "../../../redux/slices/favoriteSlice";
+import { addPendingRequest } from "../../../redux/slices/joinRequestSlice";
 import { requestJoinCamp } from "../../../services/campJoinRequestService";
 import { favoriteCamp, unfavoriteCamp } from "../../../services/campService";
 
@@ -31,6 +32,12 @@ const CampDetailScreen = ({ route, navigation }) => {
 	const { camp } = route.params;
 	const [isFavorited, setIsFavorited] = useState(camp.isFavorited);
 	const dispatch = useDispatch();
+	const pendingCampIds = useSelector(
+		(state) => state.joinRequest.pendingCampIds
+	);
+
+	const hasPendingRequest =
+		camp.hasPendingRequest || pendingCampIds.includes(camp.id);
 
 	const handleFavorite = async () => {
 		try {
@@ -61,8 +68,14 @@ const CampDetailScreen = ({ route, navigation }) => {
 			const response = await requestJoinCamp(camp.id);
 
 			console.log(response);
+
+			dispatch(addPendingRequest(camp.id));
 		} catch (error) {
 			console.log(JSON.stringify(error.response?.data, null, 2));
+
+			if (error.response?.data?.message === "Zaten istek gönderdiniz") {
+				dispatch(addPendingRequest(camp.id));
+			}
 		}
 	};
 
@@ -81,6 +94,14 @@ const CampDetailScreen = ({ route, navigation }) => {
 				text: "✓ Katıldın",
 				color: "#E8F5E9",
 				textColor: "#2E7D32",
+				disabled: true,
+			};
+		}
+		if (hasPendingRequest) {
+			return {
+				text: "⏳ Katılma İsteği Gönderildi",
+				color: "#FFF8E1",
+				textColor: "#F9A825",
 				disabled: true,
 			};
 		}
