@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 
+import { useSelector, useDispatch } from "react-redux";
 import CampCard from "../../../components/camps/CampCard";
 import CampFilter from "../../../components/camps/CampFilter";
+import { setCamps } from "../../../redux/slices/campSlice";
 import { getCamps } from "../../../services/campService";
 
 const CampsScreen = ({ navigation }) => {
-	const [camps, setCamps] = useState([]);
+	const dispatch = useDispatch();
+	const camps = useSelector((state) => state.camp.items);
 	const [filter, setFilter] = useState("all");
 
 	useEffect(() => {
@@ -19,7 +22,7 @@ const CampsScreen = ({ navigation }) => {
 
 			console.log(response);
 
-			setCamps(response.data.items);
+			dispatch(setCamps(response.data.items));
 		} catch (error) {
 			console.log(error);
 		}
