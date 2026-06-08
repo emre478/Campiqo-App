@@ -6,6 +6,7 @@ import { Button } from "react-native-paper";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { TouchableOpacity } from "react-native";
 import CategorySelector from "../../components/camp-create/CategorySelector";
+import ImagePickerCard from "../../components/camp-create/ImagePickerCard";
 import ParticipantCounter from "../../components/camp-create/ParticipantCounter";
 import { createCamp } from "../../services/campService";
 
@@ -49,6 +50,10 @@ const CreateCampScreen = ({ navigation }) => {
 
 			<View style={styles.sectionCard}>
 				<Text style={styles.sectionTitle}>Kamp Bilgileri</Text>
+				<ImagePickerCard
+					imageUri={imageUrl}
+					onImageSelected={setImageUrl}
+				/>
 
 				<TextInput
 					style={styles.input}
