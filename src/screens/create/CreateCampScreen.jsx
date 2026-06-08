@@ -5,12 +5,15 @@ import { Button } from "react-native-paper";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { TouchableOpacity } from "react-native";
+import { useDispatch } from "react-redux";
 import CategorySelector from "../../components/camp-create/CategorySelector";
 import ImagePickerCard from "../../components/camp-create/ImagePickerCard";
 import ParticipantCounter from "../../components/camp-create/ParticipantCounter";
-import { createCamp } from "../../services/campService";
+import { setCamps } from "../../redux/slices/campSlice";
+import { createCamp, getCamps } from "../../services/campService";
 
 const CreateCampScreen = ({ navigation }) => {
+	const dispatch = useDispatch();
 	const [title, setTitle] = useState("");
 	const [location, setLocation] = useState("");
 	const [description, setDescription] = useState("");
@@ -35,6 +38,10 @@ const CreateCampScreen = ({ navigation }) => {
 				imageUrl,
 				category,
 			});
+
+			const campsResponse = await getCamps();
+
+			dispatch(setCamps(campsResponse.data.items));
 
 			navigation.navigate("Camps");
 		} catch (error) {
