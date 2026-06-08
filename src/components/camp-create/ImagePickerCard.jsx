@@ -1,6 +1,7 @@
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { uploadImage } from "../../services/uploadService";
 
 const ImagePickerCard = ({ imageUri, onImageSelected }) => {
 	const pickImage = async () => {
@@ -12,7 +13,9 @@ const ImagePickerCard = ({ imageUri, onImageSelected }) => {
 		});
 
 		if (!result.canceled) {
-			onImageSelected(result.assets[0].uri);
+			const uploadResponse = await uploadImage(result.assets[0].uri);
+
+			onImageSelected(result.assets[0].uri, uploadResponse.url);
 		}
 	};
 

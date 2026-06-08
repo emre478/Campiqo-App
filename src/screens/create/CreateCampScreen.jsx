@@ -17,13 +17,10 @@ const CreateCampScreen = ({ navigation }) => {
 	const [showStartPicker, setShowStartPicker] = useState(false);
 	const [showEndPicker, setShowEndPicker] = useState(false);
 	const [category, setCategory] = useState(1);
-
+	const [previewImage, setPreviewImage] = useState("");
 	const [maxParticipantCount, setMaxParticipantCount] = useState(10);
-
 	const [startDate, setStartDate] = useState(new Date());
-
 	const [endDate, setEndDate] = useState(new Date());
-
 	const [imageUrl, setImageUrl] = useState("");
 
 	const handleCreateCamp = async () => {
@@ -51,8 +48,11 @@ const CreateCampScreen = ({ navigation }) => {
 			<View style={styles.sectionCard}>
 				<Text style={styles.sectionTitle}>Kamp Bilgileri</Text>
 				<ImagePickerCard
-					imageUri={imageUrl}
-					onImageSelected={setImageUrl}
+					imageUri={previewImage}
+					onImageSelected={(localUri, uploadedUrl) => {
+						setPreviewImage(localUri);
+						setImageUrl(uploadedUrl);
+					}}
 				/>
 
 				<TextInput
@@ -191,14 +191,10 @@ const styles = StyleSheet.create({
 
 	input: {
 		backgroundColor: "#F7F8FA",
-
 		borderRadius: 14,
-
 		paddingHorizontal: 16,
 		paddingVertical: 14,
-
 		fontSize: 16,
-
 		marginTop: 12,
 	},
 
@@ -212,16 +208,11 @@ const styles = StyleSheet.create({
 
 	descriptionInput: {
 		backgroundColor: "#F7F8FA",
-
 		borderRadius: 14,
-
 		paddingHorizontal: 16,
 		paddingVertical: 14,
-
 		height: 120,
-
 		marginTop: 12,
-
 		textAlignVertical: "top",
 	},
 
@@ -232,19 +223,13 @@ const styles = StyleSheet.create({
 	},
 	sectionCard: {
 		backgroundColor: "#fff",
-
 		borderRadius: 20,
-
 		padding: 18,
-
 		marginBottom: 18,
-
 		elevation: 4,
-
 		shadowColor: "#000",
 		shadowOpacity: 0.06,
 		shadowRadius: 8,
-
 		shadowOffset: {
 			width: 0,
 			height: 3,
@@ -257,9 +242,7 @@ const styles = StyleSheet.create({
 	},
 	createButton: {
 		borderRadius: 16,
-
 		marginTop: 0,
-
 		paddingVertical: 6,
 	},
 	dateContainer: {
@@ -273,7 +256,6 @@ const styles = StyleSheet.create({
 		backgroundColor: "#fff",
 		padding: 16,
 		borderRadius: 16,
-
 		elevation: 2,
 	},
 
