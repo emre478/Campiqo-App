@@ -1,4 +1,5 @@
 import apiClient from "../api/apiClient";
+import { CreateCampRequest } from "../types/CreateCampRequest";
 
 export const getCamps = async () => {
 	const response = await apiClient.get("/Camp");
@@ -19,6 +20,15 @@ export const unfavoriteCamp = async (campId: string) => {
 
 export const getFavoriteCamps = async () => {
 	const response = await apiClient.get("/camp/favorites");
+
+	return response.data;
+};
+
+export const createCamp = async (data: CreateCampRequest) => {
+	const response = await apiClient.post(
+		"/Camp",
+		data
+	);
 
 	return response.data;
 };
