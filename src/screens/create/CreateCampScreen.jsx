@@ -42,50 +42,63 @@ const CreateCampScreen = ({ navigation }) => {
 		}
 	};
 	return (
-		<ScrollView style={styles.container}>
-			<Text style={styles.title}>Kamp Oluştur</Text>
+		<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+			<Text style={styles.title}>🏕️ Kamp Oluştur</Text>
 
-			<TextInput
-				style={styles.input}
-				placeholder="Kamp Başlığı"
-				value={title}
-				onChangeText={setTitle}
-			/>
+			<View style={styles.sectionCard}>
+				<Text style={styles.sectionTitle}>Kamp Bilgileri</Text>
 
-			<TextInput
-				style={styles.input}
-				placeholder="Lokasyon"
-				value={location}
-				onChangeText={setLocation}
-			/>
+				<TextInput
+					style={styles.input}
+					placeholder="Kamp Başlığı"
+					value={title}
+					onChangeText={setTitle}
+				/>
 
-			<Text style={styles.sectionTitle}>Kategori</Text>
+				<TextInput
+					style={styles.input}
+					placeholder="Lokasyon"
+					value={location}
+					onChangeText={setLocation}
+				/>
+			</View>
 
-			<CategorySelector selectedCategory={category} onSelect={setCategory} />
+			<View style={styles.sectionCard}>
+				<Text style={styles.sectionTitle}>Kategori Seç</Text>
 
-			<Text style={styles.sectionTitle}>Maksimum Katılımcı</Text>
+				<CategorySelector
+					selectedCategory={category}
+					onSelect={setCategory}
+				/>
+			</View>
 
-			<ParticipantCounter
-				value={maxParticipantCount}
-				onChange={setMaxParticipantCount}
-			/>
+			<View style={styles.sectionCard}>
+				<Text style={styles.sectionTitle}>Maksimum Katılımcı</Text>
 
-			<Text style={styles.sectionTitle}>Açıklama</Text>
+				<ParticipantCounter
+					value={maxParticipantCount}
+					onChange={setMaxParticipantCount}
+				/>
 
-			<TextInput
-				style={styles.descriptionInput}
-				multiline
-				value={description}
-				onChangeText={setDescription}
-				placeholder="Kamp açıklaması"
-			/>
+				<Text
+					style={[
+						styles.sectionTitle,
+						{
+							marginTop: 24,
+						},
+					]}
+				>
+					Açıklama
+				</Text>
 
-			<TextInput
-				style={styles.input}
-				placeholder="Görsel Url"
-				value={imageUrl}
-				onChangeText={setImageUrl}
-			/>
+				<TextInput
+					style={styles.descriptionInput}
+					multiline
+					value={description}
+					onChangeText={setDescription}
+					placeholder="Kamp hakkında bilgi ver..."
+				/>
+			</View>
 
 			<Button
 				mode="contained"
@@ -93,7 +106,7 @@ const CreateCampScreen = ({ navigation }) => {
 				style={styles.createButton}
 				onPress={handleCreateCamp}
 			>
-				Kampı Oluştur
+				🚀 Kampı Oluştur
 			</Button>
 
 			<View style={{ height: 40 }} />
@@ -104,6 +117,12 @@ const CreateCampScreen = ({ navigation }) => {
 export default CreateCampScreen;
 
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: "#F6F7FB",
+		paddingHorizontal: 20,
+		paddingTop: 60,
+	},
 	title: {
 		fontSize: 30,
 		fontWeight: "700",
@@ -112,12 +131,16 @@ const styles = StyleSheet.create({
 	},
 
 	input: {
-		backgroundColor: "#fff",
+		backgroundColor: "#F7F8FA",
+
 		borderRadius: 14,
+
 		paddingHorizontal: 16,
 		paddingVertical: 14,
-		marginBottom: 16,
+
 		fontSize: 16,
+
+		marginTop: 12,
 	},
 
 	sectionTitle: {
@@ -129,18 +152,55 @@ const styles = StyleSheet.create({
 	},
 
 	descriptionInput: {
-		backgroundColor: "#fff",
+		backgroundColor: "#F7F8FA",
+
 		borderRadius: 14,
+
 		paddingHorizontal: 16,
 		paddingVertical: 14,
+
 		height: 120,
+
+		marginTop: 12,
+
 		textAlignVertical: "top",
-		marginTop: 8,
 	},
 
 	createButton: {
 		marginTop: 24,
 		borderRadius: 14,
+		paddingVertical: 6,
+	},
+	sectionCard: {
+		backgroundColor: "#fff",
+
+		borderRadius: 20,
+
+		padding: 18,
+
+		marginBottom: 18,
+
+		elevation: 4,
+
+		shadowColor: "#000",
+		shadowOpacity: 0.06,
+		shadowRadius: 8,
+
+		shadowOffset: {
+			width: 0,
+			height: 3,
+		},
+	},
+	sectionTitle: {
+		fontSize: 18,
+		fontWeight: "700",
+		color: "#222",
+	},
+	createButton: {
+		borderRadius: 16,
+
+		marginTop: 10,
+
 		paddingVertical: 6,
 	},
 });
