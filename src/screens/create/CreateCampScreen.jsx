@@ -3,16 +3,18 @@ import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 
 import { Button } from "react-native-paper";
 
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { TouchableOpacity } from "react-native";
 import CategorySelector from "../../components/camp-create/CategorySelector";
 import ParticipantCounter from "../../components/camp-create/ParticipantCounter";
-
 import { createCamp } from "../../services/campService";
 
 const CreateCampScreen = ({ navigation }) => {
 	const [title, setTitle] = useState("");
 	const [location, setLocation] = useState("");
 	const [description, setDescription] = useState("");
-
+	const [showStartPicker, setShowStartPicker] = useState(false);
+	const [showEndPicker, setShowEndPicker] = useState(false);
 	const [category, setCategory] = useState(1);
 
 	const [maxParticipantCount, setMaxParticipantCount] = useState(10);
@@ -79,7 +81,31 @@ const CreateCampScreen = ({ navigation }) => {
 					value={maxParticipantCount}
 					onChange={setMaxParticipantCount}
 				/>
+				<Text style={styles.sectionTitle}>Tarih Aralığı</Text>
 
+				<View style={styles.dateContainer}>
+					<TouchableOpacity
+						style={styles.dateCard}
+						onPress={() => setShowStartPicker(true)}
+					>
+						<Text style={styles.dateLabel}>Başlangıç</Text>
+
+						<Text style={styles.dateValue}>
+							{startDate.toLocaleDateString("tr-TR")}
+						</Text>
+					</TouchableOpacity>
+
+					<TouchableOpacity
+						style={styles.dateCard}
+						onPress={() => setShowEndPicker(true)}
+					>
+						<Text style={styles.dateLabel}>Bitiş</Text>
+
+						<Text style={styles.dateValue}>
+							{endDate.toLocaleDateString("tr-TR")}
+						</Text>
+					</TouchableOpacity>
+				</View>
 				<Text
 					style={[
 						styles.sectionTitle,
@@ -99,7 +125,35 @@ const CreateCampScreen = ({ navigation }) => {
 					placeholder="Kamp hakkında bilgi ver..."
 				/>
 			</View>
+			{showStartPicker && (
+				<DateTimePicker
+					value={startDate}
+					mode="date"
+					display="default"
+					onChange={(event, selectedDate) => {
+						setShowStartPicker(false);
 
+						if (selectedDate) {
+							setStartDate(selectedDate);
+						}
+					}}
+				/>
+			)}
+
+			{showEndPicker && (
+				<DateTimePicker
+					value={endDate}
+					mode="date"
+					display="default"
+					onChange={(event, selectedDate) => {
+						setShowEndPicker(false);
+
+						if (selectedDate) {
+							setEndDate(selectedDate);
+						}
+					}}
+				/>
+			)}
 			<Button
 				mode="contained"
 				buttonColor="#2E7D32"
@@ -109,7 +163,7 @@ const CreateCampScreen = ({ navigation }) => {
 				🚀 Kampı Oluştur
 			</Button>
 
-			<View style={{ height: 40 }} />
+			<View style={{ height: 90 }} />
 		</ScrollView>
 	);
 };
@@ -199,8 +253,34 @@ const styles = StyleSheet.create({
 	createButton: {
 		borderRadius: 16,
 
-		marginTop: 10,
+		marginTop: 0,
 
 		paddingVertical: 6,
+	},
+	dateContainer: {
+		flexDirection: "row",
+		gap: 12,
+		marginBottom: 20,
+	},
+
+	dateCard: {
+		flex: 1,
+		backgroundColor: "#fff",
+		padding: 16,
+		borderRadius: 16,
+
+		elevation: 2,
+	},
+
+	dateLabel: {
+		fontSize: 14,
+		color: "#777",
+		marginBottom: 8,
+	},
+
+	dateValue: {
+		fontSize: 16,
+		fontWeight: "600",
+		color: "#222",
 	},
 });
