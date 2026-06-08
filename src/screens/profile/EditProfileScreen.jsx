@@ -2,16 +2,18 @@ import { Picker } from "@react-native-picker/picker";
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { Button } from "react-native-paper";
-
+import { useDispatch } from "react-redux";
+import { setProfile } from "../../redux/slices/profileSlice";
 import { getMyProfile, updateProfile } from "../../services/userService";
 
-const EditProfileScreen = () => {
+const EditProfileScreen = ({ navigation }) => {
 	const [firstName, setFirstName] = useState("");
 	const [lastName, setLastName] = useState("");
 	const [city, setCity] = useState("");
 	const [bio, setBio] = useState("");
 	const [profileImageUrl, setProfileImageUrl] = useState("");
 	const [experienceLevel, setExperienceLevel] = useState(1);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		loadProfile();
@@ -20,7 +22,6 @@ const EditProfileScreen = () => {
 	const loadProfile = async () => {
 		try {
 			const response = await getMyProfile();
-
 			const profile = response.data;
 
 			setFirstName(profile.firstName || "");
@@ -44,7 +45,11 @@ const EditProfileScreen = () => {
 				experienceLevel,
 			});
 
-			alert("Profil güncellendi");
+			const updatedProfile = await getMyProfile();
+
+			dispatch(setProfile(updatedProfile.data));
+
+			navigation.goBack();
 		} catch (error) {
 			console.log(error);
 		}

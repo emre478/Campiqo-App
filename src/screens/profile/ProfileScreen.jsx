@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
-
 import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileMenuItem from "../../components/profile/ProfileMenuItem";
 import ProfileStats from "../../components/profile/ProfileStats";
+import { setProfile } from "../../redux/slices/profileSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
 	getMyCreatedCamps,
@@ -13,7 +14,9 @@ import {
 import { getMyProfile } from "../../services/userService";
 
 const ProfileScreen = ({ navigation }) => {
-	const [profile, setProfile] = useState(null);
+	const dispatch = useDispatch();
+
+	const profile = useSelector((state) => state.profile.data);
 	const [createdCount, setCreatedCount] = useState(0);
 	const [joinedCount, setJoinedCount] = useState(0);
 
@@ -24,6 +27,7 @@ const ProfileScreen = ({ navigation }) => {
 	const loadData = async () => {
 		try {
 			const profileResponse = await getMyProfile();
+			dispatch(setProfile(profileResponse.data));
 			const createdResponse = await getMyCreatedCamps();
 			const joinedResponse = await getMyJoinedCamps();
 
