@@ -11,6 +11,7 @@ import ImagePickerCard from "../../components/camp-create/ImagePickerCard";
 import ParticipantCounter from "../../components/camp-create/ParticipantCounter";
 import { setCamps } from "../../redux/slices/campSlice";
 import { createCamp, getCamps } from "../../services/campService";
+import { validateCreateCamp } from "../../validations/createCampValidation";
 
 const CreateCampScreen = ({ navigation }) => {
 	const dispatch = useDispatch();
@@ -25,6 +26,24 @@ const CreateCampScreen = ({ navigation }) => {
 	const [startDate, setStartDate] = useState(new Date());
 	const [endDate, setEndDate] = useState(new Date());
 	const [imageUrl, setImageUrl] = useState("");
+	const [errors, setErrors] = useState({});
+
+	const validationErrors = validateCreateCamp({
+		title,
+		description,
+		location,
+		startDate,
+		endDate,
+		maxParticipantCount,
+	});
+
+	if (Object.keys(validationErrors).length > 0) {
+		setErrors(validationErrors);
+
+		return;
+	}
+
+	setErrors({});
 
 	const handleCreateCamp = async () => {
 		try {
