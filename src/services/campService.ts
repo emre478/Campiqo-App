@@ -1,8 +1,10 @@
 import apiClient from "../api/apiClient";
 import { CreateCampRequest } from "../types/CreateCampRequest";
 
-export const getCamps = async () => {
-	const response = await apiClient.get("/Camp");
+export const getCamps = async (page = 1, pageSize = 10) => {
+	const response = await apiClient.get(
+		`/Camp?page=${page}&pageSize=${pageSize}`
+	);
 
 	return response.data;
 };
@@ -25,10 +27,7 @@ export const getFavoriteCamps = async () => {
 };
 
 export const createCamp = async (data: CreateCampRequest) => {
-	const response = await apiClient.post(
-		"/Camp",
-		data
-	);
-
+	const response = await apiClient.post("/Camp", data);
+	console.log(response.data);
 	return response.data;
 };
