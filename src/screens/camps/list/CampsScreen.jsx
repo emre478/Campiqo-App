@@ -1,33 +1,64 @@
 import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
-
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CampCard from "../../../components/camps/CampCard";
 import CampFilter from "../../../components/camps/CampFilter";
-import { setCamps } from "../../../redux/slices/campSlice";
+import { appendCamps, setCamps } from "../../../redux/slices/campSlice";
 import { getCamps } from "../../../services/campService";
 
 const CampsScreen = ({ navigation }) => {
 	const dispatch = useDispatch();
 	const camps = useSelector((state) => state.camp.items);
+	const page = useSelector((state) => state.camp.page);
+	const totalCount = useSelector((state) => state.camp.totalCount);
 	const [filter, setFilter] = useState("all");
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
-		loadCamps();
+		loadFirstPage();
 	}, []);
 
-	const loadCamps = async () => {
+	const loadFirstPage = async () => {
 		try {
-			const response = await getCamps();
+			const response = await getCamps(1, 10);
 
-			console.log(response);
-
-			dispatch(setCamps(response.data.items));
+			dispatch(
+				setCamps({
+					items: response.data.items,
+					page: response.data.page,
+					totalCount: response.data.totalCount,
+				})
+			);
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
+	const loadMore = async () => {
+		if (loading) return;
+
+		if (camps.length >= totalCount) return;
+
+		setLoading(true);
+
+		try {
+			const nextPage = page + 1;
+
+			const response = await getCamps(nextPage, 10);
+
+			dispatch(
+				appendCamps({
+					items: response.data.items,
+					page: response.data.page,
+					totalCount: response.data.totalCount,
+				})
+			);
+		} catch (error) {
+			console.log(error);
+		}
+
+		setLoading(false);
+	};
 	const filteredCamps =
 		filter === "all"
 			? camps
@@ -40,6 +71,8 @@ const CampsScreen = ({ navigation }) => {
 			<FlatList
 				data={filteredCamps}
 				keyExtractor={(item) => item.id}
+				onEndReached={loadMore}
+				onEndReachedThreshold={0.5}
 				ListHeaderComponent={
 					<CampFilter selected={filter} onChange={setFilter} />
 				}

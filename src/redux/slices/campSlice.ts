@@ -30,6 +30,6 @@ const campSlice = createSlice({
 	},
 });
 
-export const { setCamps } = campSlice.actions;
+export const { setCamps, appendCamps } = campSlice.actions;
 
 export default campSlice.reducer;
