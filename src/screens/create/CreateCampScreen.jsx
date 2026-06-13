@@ -5,8 +5,8 @@ import { Button } from "react-native-paper";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { TouchableOpacity } from "react-native";
+import CampBasicInfoSection from "../../components/camp-create/CampBasicInfoSection";
 import CategorySelector from "../../components/camp-create/CategorySelector";
-import ImagePickerCard from "../../components/camp-create/ImagePickerCard";
 import ParticipantCounter from "../../components/camp-create/ParticipantCounter";
 import { useCreateCamp } from "../../hooks/useCreateCamp";
 
@@ -39,31 +39,15 @@ const CreateCampScreen = ({ navigation }) => {
 	return (
 		<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
 			<Text style={styles.title}>🏕️ Kamp Oluştur</Text>
-
-			<View style={styles.sectionCard}>
-				<Text style={styles.sectionTitle}>Kamp Bilgileri</Text>
-				<ImagePickerCard
-					imageUri={previewImage}
-					onImageSelected={(localUri, uploadedUrl) => {
-						setPreviewImage(localUri);
-						setImageUrl(uploadedUrl);
-					}}
-				/>
-
-				<TextInput
-					style={styles.input}
-					placeholder="Kamp Başlığı"
-					value={title}
-					onChangeText={setTitle}
-				/>
-
-				<TextInput
-					style={styles.input}
-					placeholder="Lokasyon"
-					value={location}
-					onChangeText={setLocation}
-				/>
-			</View>
+			<CampBasicInfoSection
+				title={title}
+				setTitle={setTitle}
+				location={location}
+				setLocation={setLocation}
+				previewImage={previewImage}
+				setPreviewImage={setPreviewImage}
+				setImageUrl={setImageUrl}
+			/>
 
 			<View style={styles.sectionCard}>
 				<Text style={styles.sectionTitle}>Kategori Seç</Text>
