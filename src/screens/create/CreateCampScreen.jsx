@@ -1,17 +1,11 @@
 import React from "react";
-import {
-	ScrollView,
-	StyleSheet,
-	Text,
-	TextInput,
-	TouchableOpacity,
-	View,
-} from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Button } from "react-native-paper";
 
 import CampBasicInfoSection from "../../components/camp-create/CampBasicInfoSection";
+import CampDateSection from "../../components/camp-create/CampDateSection";
 import CampSettingsSection from "../../components/camp-create/CampSettingsSection";
 import { useCreateCamp } from "../../hooks/useCreateCamp";
 
@@ -62,52 +56,14 @@ const CreateCampScreen = ({ navigation }) => {
 				setMaxParticipantCount={setMaxParticipantCount}
 			/>
 
-			<View style={styles.sectionCard}>
-				<Text style={styles.sectionTitle}>Tarih Aralığı</Text>
-
-				<View style={styles.dateContainer}>
-					<TouchableOpacity
-						style={styles.dateCard}
-						onPress={() => setShowStartPicker(true)}
-					>
-						<Text style={styles.dateLabel}>Başlangıç</Text>
-
-						<Text style={styles.dateValue}>
-							{startDate.toLocaleDateString("tr-TR")}
-						</Text>
-					</TouchableOpacity>
-
-					<TouchableOpacity
-						style={styles.dateCard}
-						onPress={() => setShowEndPicker(true)}
-					>
-						<Text style={styles.dateLabel}>Bitiş</Text>
-
-						<Text style={styles.dateValue}>
-							{endDate.toLocaleDateString("tr-TR")}
-						</Text>
-					</TouchableOpacity>
-				</View>
-
-				<Text
-					style={[
-						styles.sectionTitle,
-						{
-							marginTop: 8,
-						},
-					]}
-				>
-					Açıklama
-				</Text>
-
-				<TextInput
-					style={styles.descriptionInput}
-					multiline
-					value={description}
-					onChangeText={setDescription}
-					placeholder="Kamp hakkında bilgi ver..."
-				/>
-			</View>
+			<CampDateSection
+				startDate={startDate}
+				endDate={endDate}
+				setShowStartPicker={setShowStartPicker}
+				setShowEndPicker={setShowEndPicker}
+				description={description}
+				setDescription={setDescription}
+			/>
 
 			{showStartPicker && (
 				<DateTimePicker
