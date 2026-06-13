@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { CAMP_CATEGORIES } from "../../constants/campCategories";
 
 const CampInfoCard = ({ camp }) => {
@@ -25,3 +25,41 @@ const CampInfoCard = ({ camp }) => {
 };
 
 export default CampInfoCard;
+
+const styles = StyleSheet.create({
+	infoCard: {
+		backgroundColor: "#fff",
+		borderRadius: 20,
+		padding: 20,
+		marginTop: 20,
+
+		elevation: 4,
+
+		shadowColor: "#000",
+		shadowOpacity: 0.08,
+		shadowRadius: 8,
+		shadowOffset: {
+			width: 0,
+			height: 3,
+		},
+	},
+
+	sectionTitle: {
+		fontSize: 18,
+		fontWeight: "700",
+		color: "#222",
+		marginBottom: 6,
+		marginTop: 16,
+	},
+
+	sectionValue: {
+		fontSize: 16,
+		color: "#666",
+	},
+
+	description: {
+		fontSize: 16,
+		lineHeight: 24,
+		color: "#555",
+	},
+});
