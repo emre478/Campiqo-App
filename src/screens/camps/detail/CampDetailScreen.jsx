@@ -1,19 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useDispatch, useSelector } from "react-redux";
 import CampActionButton from "../../../components/camps/CampActionButton";
-import CampHeader  from "../../../components/camps/CampHeader";
+import CampHeader from "../../../components/camps/CampHeader";
 import CampInfoCard from "../../../components/camps/CampInfoCard";
 import { SERVER_URL } from "../../../constants/apiConstants";
-import {
-	addFavorite,
-	removeFavorite,
-} from "../../../redux/slices/favoriteSlice";
-import { addPendingRequest } from "../../../redux/slices/joinRequestSlice";
-import { requestJoinCamp } from "../../../services/campJoinRequestService";
-import { favoriteCamp, unfavoriteCamp } from "../../../services/campService";
+import { useCampDetail } from "../../../hooks/useCampDetail";
 
 const categoryMap = {
 	Nature: "Doğa",
@@ -26,113 +19,9 @@ const categoryMap = {
 
 const CampDetailScreen = ({ route, navigation }) => {
 	const { camp } = route.params;
-	console.log("Camp Image Url:", camp.imageUrl);
-	const [isFavorited, setIsFavorited] = useState(camp.isFavorited);
-	const dispatch = useDispatch();
-	const pendingCampIds = useSelector(
-		(state) => state.joinRequest.pendingCampIds
-	);
+	const { isFavorited, handleFavorite, handleJoin, buttonConfig } =
+		useCampDetail(camp);
 
-	const hasPendingRequest =
-		camp.hasPendingRequest || pendingCampIds.includes(camp.id);
-
-	const handleFavorite = async () => {
-		try {
-			if (isFavorited) {
-				await unfavoriteCamp(camp.id);
-
-				dispatch(removeFavorite(camp.id));
-
-				setIsFavorited(false);
-			} else {
-				await favoriteCamp(camp.id);
-
-				dispatch(
-					addFavorite({
-						...camp,
-						isFavorited: true,
-					})
-				);
-
-				setIsFavorited(true);
-			}
-		} catch (error) {
-			console.log(error);
-		}
-	};
-	const handleJoin = async () => {
-		try {
-			const response = await requestJoinCamp(camp.id);
-
-			console.log(response);
-
-			dispatch(addPendingRequest(camp.id));
-		} catch (error) {
-			console.log(JSON.stringify(error.response?.data, null, 2));
-
-			if (error.response?.data?.message === "Zaten istek gönderdiniz") {
-				dispatch(addPendingRequest(camp.id));
-			}
-		}
-	};
-
-	const getButtonConfig = () => {
-		if (camp.isOwner) {
-			return {
-				text: "👑 Kamp Sahibi",
-				color: "#E8F5E9",
-				textColor: "#2E7D32",
-				disabled: true,
-			};
-		}
-
-		if (camp.isParticipant) {
-			return {
-				text: "✓ Katıldın",
-				color: "#E8F5E9",
-				textColor: "#2E7D32",
-				disabled: true,
-			};
-		}
-		if (hasPendingRequest) {
-			return {
-				text: "⏳ Katılma İsteği Gönderildi",
-				color: "#FFF8E1",
-				textColor: "#F9A825",
-				disabled: true,
-			};
-		}
-
-		if (camp.isFull) {
-			return {
-				text: "⚠ Kamp Dolu",
-				color: "#FFF3E0",
-				textColor: "#EF6C00",
-				disabled: true,
-			};
-		}
-
-		return {
-			text: "Katıl",
-			color: "#2E7D32",
-			textColor: "#FFFFFF",
-			disabled: false,
-		};
-	};
-
-	const buttonConfig = getButtonConfig();
-
-	const getButtonText = () => {
-		if (camp.isOwner) return "Kamp Sahibi";
-
-		if (camp.isParticipant) return "Katıldın";
-
-		if (camp.isFull) return "Kamp Dolu";
-
-		return "Katıl";
-	};
-
-	const isDisabled = camp.isOwner || camp.isParticipant || camp.isFull;
 	const imageSource = camp.imageUrl
 		? {
 				uri: `${SERVER_URL}${camp.imageUrl}`,
