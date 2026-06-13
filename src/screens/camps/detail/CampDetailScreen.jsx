@@ -8,15 +8,6 @@ import CampMetaInfo from "../../../components/camps/CampMetaInfo";
 import { SERVER_URL } from "../../../constants/apiConstants";
 import { useCampDetail } from "../../../hooks/useCampDetail";
 
-const categoryMap = {
-	Nature: "Doğa",
-	Caravan: "Karavan",
-	Mountain: "Dağ",
-	Sea: "Deniz",
-	Winter: "Kış",
-	Survival: "Hayatta Kalma",
-};
-
 const CampDetailScreen = ({ route, navigation }) => {
 	const { camp } = route.params;
 	const { isFavorited, handleFavorite, handleJoin, buttonConfig } =
@@ -66,7 +57,7 @@ const CampDetailScreen = ({ route, navigation }) => {
 					maxParticipantCount={camp.maxParticipantCount}
 				/>
 
-				<CampInfoCard camp={camp} categoryMap={categoryMap} />
+				<CampInfoCard camp={camp} />
 				<CampActionButton
 					buttonConfig={buttonConfig}
 					onPress={handleJoin}
