@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import {
-	Image,
-	ScrollView,
-	StyleSheet,
-	Text,
-	TouchableOpacity,
-	View,
-} from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Button } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
+import { CampHeader } from "../../../components/camps/CampHeader";
+import { SERVER_URL } from "../../../constants/apiConstants";
 import {
 	addFavorite,
 	removeFavorite,
@@ -18,7 +13,6 @@ import {
 import { addPendingRequest } from "../../../redux/slices/joinRequestSlice";
 import { requestJoinCamp } from "../../../services/campJoinRequestService";
 import { favoriteCamp, unfavoriteCamp } from "../../../services/campService";
-import { SERVER_URL } from "../../../constants/apiConstants";
 
 const categoryMap = {
 	Nature: "Doğa",
@@ -164,29 +158,12 @@ const CampDetailScreen = ({ route, navigation }) => {
 
 	return (
 		<ScrollView style={styles.container}>
-			<View style={styles.imageContainer}>
-				<Image source={imageSource} style={styles.image} />
-				<TouchableOpacity
-					style={styles.backButton}
-					onPress={() => navigation.goBack()}
-				>
-					<MaterialCommunityIcons
-						name="arrow-left"
-						size={28}
-						color="#fff"
-					/>
-				</TouchableOpacity>
-				<TouchableOpacity
-					style={styles.favoriteButton}
-					onPress={handleFavorite}
-				>
-					<MaterialCommunityIcons
-						name={isFavorited ? "heart" : "heart-outline"}
-						size={28}
-						color={isFavorited ? "#E53935" : "#FFFFFF"}
-					/>
-				</TouchableOpacity>
-			</View>
+			<CampHeader
+				imageSource={imageSource}
+				isFavorited={isFavorited}
+				onFavorite={handleFavorite}
+				onBack={() => navigation.goBack()}
+			/>
 
 			<View style={styles.content}>
 				<Text style={styles.title}>{camp.title}</Text>
@@ -269,11 +246,6 @@ const styles = StyleSheet.create({
 		backgroundColor: "#F5F5F5",
 	},
 
-	image: {
-		width: "100%",
-		height: 260,
-	},
-
 	content: {
 		padding: 20,
 	},
@@ -340,36 +312,5 @@ const styles = StyleSheet.create({
 	},
 	disabledButton: {
 		backgroundColor: "#9E9E9E",
-	},
-	imageContainer: {
-		position: "relative",
-	},
-
-	favoriteButton: {
-		position: "absolute",
-		top: 45,
-		right: 20,
-
-		width: 44,
-		height: 44,
-
-		borderRadius: 22,
-
-		backgroundColor: "rgba(0,0,0,0.35)",
-
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	backButton: {
-		position: "absolute",
-		top: 45,
-		left: 20,
-		width: 44,
-		height: 44,
-		borderRadius: 22,
-		backgroundColor: "rgba(0,0,0,0.35)",
-		justifyContent: "center",
-		alignItems: "center",
-		zIndex: 10,
 	},
 });
