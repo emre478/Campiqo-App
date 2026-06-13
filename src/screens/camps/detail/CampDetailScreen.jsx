@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Button } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
-import { CampHeader } from "../../../components/camps/CampHeader";
+import CampActionButton from "../../../components/camps/CampActionButton";
+import CampHeader  from "../../../components/camps/CampHeader";
 import CampInfoCard from "../../../components/camps/CampInfoCard";
 import { SERVER_URL } from "../../../constants/apiConstants";
 import {
@@ -14,8 +14,6 @@ import {
 import { addPendingRequest } from "../../../redux/slices/joinRequestSlice";
 import { requestJoinCamp } from "../../../services/campJoinRequestService";
 import { favoriteCamp, unfavoriteCamp } from "../../../services/campService";
-import CampInfoCard from "../../../components/camps/CampInfoCard";
-import CampHeader from "../../../components/camps/CampHeader";
 
 const categoryMap = {
 	Nature: "Doğa",
@@ -206,19 +204,10 @@ const CampDetailScreen = ({ route, navigation }) => {
 				</View>
 
 				<CampInfoCard camp={camp} categoryMap={categoryMap} />
-				<Button
-					mode="contained"
-					buttonColor={buttonConfig.color}
-					textColor={buttonConfig.textColor}
-					style={styles.joinButton}
-					onPress={() => {
-						if (!buttonConfig.disabled) {
-							handleJoin();
-						}
-					}}
-				>
-					{buttonConfig.text}
-				</Button>
+				<CampActionButton
+					buttonConfig={buttonConfig}
+					onPress={handleJoin}
+				/>
 			</View>
 		</ScrollView>
 	);
@@ -253,14 +242,5 @@ const styles = StyleSheet.create({
 		marginLeft: 8,
 		fontSize: 16,
 		color: "#666",
-	},
-
-	joinButton: {
-		marginTop: 24,
-		borderRadius: 14,
-		paddingVertical: 6,
-	},
-	disabledButton: {
-		backgroundColor: "#9E9E9E",
 	},
 });
