@@ -2,11 +2,11 @@ import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Button } from "react-native-paper";
 
 import CampBasicInfoSection from "../../components/camp-create/CampBasicInfoSection";
 import CampDateSection from "../../components/camp-create/CampDateSection";
 import CampSettingsSection from "../../components/camp-create/CampSettingsSection";
+import CreateCampButton from "../../components/camp-create/CreateCampButton";
 import { useCreateCamp } from "../../hooks/useCreateCamp";
 
 const CreateCampScreen = ({ navigation }) => {
@@ -94,15 +94,7 @@ const CreateCampScreen = ({ navigation }) => {
 					}}
 				/>
 			)}
-
-			<Button
-				mode="contained"
-				buttonColor="#2E7D32"
-				style={styles.createButton}
-				onPress={handleCreateCamp}
-			>
-				🚀 Kampı Oluştur
-			</Button>
+			<CreateCampButton onPress={handleCreateCamp} />
 
 			<View style={{ height: 90 }} />
 		</ScrollView>
@@ -126,66 +118,4 @@ const styles = StyleSheet.create({
 		marginBottom: 24,
 	},
 
-	sectionCard: {
-		backgroundColor: "#fff",
-		borderRadius: 20,
-		padding: 18,
-		marginBottom: 18,
-		elevation: 4,
-
-		shadowColor: "#000",
-		shadowOpacity: 0.06,
-		shadowRadius: 8,
-		shadowOffset: {
-			width: 0,
-			height: 3,
-		},
-	},
-
-	sectionTitle: {
-		fontSize: 18,
-		fontWeight: "700",
-		color: "#222",
-		marginBottom: 12,
-	},
-
-	descriptionInput: {
-		backgroundColor: "#F7F8FA",
-		borderRadius: 14,
-		paddingHorizontal: 16,
-		paddingVertical: 14,
-		height: 120,
-		marginTop: 12,
-		textAlignVertical: "top",
-	},
-
-	createButton: {
-		borderRadius: 16,
-		paddingVertical: 6,
-	},
-
-	dateContainer: {
-		flexDirection: "row",
-		gap: 12,
-		marginBottom: 12,
-	},
-
-	dateCard: {
-		flex: 1,
-		backgroundColor: "#F7F8FA",
-		padding: 16,
-		borderRadius: 16,
-	},
-
-	dateLabel: {
-		fontSize: 14,
-		color: "#777",
-		marginBottom: 8,
-	},
-
-	dateValue: {
-		fontSize: 16,
-		fontWeight: "600",
-		color: "#222",
-	},
 });
