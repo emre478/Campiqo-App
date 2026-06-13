@@ -1,79 +1,41 @@
-import React, { useState } from "react";
+import React from "react";
 import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 
 import { Button } from "react-native-paper";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { TouchableOpacity } from "react-native";
-import { useDispatch } from "react-redux";
 import CategorySelector from "../../components/camp-create/CategorySelector";
 import ImagePickerCard from "../../components/camp-create/ImagePickerCard";
 import ParticipantCounter from "../../components/camp-create/ParticipantCounter";
-import { setCamps } from "../../redux/slices/campSlice";
-import { createCamp, getCamps } from "../../services/campService";
-import { validateCreateCamp } from "../../validations/createCampValidation";
+import { useCreateCamp } from "../../hooks/useCreateCamp";
 
 const CreateCampScreen = ({ navigation }) => {
-	const dispatch = useDispatch();
-	const [title, setTitle] = useState("");
-	const [location, setLocation] = useState("");
-	const [description, setDescription] = useState("");
-	const [showStartPicker, setShowStartPicker] = useState(false);
-	const [showEndPicker, setShowEndPicker] = useState(false);
-	const [category, setCategory] = useState(1);
-	const [previewImage, setPreviewImage] = useState("");
-	const [maxParticipantCount, setMaxParticipantCount] = useState(10);
-	const [startDate, setStartDate] = useState(new Date());
-	const [endDate, setEndDate] = useState(new Date());
-	const [imageUrl, setImageUrl] = useState("");
-	const [errors, setErrors] = useState({});
-
-	const handleCreateCamp = async () => {
-		const validationErrors = validateCreateCamp({
-			title,
-			description,
-			location,
-			startDate,
-			endDate,
-			maxParticipantCount,
-		});
-
-		if (Object.keys(validationErrors).length > 0) {
-			setErrors(validationErrors);
-
-			return;
-		}
-
-		setErrors({});
-		console.log("Selected Image Url:", imageUrl);
-		console.log("IMAGE URL", imageUrl);
-		try {
-			await createCamp({
-				title,
-				description,
-				location,
-				startDate: startDate.toISOString(),
-				endDate: endDate.toISOString(),
-				maxParticipantCount,
-				imageUrl,
-				category,
-			});
-
-			const campsResponse = await getCamps(1, 10);
-
-			dispatch(
-				setCamps({
-					items: campsResponse.data.items,
-					page: campsResponse.data.page,
-					totalCount: campsResponse.data.totalCount,
-				})
-			);
-
-			navigation.navigate("Camps");
-		} catch (error) {
-			console.log(error);
-		}
-	};
+	const {
+		title,
+		setTitle,
+		location,
+		setLocation,
+		description,
+		setDescription,
+		showStartPicker,
+		setShowStartPicker,
+		showEndPicker,
+		setShowEndPicker,
+		category,
+		setCategory,
+		previewImage,
+		setPreviewImage,
+		maxParticipantCount,
+		setMaxParticipantCount,
+		startDate,
+		setStartDate,
+		endDate,
+		setEndDate,
+		imageUrl,
+		setImageUrl,
+		handleCreateCamp,
+	} = useCreateCamp(navigation);
 	return (
 		<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
 			<Text style={styles.title}>🏕️ Kamp Oluştur</Text>
