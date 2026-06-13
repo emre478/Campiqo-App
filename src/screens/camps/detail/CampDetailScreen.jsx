@@ -1,10 +1,10 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CampActionButton from "../../../components/camps/CampActionButton";
 import CampHeader from "../../../components/camps/CampHeader";
 import CampInfoCard from "../../../components/camps/CampInfoCard";
+import CampMetaInfo from "../../../components/camps/CampMetaInfo";
 import { SERVER_URL } from "../../../constants/apiConstants";
 import { useCampDetail } from "../../../hooks/useCampDetail";
 
@@ -58,39 +58,13 @@ const CampDetailScreen = ({ route, navigation }) => {
 			<View style={styles.content}>
 				<Text style={styles.title}>{camp.title}</Text>
 
-				<View style={styles.row}>
-					<MaterialCommunityIcons
-						name="map-marker-outline"
-						size={20}
-						color="#666"
-					/>
-
-					<Text style={styles.text}>{camp.location}</Text>
-				</View>
-
-				<View style={styles.row}>
-					<MaterialCommunityIcons
-						name="calendar-range"
-						size={20}
-						color="#666"
-					/>
-
-					<Text style={styles.text}>
-						{formattedStartDate} - {formattedEndDate}
-					</Text>
-				</View>
-
-				<View style={styles.row}>
-					<MaterialCommunityIcons
-						name="account-group-outline"
-						size={20}
-						color="#666"
-					/>
-
-					<Text style={styles.text}>
-						{camp.participantCount}/{camp.maxParticipantCount}
-					</Text>
-				</View>
+				<CampMetaInfo
+					location={camp.location}
+					formattedStartDate={formattedStartDate}
+					formattedEndDate={formattedEndDate}
+					participantCount={camp.participantCount}
+					maxParticipantCount={camp.maxParticipantCount}
+				/>
 
 				<CampInfoCard camp={camp} categoryMap={categoryMap} />
 				<CampActionButton
@@ -119,17 +93,5 @@ const styles = StyleSheet.create({
 		fontWeight: "700",
 		marginBottom: 20,
 		color: "#222",
-	},
-
-	row: {
-		flexDirection: "row",
-		alignItems: "center",
-		marginBottom: 12,
-	},
-
-	text: {
-		marginLeft: 8,
-		fontSize: 16,
-		color: "#666",
 	},
 });
