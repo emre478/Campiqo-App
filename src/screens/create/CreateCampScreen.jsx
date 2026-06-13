@@ -28,24 +28,25 @@ const CreateCampScreen = ({ navigation }) => {
 	const [imageUrl, setImageUrl] = useState("");
 	const [errors, setErrors] = useState({});
 
-	const validationErrors = validateCreateCamp({
-		title,
-		description,
-		location,
-		startDate,
-		endDate,
-		maxParticipantCount,
-	});
-
-	if (Object.keys(validationErrors).length > 0) {
-		setErrors(validationErrors);
-
-		return;
-	}
-
-	setErrors({});
-
 	const handleCreateCamp = async () => {
+		const validationErrors = validateCreateCamp({
+			title,
+			description,
+			location,
+			startDate,
+			endDate,
+			maxParticipantCount,
+		});
+
+		if (Object.keys(validationErrors).length > 0) {
+			setErrors(validationErrors);
+
+			return;
+		}
+
+		setErrors({});
+		console.log("Selected Image Url:", imageUrl);
+		console.log("IMAGE URL", imageUrl);
 		try {
 			await createCamp({
 				title,
@@ -58,9 +59,15 @@ const CreateCampScreen = ({ navigation }) => {
 				category,
 			});
 
-			const campsResponse = await getCamps();
+			const campsResponse = await getCamps(1, 10);
 
-			dispatch(setCamps(campsResponse.data.items));
+			dispatch(
+				setCamps({
+					items: campsResponse.data.items,
+					page: campsResponse.data.page,
+					totalCount: campsResponse.data.totalCount,
+				})
+			);
 
 			navigation.navigate("Camps");
 		} catch (error) {

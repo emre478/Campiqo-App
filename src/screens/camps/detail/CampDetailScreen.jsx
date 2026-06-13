@@ -18,6 +18,7 @@ import {
 import { addPendingRequest } from "../../../redux/slices/joinRequestSlice";
 import { requestJoinCamp } from "../../../services/campJoinRequestService";
 import { favoriteCamp, unfavoriteCamp } from "../../../services/campService";
+import { SERVER_URL } from "../../../constants/apiConstants";
 
 const categoryMap = {
 	Nature: "Doğa",
@@ -30,6 +31,7 @@ const categoryMap = {
 
 const CampDetailScreen = ({ route, navigation }) => {
 	const { camp } = route.params;
+	console.log("Camp Image Url:", camp.imageUrl);
 	const [isFavorited, setIsFavorited] = useState(camp.isFavorited);
 	const dispatch = useDispatch();
 	const pendingCampIds = useSelector(
@@ -136,12 +138,14 @@ const CampDetailScreen = ({ route, navigation }) => {
 	};
 
 	const isDisabled = camp.isOwner || camp.isParticipant || camp.isFull;
-	const imageSource =
-		camp.imageUrl && camp.imageUrl !== "string"
-			? { uri: camp.imageUrl }
-			: {
-					uri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-				};
+	const imageSource = camp.imageUrl
+		? {
+				uri: `${SERVER_URL}${camp.imageUrl}`,
+			}
+		: {
+				uri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+			};
+	console.log("FULL IMAGE URL:", `${SERVER_URL}${camp.imageUrl}`);
 
 	const startDate = new Date(camp.startDate);
 	const endDate = new Date(camp.endDate);

@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useSelector } from "react-redux";
+import { SERVER_URL } from "../../constants/apiConstants";
 
 const CampCard = ({ camp, onPress }) => {
 	const pendingCampIds = useSelector(
@@ -11,12 +12,14 @@ const CampCard = ({ camp, onPress }) => {
 
 	const hasPendingRequest =
 		camp.hasPendingRequest || pendingCampIds.includes(camp.id);
-	const imageSource =
-		camp.imageUrl && camp.imageUrl !== "string"
-			? { uri: camp.imageUrl }
-			: {
-					uri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-				};
+	const imageSource = camp.imageUrl
+		? {
+				uri: `${SERVER_URL}${camp.imageUrl}`,
+			}
+		: {
+				uri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+			};
+	console.log("FULL IMAGE URL:", `${SERVER_URL}${camp.imageUrl}`);
 
 	const startDate = new Date(camp.startDate);
 

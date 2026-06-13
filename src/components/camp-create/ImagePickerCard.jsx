@@ -15,7 +15,7 @@ const ImagePickerCard = ({ imageUri, onImageSelected }) => {
 		if (!result.canceled) {
 			const uploadResponse = await uploadImage(result.assets[0].uri);
 
-			onImageSelected(result.assets[0].uri, uploadResponse.url);
+			onImageSelected(result.assets[0].uri, uploadResponse.data.url);
 		}
 	};
 
