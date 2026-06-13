@@ -1,13 +1,18 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-
-import { Button } from "react-native-paper";
+import {
+	ScrollView,
+	StyleSheet,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View,
+} from "react-native";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { TouchableOpacity } from "react-native";
+import { Button } from "react-native-paper";
+
 import CampBasicInfoSection from "../../components/camp-create/CampBasicInfoSection";
-import CategorySelector from "../../components/camp-create/CategorySelector";
-import ParticipantCounter from "../../components/camp-create/ParticipantCounter";
+import CampSettingsSection from "../../components/camp-create/CampSettingsSection";
 import { useCreateCamp } from "../../hooks/useCreateCamp";
 
 const CreateCampScreen = ({ navigation }) => {
@@ -32,13 +37,14 @@ const CreateCampScreen = ({ navigation }) => {
 		setStartDate,
 		endDate,
 		setEndDate,
-		imageUrl,
 		setImageUrl,
 		handleCreateCamp,
 	} = useCreateCamp(navigation);
+
 	return (
 		<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
 			<Text style={styles.title}>🏕️ Kamp Oluştur</Text>
+
 			<CampBasicInfoSection
 				title={title}
 				setTitle={setTitle}
@@ -49,22 +55,14 @@ const CreateCampScreen = ({ navigation }) => {
 				setImageUrl={setImageUrl}
 			/>
 
-			<View style={styles.sectionCard}>
-				<Text style={styles.sectionTitle}>Kategori Seç</Text>
-
-				<CategorySelector
-					selectedCategory={category}
-					onSelect={setCategory}
-				/>
-			</View>
+			<CampSettingsSection
+				category={category}
+				setCategory={setCategory}
+				maxParticipantCount={maxParticipantCount}
+				setMaxParticipantCount={setMaxParticipantCount}
+			/>
 
 			<View style={styles.sectionCard}>
-				<Text style={styles.sectionTitle}>Maksimum Katılımcı</Text>
-
-				<ParticipantCounter
-					value={maxParticipantCount}
-					onChange={setMaxParticipantCount}
-				/>
 				<Text style={styles.sectionTitle}>Tarih Aralığı</Text>
 
 				<View style={styles.dateContainer}>
@@ -90,11 +88,12 @@ const CreateCampScreen = ({ navigation }) => {
 						</Text>
 					</TouchableOpacity>
 				</View>
+
 				<Text
 					style={[
 						styles.sectionTitle,
 						{
-							marginTop: 24,
+							marginTop: 8,
 						},
 					]}
 				>
@@ -109,6 +108,7 @@ const CreateCampScreen = ({ navigation }) => {
 					placeholder="Kamp hakkında bilgi ver..."
 				/>
 			</View>
+
 			{showStartPicker && (
 				<DateTimePicker
 					value={startDate}
@@ -138,6 +138,7 @@ const CreateCampScreen = ({ navigation }) => {
 					}}
 				/>
 			)}
+
 			<Button
 				mode="contained"
 				buttonColor="#2E7D32"
@@ -161,6 +162,7 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 20,
 		paddingTop: 60,
 	},
+
 	title: {
 		fontSize: 30,
 		fontWeight: "700",
@@ -168,21 +170,27 @@ const styles = StyleSheet.create({
 		marginBottom: 24,
 	},
 
-	input: {
-		backgroundColor: "#F7F8FA",
-		borderRadius: 14,
-		paddingHorizontal: 16,
-		paddingVertical: 14,
-		fontSize: 16,
-		marginTop: 12,
+	sectionCard: {
+		backgroundColor: "#fff",
+		borderRadius: 20,
+		padding: 18,
+		marginBottom: 18,
+		elevation: 4,
+
+		shadowColor: "#000",
+		shadowOpacity: 0.06,
+		shadowRadius: 8,
+		shadowOffset: {
+			width: 0,
+			height: 3,
+		},
 	},
 
 	sectionTitle: {
 		fontSize: 18,
 		fontWeight: "700",
-		marginBottom: 12,
-		marginTop: 10,
 		color: "#222",
+		marginBottom: 12,
 	},
 
 	descriptionInput: {
@@ -196,46 +204,21 @@ const styles = StyleSheet.create({
 	},
 
 	createButton: {
-		marginTop: 24,
-		borderRadius: 14,
-		paddingVertical: 6,
-	},
-	sectionCard: {
-		backgroundColor: "#fff",
-		borderRadius: 20,
-		padding: 18,
-		marginBottom: 18,
-		elevation: 4,
-		shadowColor: "#000",
-		shadowOpacity: 0.06,
-		shadowRadius: 8,
-		shadowOffset: {
-			width: 0,
-			height: 3,
-		},
-	},
-	sectionTitle: {
-		fontSize: 18,
-		fontWeight: "700",
-		color: "#222",
-	},
-	createButton: {
 		borderRadius: 16,
-		marginTop: 0,
 		paddingVertical: 6,
 	},
+
 	dateContainer: {
 		flexDirection: "row",
 		gap: 12,
-		marginBottom: 20,
+		marginBottom: 12,
 	},
 
 	dateCard: {
 		flex: 1,
-		backgroundColor: "#fff",
+		backgroundColor: "#F7F8FA",
 		padding: 16,
 		borderRadius: 16,
-		elevation: 2,
 	},
 
 	dateLabel: {
