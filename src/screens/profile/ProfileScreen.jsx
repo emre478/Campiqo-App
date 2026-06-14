@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
 import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileMenuItem from "../../components/profile/ProfileMenuItem";
 import ProfileStats from "../../components/profile/ProfileStats";
+import { logout } from "../../redux/slices/authSlice";
 import { setProfile } from "../../redux/slices/profileSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { removeToken } from "../../services/tokenService";
 
 import {
 	getMyCreatedCamps,
@@ -41,6 +43,21 @@ const ProfileScreen = ({ navigation }) => {
 		}
 	};
 
+	const handleLogout = async () => {
+		try {
+			await removeToken();
+
+			dispatch(logout());
+
+			navigation.reset({
+				index: 0,
+				routes: [{ name: "Login" }],
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
 		<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
 			<ProfileHeader profile={profile} />
@@ -69,7 +86,7 @@ const ProfileScreen = ({ navigation }) => {
 				icon="🚪"
 				title="Çıkış Yap"
 				danger
-				onPress={() => console.log("Logout")}
+				onPress={handleLogout}
 			/>
 		</ScrollView>
 	);
