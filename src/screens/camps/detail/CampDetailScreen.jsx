@@ -20,7 +20,6 @@ const CampDetailScreen = ({ route, navigation }) => {
 		: {
 				uri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
 			};
-	console.log("FULL IMAGE URL:", `${SERVER_URL}${camp.imageUrl}`);
 
 	const startDate = new Date(camp.startDate);
 	const endDate = new Date(camp.endDate);

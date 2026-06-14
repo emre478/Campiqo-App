@@ -19,7 +19,6 @@ const CampCard = ({ camp, onPress }) => {
 		: {
 				uri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
 			};
-	console.log("FULL IMAGE URL:", `${SERVER_URL}${camp.imageUrl}`);
 
 	const startDate = new Date(camp.startDate);
 
