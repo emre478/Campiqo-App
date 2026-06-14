@@ -27,6 +27,13 @@ const CampCard = ({ camp, onPress }) => {
 		month: "long",
 	});
 	const getStatusBadge = () => {
+		if (camp.isCompleted) {
+			return {
+				text: "Tamamlandı",
+				color: "#EEEEEE",
+				textColor: "#616161",
+			};
+		}
 		if (camp.isOwner) {
 			return {
 				text: "Kamp Sahibi",
