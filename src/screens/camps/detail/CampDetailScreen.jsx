@@ -1,6 +1,6 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-
+import { Button } from "react-native-paper";
 import CampActionButton from "../../../components/camps/CampActionButton";
 import CampHeader from "../../../components/camps/CampHeader";
 import CampInfoCard from "../../../components/camps/CampInfoCard";
@@ -57,6 +57,19 @@ const CampDetailScreen = ({ route, navigation }) => {
 				/>
 
 				<CampInfoCard camp={camp} />
+				{camp.isOwner && (
+					<Button
+						mode="outlined"
+						style={styles.requestButton}
+						onPress={() =>
+							navigation.navigate("CampJoinRequests", {
+								campId: camp.id,
+							})
+						}
+					>
+						Katılım İsteklerini Gör
+					</Button>
+				)}
 				<CampActionButton
 					buttonConfig={buttonConfig}
 					onPress={handleJoin}
@@ -83,5 +96,10 @@ const styles = StyleSheet.create({
 		fontWeight: "700",
 		marginBottom: 20,
 		color: "#222",
+	},
+	requestButton: {
+		marginTop: 10,
+		marginBottom: 12,
+		borderRadius: 14,
 	},
 });
