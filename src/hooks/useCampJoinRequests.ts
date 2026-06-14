@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import {
 	approveJoinRequest,
-	getPendingRequests,
+	getPendingJoinRequests,
 	rejectJoinRequest,
 } from "../services/campJoinRequestService";
 
-export const useCampJoinRequests = (campId) => {
+export const useCampJoinRequests = (campId: string) => {
 	const [requests, setRequests] = useState([]);
 	const [loading, setLoading] = useState(true);
 
@@ -15,7 +15,7 @@ export const useCampJoinRequests = (campId) => {
 
 	const loadRequests = async () => {
 		try {
-			const response = await getPendingRequests(campId);
+			const response = await getPendingJoinRequests(campId);
 
 			setRequests(response.data || []);
 		} catch (error) {
@@ -25,7 +25,7 @@ export const useCampJoinRequests = (campId) => {
 		}
 	};
 
-	const handleApprove = async (requestId) => {
+	const handleApprove = async (requestId: string) => {
 		try {
 			await approveJoinRequest(requestId);
 
@@ -35,7 +35,7 @@ export const useCampJoinRequests = (campId) => {
 		}
 	};
 
-	const handleReject = async (requestId) => {
+	const handleReject = async (requestId: string) => {
 		try {
 			await rejectJoinRequest(requestId);
 
