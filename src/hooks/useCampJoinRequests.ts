@@ -4,9 +4,10 @@ import {
 	getPendingJoinRequests,
 	rejectJoinRequest,
 } from "../services/campJoinRequestService";
+import { CampJoinRequest } from "../types/CampJoinRequest";
 
 export const useCampJoinRequests = (campId: string) => {
-	const [requests, setRequests] = useState([]);
+	const [requests, setRequests] = useState<CampJoinRequest[]>([]);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
