@@ -4,9 +4,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import LoginScreen from "../screens/auth/LoginScreen";
 import RegisterScreen from "../screens/auth/RegisterScreen";
 import CampDetailScreen from "../screens/camps/detail/CampDetailScreen";
+import CampJoinRequestsScreen from "../screens/camps/request/CampJoinRequestsScreen";
+import EditProfileScreen from "../screens/profile/EditProfileScreen";
 import MyCreatedCampsScreen from "../screens/profile/MyCreatedCampsScreen";
 import MyJoinedCampsScreen from "../screens/profile/MyJoinedCampsScreen";
-import EditProfileScreen from "../screens/profile/EditProfileScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
 
 const Stack = createNativeStackNavigator();
@@ -49,6 +50,11 @@ export default function RootNavigator() {
 				<Stack.Screen
 					name="EditProfile"
 					component={EditProfileScreen}
+					options={{ headerShown: false }}
+				/>
+				<Stack.Screen
+					name="CampJoinRequests"
+					component={CampJoinRequestsScreen}
 					options={{ headerShown: false }}
 				/>
 			</Stack.Navigator>
