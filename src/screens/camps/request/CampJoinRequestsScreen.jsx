@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
 	ActivityIndicator,
 	FlatList,
@@ -8,29 +8,13 @@ import {
 } from "react-native";
 
 import CampJoinRequestCard from "../../../components/camps/CampJoinRequestCard";
-import { getPendingJoinRequests } from "../../../services/campJoinRequestService";
+import { useCampJoinRequests } from "../../../hooks/useCampJoinRequests";
 
 const CampJoinRequestsScreen = ({ route }) => {
 	const { campId } = route.params;
 
-	const [requests, setRequests] = useState([]);
-	const [loading, setLoading] = useState(true);
-
-	useEffect(() => {
-		loadRequests();
-	}, []);
-
-	const loadRequests = async () => {
-		try {
-			const response = await getPendingJoinRequests(campId);
-
-			setRequests(response.data || []);
-		} catch (error) {
-			console.log(error);
-		} finally {
-			setLoading(false);
-		}
-	};
+	const { requests, loading, handleApprove, handleReject } =
+		useCampJoinRequests(campId);
 
 	if (loading) {
 		return (
@@ -50,8 +34,8 @@ const CampJoinRequestsScreen = ({ route }) => {
 				renderItem={({ item }) => (
 					<CampJoinRequestCard
 						request={item}
-						onApprove={() => {}}
-						onReject={() => {}}
+						onApprove={handleApprove}
+						onReject={handleReject}
 					/>
 				)}
 				ListEmptyComponent={
