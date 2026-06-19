@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { formatMessageTime } from "../../utils/dateUtils";
 
 const ChatMessage = ({ message, isMyMessage }) => {
 	return (
@@ -12,6 +13,7 @@ const ChatMessage = ({ message, isMyMessage }) => {
 			<Text style={styles.userName}>{message.userFullName}</Text>
 
 			<Text style={styles.message}>{message.message}</Text>
+			<Text style={styles.time}>{formatMessageTime(message.createdAt)}</Text>
 		</View>
 	);
 };
@@ -46,5 +48,11 @@ const styles = StyleSheet.create({
 	message: {
 		fontSize: 15,
 		color: "#222",
+	},
+	time: {
+		marginTop: 6,
+		fontSize: 11,
+		color: "#777",
+		alignSelf: "flex-end",
 	},
 });
