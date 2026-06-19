@@ -1,13 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View } from "react-native";
 import { Button } from "react-native-paper";
-
 import { useCampRating } from "../../hooks/useCampRating";
 import StarRating from "./StarRating";
 
 const CampRatingCard = ({ campId, myRating, averageRating, ratingCount }) => {
+	const [campData, setCampData] = useState({
+		averageRating,
+		ratingCount,
+	});
 	const { selectedRating, setSelectedRating, handleRate, loading } =
 		useCampRating(campId, myRating);
+		const refreshCamp = async () => {
+	try {
+		const response = await getCampById(campId);
+
+		setCampData({
+			averageRating: response.data.averageRating,
+			ratingCount: response.data.ratingCount,
+		});
+	} catch (error) {
+		console.log(error);
+	}
+};
 
 	return (
 		<View style={styles.card}>
