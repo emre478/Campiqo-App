@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, Text } from "react-native";
 
+import { useDispatch } from "react-redux";
 import FeaturedCampCard from "../../components/home/FeaturedCampCard";
-import PopularCampCard from "../../components/home/PopularCampCard";
 import HomeHeader from "../../components/home/HomeHeader";
+import PopularCampCard from "../../components/home/PopularCampCard";
 import SearchBar from "../../components/home/SearchBar";
+import { setUnreadCount } from "../../redux/slices/notificationSlice";
+import { getUnreadCount } from "../../services/notificationService";
 
 const featuredCamps = [
 	{
@@ -54,6 +57,20 @@ const popularCamps = [
 	},
 ];
 const HomeScreen = () => {
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		loadUnreadCount();
+	}, []);
+	const loadUnreadCount = async () => {
+		try {
+			const response = await getUnreadCount();
+
+			dispatch(setUnreadCount(response.data.data));
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	return (
 		<SafeAreaView style={styles.container}>
 			<ScrollView showsVerticalScrollIndicator={false}>
