@@ -1,38 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
-import { FlatList, StyleSheet, Text, View } from "react-native";
-
-import { getNotifications } from "../../services/notificationService";
+import NotificationHeader from "../../components/notifications/NotificationHeader";
+import NotificationList from "../../components/notifications/NotificationList";
+import { useNotifications } from "../../hooks/useNotifications";
 
 const NotificationsScreen = () => {
-	const [notifications, setNotifications] = useState([]);
-	useEffect(() => {
-		loadNotifications();
-	}, []);
+	const { notifications, handleNotificationPress, handleReadAll } =
+		useNotifications();
 
-	const loadNotifications = async () => {
-		try {
-			const response = await getNotifications();
+	const unreadCount = notifications.filter((x) => !x.isRead).length;
 
-			setNotifications(response.data.data);
-		} catch (error) {
-			console.log(error);
-		}
-	};
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Bildirimler</Text>
+			<NotificationHeader
+				unreadCount={unreadCount}
+				onReadAll={handleReadAll}
+			/>
 
-			<FlatList
-				data={notifications}
-				keyExtractor={(item) => item.id}
-				renderItem={({ item }) => (
-					<View style={[styles.card, !item.isRead && styles.unreadCard]}>
-						<Text style={styles.cardTitle}>{item.title}</Text>
-
-						<Text style={styles.message}>{item.message}</Text>
-					</View>
-				)}
+			<NotificationList
+				notifications={notifications}
+				onNotificationPress={handleNotificationPress}
 			/>
 		</View>
 	);
@@ -41,25 +29,9 @@ const NotificationsScreen = () => {
 export default NotificationsScreen;
 
 const styles = StyleSheet.create({
-	card: {
-		backgroundColor: "#fff",
-		padding: 16,
-		borderRadius: 16,
-		marginBottom: 12,
-	},
-
-	unreadCard: {
-		borderLeftWidth: 4,
-		borderLeftColor: "#2E7D32",
-	},
-
-	cardTitle: {
-		fontSize: 16,
-		fontWeight: "700",
-		marginBottom: 4,
-	},
-
-	message: {
-		color: "#666",
+	container: {
+		flex: 1,
+		backgroundColor: "#F5F5F5",
+		padding: 20,
 	},
 });
