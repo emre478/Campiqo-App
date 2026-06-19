@@ -70,6 +70,16 @@ const CampCard = ({ camp, onPress }) => {
 	};
 
 	const badge = getStatusBadge();
+	console.log(
+	"Camp:",
+	camp.title,
+	"completed:",
+	camp.isCompleted,
+	"rating:",
+	camp.averageRating,
+	"count:",
+	camp.ratingCount
+);
 
 	return (
 		<TouchableOpacity
@@ -100,7 +110,13 @@ const CampCard = ({ camp, onPress }) => {
 						</View>
 					)}
 				</View>
-
+				{camp.isCompleted && camp.ratingCount > 0 && (
+					<View style={styles.ratingContainer}>
+						<Text style={styles.ratingText}>
+							⭐ {camp.averageRating.toFixed(1)} ({camp.ratingCount})
+						</Text>
+					</View>
+				)}
 				<View style={styles.infoRow}>
 					<MaterialCommunityIcons
 						name="map-marker-outline"
@@ -219,5 +235,14 @@ const styles = StyleSheet.create({
 	statusText: {
 		fontSize: 12,
 		fontWeight: "700",
+	},
+	ratingContainer: {
+		marginBottom: 8,
+	},
+
+	ratingText: {
+		fontSize: 13,
+		fontWeight: "700",
+		color: "#F59E0B",
 	},
 });
