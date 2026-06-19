@@ -1,21 +1,19 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { Button } from "react-native-paper";
 
+import { useCampRating } from "../../hooks/useCampRating";
 import StarRating from "./StarRating";
 
-const CampRatingCard = ({
-	rating,
-	onChangeRating,
-	onSubmit,
-	averageRating,
-	ratingCount,
-}) => {
+const CampRatingCard = ({ campId, myRating, averageRating, ratingCount }) => {
+	const { selectedRating, setSelectedRating, handleRate, loading } =
+		useCampRating(campId, myRating);
+
 	return (
 		<View style={styles.card}>
 			<Text style={styles.title}>Kampı Değerlendir</Text>
 
-			<StarRating rating={rating} onChange={onChangeRating} />
+			<StarRating rating={selectedRating} onChange={setSelectedRating} />
 
 			<Text style={styles.average}>Ortalama Puan: {averageRating} ⭐</Text>
 
@@ -24,7 +22,9 @@ const CampRatingCard = ({
 			<Button
 				mode="contained"
 				buttonColor="#2E7D32"
-				onPress={onSubmit}
+				onPress={handleRate}
+				loading={loading}
+				disabled={loading}
 				style={styles.button}
 			>
 				Puan Ver
@@ -34,36 +34,3 @@ const CampRatingCard = ({
 };
 
 export default CampRatingCard;
-
-const styles = StyleSheet.create({
-	card: {
-		backgroundColor: "#fff",
-		borderRadius: 20,
-		padding: 20,
-		marginBottom: 20,
-	},
-
-	title: {
-		fontSize: 18,
-		fontWeight: "700",
-		textAlign: "center",
-		marginBottom: 15,
-	},
-
-	average: {
-		textAlign: "center",
-		marginTop: 15,
-		fontSize: 15,
-		fontWeight: "600",
-	},
-
-	count: {
-		textAlign: "center",
-		marginTop: 4,
-		color: "#666",
-	},
-
-	button: {
-		marginTop: 16,
-	},
-});
