@@ -29,7 +29,7 @@ const CampRatingCard = ({
 		}
 	};
 	const { selectedRating, setSelectedRating, handleRate, loading } =
-		useCampRating(campId, myRating, refreshCamp, onRated);
+		useCampRating(campId, myRating, refreshCamp );
 
 	return (
 		<View style={styles.card}>
