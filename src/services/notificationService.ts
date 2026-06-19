@@ -1,9 +1,11 @@
 import apiClient from "../api/apiClient";
+import { Notification } from "../types/Notification";
 
 export const getNotifications = async () => {
-	return await apiClient.get("/notification");
+	return await apiClient.get<{
+		data: Notification[];
+	}>("/notification");
 };
-
 export const getUnreadCount = async () => {
 	return await apiClient.get("/notification/unread-count");
 };
