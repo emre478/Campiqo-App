@@ -103,6 +103,21 @@ const CampDetailScreen = ({ route, navigation }) => {
 						onRated={loadCamp}
 					/>
 				)}
+				{(camp.isParticipant || camp.isOwner) && (
+					<Button
+						mode="contained"
+						buttonColor="#2E7D32"
+						style={styles.chatButton}
+						onPress={() =>
+							navigation.navigate("Chat", {
+								campId: camp.id,
+								campTitle: camp.title,
+							})
+						}
+					>
+						Sohbete Git
+					</Button>
+				)}
 				<CampActionButton
 					buttonConfig={buttonConfig}
 					onPress={handleJoin}
@@ -131,6 +146,11 @@ const styles = StyleSheet.create({
 		color: "#222",
 	},
 	requestButton: {
+		marginTop: 10,
+		marginBottom: 12,
+		borderRadius: 14,
+	},
+	chatButton: {
 		marginTop: 10,
 		marginBottom: 12,
 		borderRadius: 14,
