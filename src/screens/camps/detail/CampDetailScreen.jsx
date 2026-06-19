@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import CampActionButton from "../../../components/camps/CampActionButton";
@@ -12,18 +12,14 @@ import { useCampRating } from "../../../hooks/useCampRating";
 
 const CampDetailScreen = ({ route, navigation }) => {
 	const { camp } = route.params;
-	const [testRating, setTestRating] = useState(camp.myRating || 0);
 	const { isFavorited, handleFavorite, handleJoin, buttonConfig } =
 		useCampDetail(camp);
 	const {
-	selectedRating,
-	setSelectedRating,
-	handleRate,
-	loading: ratingLoading,
-} = useCampRating(
-	camp.id,
-	camp.myRating
-);
+		selectedRating,
+		setSelectedRating,
+		handleRate,
+		loading: ratingLoading,
+	} = useCampRating(camp.id, camp.myRating);
 
 	const imageSource = camp.imageUrl
 		? {
