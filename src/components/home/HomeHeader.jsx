@@ -1,8 +1,10 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useSelector } from "react-redux";
 
 const HomeHeader = () => {
+	const unreadCount = useSelector((state) => state.notification.unreadCount);
 	return (
 		<View style={styles.container}>
 			<View>
@@ -14,11 +16,21 @@ const HomeHeader = () => {
 			</View>
 
 			<TouchableOpacity>
-				<MaterialCommunityIcons
-					name="bell-outline"
-					size={28}
-					color="#2E7D32"
-				/>
+				<View style={styles.notificationContainer}>
+					<MaterialCommunityIcons
+						name="bell-outline"
+						size={28}
+						color="#2E7D32"
+					/>
+
+					{unreadCount > 0 && (
+						<View style={styles.badge}>
+							<Text style={styles.badgeText}>
+								{unreadCount > 99 ? "99+" : unreadCount}
+							</Text>
+						</View>
+					)}
+				</View>
 			</TouchableOpacity>
 		</View>
 	);
@@ -45,5 +57,32 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		color: "#777",
 		marginTop: 4,
+	},
+	notificationContainer: {
+		position: "relative",
+	},
+
+	badge: {
+		position: "absolute",
+		top: -6,
+		right: -8,
+
+		minWidth: 18,
+		height: 18,
+
+		borderRadius: 9,
+
+		backgroundColor: "#E53935",
+
+		justifyContent: "center",
+		alignItems: "center",
+
+		paddingHorizontal: 4,
+	},
+
+	badgeText: {
+		color: "#fff",
+		fontSize: 10,
+		fontWeight: "700",
 	},
 });
