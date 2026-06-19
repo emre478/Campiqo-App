@@ -5,11 +5,14 @@ import CampActionButton from "../../../components/camps/CampActionButton";
 import CampHeader from "../../../components/camps/CampHeader";
 import CampInfoCard from "../../../components/camps/CampInfoCard";
 import CampMetaInfo from "../../../components/camps/CampMetaInfo";
+import StarRating from "../../../components/camps/StarRating";
 import { SERVER_URL } from "../../../constants/apiConstants";
 import { useCampDetail } from "../../../hooks/useCampDetail";
+import { useState } from "react";
 
 const CampDetailScreen = ({ route, navigation }) => {
 	const { camp } = route.params;
+	const [testRating, setTestRating] = useState(camp.myRating || 0);
 	const { isFavorited, handleFavorite, handleJoin, buttonConfig } =
 		useCampDetail(camp);
 
@@ -69,6 +72,9 @@ const CampDetailScreen = ({ route, navigation }) => {
 					>
 						Katılım İsteklerini Gör
 					</Button>
+				)}
+				{camp.isCompleted && camp.isParticipant && (
+					<StarRating rating={testRating} onChange={setTestRating} />
 				)}
 				<CampActionButton
 					buttonConfig={buttonConfig}
