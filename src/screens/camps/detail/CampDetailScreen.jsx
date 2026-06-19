@@ -96,11 +96,11 @@ const CampDetailScreen = ({ route, navigation }) => {
 				)}
 				{camp.isCompleted && camp.isParticipant && (
 					<CampRatingCard
-						rating={selectedRating}
-						onChangeRating={setSelectedRating}
-						onSubmit={handleRate}
+						campId={camp.id}
+						myRating={camp.myRating}
 						averageRating={camp.averageRating}
 						ratingCount={camp.ratingCount}
+						onRated={loadCamp}
 					/>
 				)}
 				<CampActionButton

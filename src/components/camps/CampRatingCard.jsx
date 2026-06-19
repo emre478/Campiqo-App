@@ -1,11 +1,17 @@
 import React, { useState } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { useCampRating } from "../../hooks/useCampRating";
 import { getCampById } from "../../services/campService";
 import StarRating from "./StarRating";
 
-const CampRatingCard = ({ campId, myRating, averageRating, ratingCount }) => {
+const CampRatingCard = ({
+	campId,
+	myRating,
+	averageRating,
+	ratingCount,
+	onRated,
+}) => {
 	const [campData, setCampData] = useState({
 		averageRating,
 		ratingCount,
@@ -23,7 +29,7 @@ const CampRatingCard = ({ campId, myRating, averageRating, ratingCount }) => {
 		}
 	};
 	const { selectedRating, setSelectedRating, handleRate, loading } =
-		useCampRating(campId, myRating, refreshCamp);
+		useCampRating(campId, myRating, refreshCamp, onRated);
 
 	return (
 		<View style={styles.card}>
