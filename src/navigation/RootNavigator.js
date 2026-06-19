@@ -9,6 +9,7 @@ import EditProfileScreen from "../screens/profile/EditProfileScreen";
 import MyCreatedCampsScreen from "../screens/profile/MyCreatedCampsScreen";
 import MyJoinedCampsScreen from "../screens/profile/MyJoinedCampsScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
+import NotificationsScreen from "../screens/notifications/NotificationsScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -55,6 +56,11 @@ export default function RootNavigator() {
 				<Stack.Screen
 					name="CampJoinRequests"
 					component={CampJoinRequestsScreen}
+					options={{ headerShown: false }}
+				/>
+				<Stack.Screen
+					name="Notifications"
+					component={NotificationsScreen}
 					options={{ headerShown: false }}
 				/>
 			</Stack.Navigator>
