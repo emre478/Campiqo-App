@@ -70,16 +70,6 @@ const CampCard = ({ camp, onPress }) => {
 	};
 
 	const badge = getStatusBadge();
-	console.log(
-	"Camp:",
-	camp.title,
-	"completed:",
-	camp.isCompleted,
-	"rating:",
-	camp.averageRating,
-	"count:",
-	camp.ratingCount
-);
 
 	return (
 		<TouchableOpacity

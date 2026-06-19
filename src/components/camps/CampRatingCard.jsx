@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { useCampRating } from "../../hooks/useCampRating";
-import { getCampById } from "../../services/campService";
 import StarRating from "./StarRating";
 
 const CampRatingCard = ({
@@ -12,24 +11,13 @@ const CampRatingCard = ({
 	ratingCount,
 	onRated,
 }) => {
-	const [campData, setCampData] = useState({
-		averageRating,
-		ratingCount,
-	});
 	const refreshCamp = async () => {
-		try {
-			const response = await getCampById(campId);
-
-			setCampData({
-				averageRating: response.data.averageRating,
-				ratingCount: response.data.ratingCount,
-			});
-		} catch (error) {
-			console.log(error);
+		if (onRated) {
+			await onRated();
 		}
 	};
 	const { selectedRating, setSelectedRating, handleRate, loading } =
-		useCampRating(campId, myRating, refreshCamp );
+		useCampRating(campId, myRating, refreshCamp);
 
 	return (
 		<View style={styles.card}>
@@ -37,13 +25,9 @@ const CampRatingCard = ({
 
 			<StarRating rating={selectedRating} onChange={setSelectedRating} />
 
-			<Text style={styles.average}>
-				Ortalama Puan: {campData.averageRating} ⭐
-			</Text>
+			<Text style={styles.average}>Ortalama Puan: {averageRating} ⭐</Text>
 
-			<Text style={styles.count}>
-				Toplam Değerlendirme: {campData.ratingCount}
-			</Text>
+			<Text style={styles.count}>Toplam Değerlendirme: {ratingCount}</Text>
 
 			<Button
 				mode="contained"
