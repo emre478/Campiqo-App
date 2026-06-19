@@ -10,6 +10,7 @@ import MyCreatedCampsScreen from "../screens/profile/MyCreatedCampsScreen";
 import MyJoinedCampsScreen from "../screens/profile/MyJoinedCampsScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
 import NotificationsScreen from "../screens/notifications/NotificationsScreen";
+import ChatScreen from "../screens/chat/ChatScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -61,6 +62,11 @@ export default function RootNavigator() {
 				<Stack.Screen
 					name="Notifications"
 					component={NotificationsScreen}
+					options={{ headerShown: false }}
+				/>
+				<Stack.Screen
+					name="Chat"
+					component={ChatScreen}
 					options={{ headerShown: false }}
 				/>
 			</Stack.Navigator>
