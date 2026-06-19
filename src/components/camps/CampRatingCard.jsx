@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import { useCampRating } from "../../hooks/useCampRating";
+import { getCampById } from "../../services/campService";
 import StarRating from "./StarRating";
 
 const CampRatingCard = ({ campId, myRating, averageRating, ratingCount }) => {
@@ -9,20 +10,20 @@ const CampRatingCard = ({ campId, myRating, averageRating, ratingCount }) => {
 		averageRating,
 		ratingCount,
 	});
-	const { selectedRating, setSelectedRating, handleRate, loading } =
-		useCampRating(campId, myRating);
-		const refreshCamp = async () => {
-	try {
-		const response = await getCampById(campId);
+	const refreshCamp = async () => {
+		try {
+			const response = await getCampById(campId);
 
-		setCampData({
-			averageRating: response.data.averageRating,
-			ratingCount: response.data.ratingCount,
-		});
-	} catch (error) {
-		console.log(error);
-	}
-};
+			setCampData({
+				averageRating: response.data.averageRating,
+				ratingCount: response.data.ratingCount,
+			});
+		} catch (error) {
+			console.log(error);
+		}
+	};
+	const { selectedRating, setSelectedRating, handleRate, loading } =
+		useCampRating(campId, myRating, refreshCamp);
 
 	return (
 		<View style={styles.card}>
@@ -30,9 +31,13 @@ const CampRatingCard = ({ campId, myRating, averageRating, ratingCount }) => {
 
 			<StarRating rating={selectedRating} onChange={setSelectedRating} />
 
-			<Text style={styles.average}>Ortalama Puan: {averageRating} ⭐</Text>
+			<Text style={styles.average}>
+				Ortalama Puan: {campData.averageRating} ⭐
+			</Text>
 
-			<Text style={styles.count}>Toplam Değerlendirme: {ratingCount}</Text>
+			<Text style={styles.count}>
+				Toplam Değerlendirme: {campData.ratingCount}
+			</Text>
 
 			<Button
 				mode="contained"
@@ -49,3 +54,48 @@ const CampRatingCard = ({ campId, myRating, averageRating, ratingCount }) => {
 };
 
 export default CampRatingCard;
+
+const styles = StyleSheet.create({
+	card: {
+		backgroundColor: "#fff",
+		borderRadius: 20,
+		padding: 20,
+		marginTop: 12,
+		marginBottom: 12,
+
+		elevation: 4,
+
+		shadowColor: "#000",
+		shadowOpacity: 0.08,
+		shadowRadius: 8,
+		shadowOffset: {
+			width: 0,
+			height: 3,
+		},
+	},
+
+	title: {
+		fontSize: 18,
+		fontWeight: "700",
+		textAlign: "center",
+		marginBottom: 16,
+	},
+
+	average: {
+		textAlign: "center",
+		marginTop: 16,
+		fontSize: 15,
+		fontWeight: "600",
+	},
+
+	count: {
+		textAlign: "center",
+		marginTop: 4,
+		color: "#666",
+	},
+
+	button: {
+		marginTop: 16,
+		borderRadius: 12,
+	},
+});
