@@ -1,8 +1,11 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { getNotificationConfig } from "../../constants/notificationConstants";
 import { getTimeAgo } from "../../utils/dateUtils";
 
 const NotificationCard = ({ notification, onPress }) => {
+	const config = getNotificationConfig(notification.type);
 	return (
 		<TouchableOpacity
 			onPress={() => onPress(notification)}
@@ -11,10 +14,25 @@ const NotificationCard = ({ notification, onPress }) => {
 				notification.isRead ? styles.readCard : styles.unreadCard,
 			]}
 		>
-			<Text style={styles.title}>{notification.title}</Text>
+			<View style={styles.content}>
+				<View style={styles.iconContainer}>
+					<MaterialCommunityIcons
+						name={config.icon}
+						size={24}
+						color={config.color}
+					/>
+				</View>
 
-			<Text style={styles.message}>{notification.message}</Text>
-			<Text style={styles.time}>{getTimeAgo(notification.createdAt)}</Text>
+				<View style={styles.textContainer}>
+					<Text style={styles.title}>{notification.title}</Text>
+
+					<Text style={styles.message}>{notification.message}</Text>
+
+					<Text style={styles.time}>
+						{getTimeAgo(notification.createdAt)}
+					</Text>
+				</View>
+			</View>
 		</TouchableOpacity>
 	);
 };
@@ -51,5 +69,19 @@ const styles = StyleSheet.create({
 		marginTop: 10,
 		fontSize: 12,
 		color: "#999",
+	},
+	content: {
+		flexDirection: "row",
+		alignItems: "flex-start",
+	},
+
+	iconContainer: {
+		width: 40,
+		alignItems: "center",
+		paddingTop: 2,
+	},
+
+	textContainer: {
+		flex: 1,
 	},
 });
