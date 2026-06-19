@@ -4,6 +4,7 @@ import favoriteReducer from "./slices/favoriteSlice";
 import joinRequestReducer from "./slices/joinRequestSlice";
 import profileReducer from "./slices/profileSlice";
 import campReducer from "./slices/campSlice";
+import notificationReducer from "./slices/notificationSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     joinRequest: joinRequestReducer,
     profile: profileReducer,
     camp: campReducer,
+    notification: notificationReducer,
   },
 });
 
