@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 import CampActionButton from "../../../components/camps/CampActionButton";
@@ -9,9 +9,12 @@ import CampRatingCard from "../../../components/camps/CampRatingCard";
 import { SERVER_URL } from "../../../constants/apiConstants";
 import { useCampDetail } from "../../../hooks/useCampDetail";
 import { useCampRating } from "../../../hooks/useCampRating";
+import { getCampById } from "../../../services/campService";
 
 const CampDetailScreen = ({ route, navigation }) => {
-	const { camp } = route.params;
+	const { camp: initialCamp } = route.params;
+
+	const [camp, setCamp] = useState(initialCamp);
 	const { isFavorited, handleFavorite, handleJoin, buttonConfig } =
 		useCampDetail(camp);
 	const {
@@ -20,6 +23,19 @@ const CampDetailScreen = ({ route, navigation }) => {
 		handleRate,
 		loading: ratingLoading,
 	} = useCampRating(camp.id, camp.myRating);
+	useEffect(() => {
+		loadCamp();
+	}, []);
+
+	const loadCamp = async () => {
+		try {
+			const response = await getCampById(initialCamp.id);
+
+			setCamp(response.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	const imageSource = camp.imageUrl
 		? {
