@@ -31,3 +31,8 @@ export const createCamp = async (data: CreateCampRequest) => {
 	console.log(response.data);
 	return response.data;
 };
+export const getCampById = async (campId: string) => {
+	const response = await apiClient.get(`/Camp/${campId}`);
+
+	return response.data;
+};
