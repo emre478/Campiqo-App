@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { getTimeAgo } from "../../utils/dateUtils";
 
 const NotificationCard = ({ notification, onPress }) => {
 	return (
@@ -13,6 +14,7 @@ const NotificationCard = ({ notification, onPress }) => {
 			<Text style={styles.title}>{notification.title}</Text>
 
 			<Text style={styles.message}>{notification.message}</Text>
+			<Text style={styles.time}>{getTimeAgo(notification.createdAt)}</Text>
 		</TouchableOpacity>
 	);
 };
@@ -44,5 +46,10 @@ const styles = StyleSheet.create({
 
 	message: {
 		color: "#666",
+	},
+	time: {
+		marginTop: 10,
+		fontSize: 12,
+		color: "#999",
 	},
 });
