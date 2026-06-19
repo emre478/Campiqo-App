@@ -1,10 +1,12 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 
-const HomeHeader = () => {
+const HomeHeader = ({}) => {
 	const unreadCount = useSelector((state) => state.notification.unreadCount);
+	const navigation = useNavigation();
 	return (
 		<View style={styles.container}>
 			<View>
@@ -15,7 +17,7 @@ const HomeHeader = () => {
 				</Text>
 			</View>
 
-			<TouchableOpacity>
+			<TouchableOpacity onPress={() => navigation.navigate("Notifications")}>
 				<View style={styles.notificationContainer}>
 					<MaterialCommunityIcons
 						name="bell-outline"
