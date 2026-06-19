@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { getNotifications, markAsRead } from "../services/notificationService";
+import {
+	getNotifications,
+	markAsRead,
+	readAllNotifications,
+} from "../services/notificationService";
 
 import { setUnreadCount } from "../redux/slices/notificationSlice";
 
@@ -64,11 +68,27 @@ export const useNotifications = () => {
 			console.log(error);
 		}
 	};
+	const handleReadAll = async () => {
+		try {
+			await readAllNotifications();
 
+			setNotifications((prev) =>
+				prev.map((item) => ({
+					...item,
+					isRead: true,
+				}))
+			);
+
+			dispatch(setUnreadCount(0));
+		} catch (error) {
+			console.log(error);
+		}
+	};
 	return {
 		notifications,
 		loading,
 		loadNotifications,
 		handleNotificationPress,
+        handleReadAll,
 	};
 };
