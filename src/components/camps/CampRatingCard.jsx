@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import { useCampRating } from "../../hooks/useCampRating";
 import { getCampById } from "../../services/campService";
