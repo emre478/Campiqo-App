@@ -1,31 +1,23 @@
 import React from "react";
-import {
-	View,
-	Text,
-	Image,
-	StyleSheet,
-} from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const PopularCampCard = ({
-	title,
-	location,
-	date,
-	participants,
-	image,
-}) => {
+const PopularCampCard = ({ title, location, date, participants, image }) => {
 	return (
 		<View style={styles.card}>
 			<Image
-				source={{ uri: image }}
+				source={{
+					uri:
+						image && image !== "string"
+							? image
+							: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+				}}
 				style={styles.image}
 			/>
 
 			<View style={styles.content}>
-				<Text style={styles.title}>
-					{title}
-				</Text>
+				<Text style={styles.title}>{title}</Text>
 
 				<View style={styles.row}>
 					<MaterialCommunityIcons
@@ -34,21 +26,13 @@ const PopularCampCard = ({
 						color="#666"
 					/>
 
-					<Text style={styles.text}>
-						{location}
-					</Text>
+					<Text style={styles.text}>{location}</Text>
 				</View>
 
 				<View style={styles.row}>
-					<MaterialCommunityIcons
-						name="calendar"
-						size={16}
-						color="#666"
-					/>
+					<MaterialCommunityIcons name="calendar" size={16} color="#666" />
 
-					<Text style={styles.text}>
-						{date}
-					</Text>
+					<Text style={styles.text}>{date}</Text>
 				</View>
 
 				<View style={styles.row}>
@@ -58,9 +42,7 @@ const PopularCampCard = ({
 						color="#666"
 					/>
 
-					<Text style={styles.text}>
-						Katılım: {participants}
-					</Text>
+					<Text style={styles.text}>Katılım: {participants}</Text>
 				</View>
 			</View>
 		</View>
