@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, Text } from "react-native";
+import {
+	ActivityIndicator,
+	SafeAreaView,
+	ScrollView,
+	StyleSheet,
+	Text,
+} from "react-native";
 
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
@@ -29,13 +35,22 @@ const HomeScreen = () => {
 			console.log(error);
 		}
 	};
+
+	if (loading) {
+		return (
+			<SafeAreaView style={styles.loadingContainer}>
+				<ActivityIndicator size="large" color="#2E7D32" />
+
+				<Text style={styles.loadingText}>Kamplar yükleniyor...</Text>
+			</SafeAreaView>
+		);
+	}
 	return (
 		<SafeAreaView style={styles.container}>
 			<ScrollView showsVerticalScrollIndicator={false}>
 				<HomeHeader />
 
 				<SearchBar value={searchText} onChangeText={setSearchText} />
-
 				<Text style={styles.sectionTitle}>Yaklaşan Kamplar</Text>
 
 				<ScrollView
@@ -91,5 +106,15 @@ const styles = StyleSheet.create({
 	horizontalList: {
 		paddingLeft: 20,
 		paddingBottom: 10,
+	},
+	loadingContainer: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+	},
+
+	loadingText: {
+		marginTop: 12,
+		color: "#666",
 	},
 });
