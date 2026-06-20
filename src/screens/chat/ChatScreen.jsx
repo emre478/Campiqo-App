@@ -11,7 +11,8 @@ import ChatHeader from "../../components/chat/ChatHeader";
 import { useChat } from "../../hooks/useChat";
 
 const ChatScreen = ({ route }) => {
-	const { campId, campTitle } = route.params;
+	const { campId, campTitle, participantCount, maxParticipantCount } =
+		route.params;
 
 	const currentUserId = useSelector((state) => state.auth.user?.id);
 
@@ -19,7 +20,12 @@ const ChatScreen = ({ route }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<ChatHeader campTitle={campTitle} />
+			<ChatHeader
+				campTitle={campTitle}
+				participantCount={participantCount}
+				maxParticipantCount={maxParticipantCount}
+			/>
+
 			<View style={styles.content}>
 				<ChatMessageList
 					messages={messages}

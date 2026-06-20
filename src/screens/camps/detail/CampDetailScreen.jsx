@@ -112,6 +112,8 @@ const CampDetailScreen = ({ route, navigation }) => {
 							navigation.navigate("Chat", {
 								campId: camp.id,
 								campTitle: camp.title,
+								participantCount: camp.participantCount,
+								maxParticipantCount: camp.maxParticipantCount,
 							})
 						}
 					>
