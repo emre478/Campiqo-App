@@ -6,6 +6,7 @@ export const useHomeCamps = () => {
 	const [camps, setCamps] = useState<Camp[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [searchText, setSearchText] = useState("");
+    const [refreshing, setRefreshing] = useState(false);
 
 	useEffect(() => {
 		loadCamps();
@@ -62,6 +63,17 @@ export const useHomeCamps = () => {
 			.slice(0, 5);
 	}, [filteredCamps]);
 
+    const refreshCamps = async () => {
+	try {
+		setRefreshing(true);
+
+		await loadCamps();
+	}
+	finally {
+		setRefreshing(false);
+	}
+};
+
 	return {
 		loading,
 		searchText,
@@ -69,5 +81,7 @@ export const useHomeCamps = () => {
 		upcomingCamps,
 		popularCamps,
 		loadCamps,
+        refreshing,
+        refreshCamps,
 	};
 };

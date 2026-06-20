@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import {
 	ActivityIndicator,
+	RefreshControl,
 	SafeAreaView,
 	ScrollView,
 	StyleSheet,
@@ -19,8 +20,15 @@ import { getUnreadCount } from "../../services/notificationService";
 
 const HomeScreen = () => {
 	const navigation = useNavigation();
-	const { upcomingCamps, popularCamps, searchText, setSearchText, loading } =
-		useHomeCamps();
+	const {
+		upcomingCamps,
+		popularCamps,
+		searchText,
+		setSearchText,
+		loading,
+		refreshing,
+		refreshCamps,
+	} = useHomeCamps();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -47,7 +55,16 @@ const HomeScreen = () => {
 	}
 	return (
 		<SafeAreaView style={styles.container}>
-			<ScrollView showsVerticalScrollIndicator={false}>
+			<ScrollView
+				showsVerticalScrollIndicator={false}
+				refreshControl={
+					<RefreshControl
+						refreshing={refreshing}
+						onRefresh={refreshCamps}
+						colors={["#2E7D32"]}
+					/>
+				}
+			>
 				<HomeHeader />
 
 				<SearchBar value={searchText} onChangeText={setSearchText} />
