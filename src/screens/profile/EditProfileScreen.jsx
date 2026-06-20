@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { Button } from "react-native-paper";
 import { useDispatch } from "react-redux";
+import ProfileImagePicker from "../../components/profile/ProfileImagePicker";
 import { setProfile } from "../../redux/slices/profileSlice";
 import { getMyProfile, updateProfile } from "../../services/userService";
 
@@ -13,6 +14,7 @@ const EditProfileScreen = ({ navigation }) => {
 	const [bio, setBio] = useState("");
 	const [profileImageUrl, setProfileImageUrl] = useState("");
 	const [experienceLevel, setExperienceLevel] = useState(1);
+	const [profileImagePreview, setProfileImagePreview] = useState("");
 	const dispatch = useDispatch();
 
 	useEffect(() => {
@@ -30,6 +32,7 @@ const EditProfileScreen = ({ navigation }) => {
 			setBio(profile.bio || "");
 			setProfileImageUrl(profile.profileImageUrl || "");
 			setExperienceLevel(profile.experienceLevel || 1);
+			setProfileImagePreview(profile.profileImageUrl || "");
 		} catch (error) {
 			console.log(error);
 		}
@@ -58,6 +61,13 @@ const EditProfileScreen = ({ navigation }) => {
 	return (
 		<ScrollView style={styles.container}>
 			<Text style={styles.title}>Profili Düzenle</Text>
+			<ProfileImagePicker
+				imageUri={profileImagePreview}
+				onImageSelected={(localUri, serverUrl) => {
+					setProfileImagePreview(localUri);
+					setProfileImageUrl(serverUrl);
+				}}
+			/>
 
 			<TextInput
 				style={styles.input}
