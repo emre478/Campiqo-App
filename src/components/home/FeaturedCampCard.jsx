@@ -1,9 +1,9 @@
 import React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
-const FeaturedCampCard = ({ title, location, image }) => {
+const FeaturedCampCard = ({ title, location, image, onPress }) => {
 	return (
-		<View style={styles.card}>
+		<TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.9}>
 			<Image
 				source={{
 					uri:
@@ -19,7 +19,7 @@ const FeaturedCampCard = ({ title, location, image }) => {
 
 				<Text style={styles.location}>📍 {location}</Text>
 			</View>
-		</View>
+		</TouchableOpacity>
 	);
 };
 
