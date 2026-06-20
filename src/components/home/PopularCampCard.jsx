@@ -3,9 +3,13 @@ import { Image, StyleSheet, Text, View } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const PopularCampCard = ({ title, location, date, participants, image }) => {
+const PopularCampCard = ({ title, location, date, participants, image, onPress }) => {
 	return (
-		<View style={styles.card}>
+		<TouchableOpacity
+			style={styles.card}
+			onPress={onPress}
+			activeOpacity={0.9}
+		>
 			<Image
 				source={{
 					uri:
@@ -45,7 +49,7 @@ const PopularCampCard = ({ title, location, date, participants, image }) => {
 					<Text style={styles.text}>Katılım: {participants}</Text>
 				</View>
 			</View>
-		</View>
+		</TouchableOpacity>
 	);
 };
 
