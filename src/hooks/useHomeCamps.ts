@@ -17,7 +17,7 @@ export const useHomeCamps = () => {
 
 			const response = await getCamps();
 
-			setCamps(response.data.data);
+			setCamps(response.data.items || []);
 		} catch (error) {
 			console.log(error);
 		} finally {
