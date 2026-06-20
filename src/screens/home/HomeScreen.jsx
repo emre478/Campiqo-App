@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, Text } from "react-native";
 
+import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import FeaturedCampCard from "../../components/home/FeaturedCampCard";
 import HomeHeader from "../../components/home/HomeHeader";
@@ -11,6 +12,7 @@ import { setUnreadCount } from "../../redux/slices/notificationSlice";
 import { getUnreadCount } from "../../services/notificationService";
 
 const HomeScreen = () => {
+	const navigation = useNavigation();
 	const { upcomingCamps, popularCamps, searchText, setSearchText, loading } =
 		useHomeCamps();
 	const dispatch = useDispatch();
@@ -47,6 +49,7 @@ const HomeScreen = () => {
 							title={camp.title}
 							location={camp.location}
 							image={camp.imageUrl}
+							onPress={() => navigation.navigate("CampDetail", { camp })}
 						/>
 					))}
 				</ScrollView>
@@ -60,6 +63,7 @@ const HomeScreen = () => {
 						date={new Date(camp.startDate).toLocaleDateString("tr-TR")}
 						participants={`${camp.participantCount}/${camp.maxParticipantCount}`}
 						image={camp.imageUrl}
+						onPress={() => navigation.navigate("CampDetail", { camp })}
 					/>
 				))}
 			</ScrollView>
