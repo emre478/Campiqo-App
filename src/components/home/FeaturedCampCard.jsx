@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
 const FeaturedCampCard = ({ title, location, image, onPress }) => {
 	return (
