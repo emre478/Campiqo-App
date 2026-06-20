@@ -1,31 +1,23 @@
 import React from "react";
-import {
-	View,
-	Text,
-	Image,
-	StyleSheet,
-} from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
-const FeaturedCampCard = ({
-	title,
-	location,
-	image,
-}) => {
+const FeaturedCampCard = ({ title, location, image }) => {
 	return (
 		<View style={styles.card}>
 			<Image
-				source={{ uri: image }}
+				source={{
+					uri:
+						image && image !== "string"
+							? image
+							: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+				}}
 				style={styles.image}
 			/>
 
 			<View style={styles.overlay}>
-				<Text style={styles.title}>
-					{title}
-				</Text>
+				<Text style={styles.title}>{title}</Text>
 
-				<Text style={styles.location}>
-					📍 {location}
-				</Text>
+				<Text style={styles.location}>📍 {location}</Text>
 			</View>
 		</View>
 	);
