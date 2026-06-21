@@ -10,8 +10,7 @@ import { useUserProfile } from "../../hooks/useUserProfile";
 const UserProfileScreen = ({ route, navigation }) => {
 	const { userId } = route.params;
 
-	const { profile, createdCamps, joinedCamps, loading } =
-		useUserProfile(userId);
+	const { profile, loading } = useUserProfile(userId);
 
 	if (loading || !profile) {
 		return null;
@@ -32,7 +31,6 @@ const UserProfileScreen = ({ route, navigation }) => {
 				onPress={() =>
 					navigation.navigate("UserCreatedCamps", {
 						userId,
-						title: `${profile.firstName} ${profile.lastName}`,
 					})
 				}
 			/>
@@ -43,7 +41,6 @@ const UserProfileScreen = ({ route, navigation }) => {
 				onPress={() =>
 					navigation.navigate("UserJoinedCamps", {
 						userId,
-						title: `${profile.firstName} ${profile.lastName}`,
 					})
 				}
 			/>
