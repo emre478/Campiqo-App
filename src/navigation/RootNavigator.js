@@ -5,12 +5,13 @@ import LoginScreen from "../screens/auth/LoginScreen";
 import RegisterScreen from "../screens/auth/RegisterScreen";
 import CampDetailScreen from "../screens/camps/detail/CampDetailScreen";
 import CampJoinRequestsScreen from "../screens/camps/request/CampJoinRequestsScreen";
+import ChatScreen from "../screens/chat/ChatScreen";
+import NotificationsScreen from "../screens/notifications/NotificationsScreen";
 import EditProfileScreen from "../screens/profile/EditProfileScreen";
 import MyCreatedCampsScreen from "../screens/profile/MyCreatedCampsScreen";
 import MyJoinedCampsScreen from "../screens/profile/MyJoinedCampsScreen";
+import UserProfileScreen from "../screens/profile/UserProfileScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
-import NotificationsScreen from "../screens/notifications/NotificationsScreen";
-import ChatScreen from "../screens/chat/ChatScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -67,6 +68,11 @@ export default function RootNavigator() {
 				<Stack.Screen
 					name="Chat"
 					component={ChatScreen}
+					options={{ headerShown: false }}
+				/>
+				<Stack.Screen
+					name="UserProfile"
+					component={UserProfileScreen}
 					options={{ headerShown: false }}
 				/>
 			</Stack.Navigator>
