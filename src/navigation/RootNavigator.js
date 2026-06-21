@@ -10,6 +10,8 @@ import NotificationsScreen from "../screens/notifications/NotificationsScreen";
 import EditProfileScreen from "../screens/profile/EditProfileScreen";
 import MyCreatedCampsScreen from "../screens/profile/MyCreatedCampsScreen";
 import MyJoinedCampsScreen from "../screens/profile/MyJoinedCampsScreen";
+import UserCreatedCampsScreen from "../screens/profile/UserCreatedCampsScreen";
+import UserJoinedCampsScreen from "../screens/profile/UserJoinedCampsScreen";
 import UserProfileScreen from "../screens/profile/UserProfileScreen";
 import BottomTabNavigator from "./BottomTabNavigator";
 
@@ -74,6 +76,15 @@ export default function RootNavigator() {
 					name="UserProfile"
 					component={UserProfileScreen}
 					options={{ headerShown: false }}
+				/>
+				<Stack.Screen
+					name="UserCreatedCamps"
+					component={UserCreatedCampsScreen}
+				/>
+
+				<Stack.Screen
+					name="UserJoinedCamps"
+					component={UserJoinedCampsScreen}
 				/>
 			</Stack.Navigator>
 		</NavigationContainer>
