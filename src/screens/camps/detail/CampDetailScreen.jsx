@@ -146,6 +146,11 @@ const CampDetailScreen = ({ route, navigation }) => {
 								key={comment.id}
 								comment={comment}
 								onDelete={handleDeleteComment}
+								onUserPress={(userId) =>
+									navigation.navigate("UserProfile", {
+										userId,
+									})
+								}
 							/>
 						))}
 					</View>
