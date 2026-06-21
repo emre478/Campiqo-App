@@ -1,11 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const CommentCard = ({ comment, onDelete }) => {
+const CommentCard = ({ comment, onDelete, onUserpress }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
-				<Text style={styles.name}>{comment.fullName}</Text>
+				<TouchableOpacity onPress={() => onUserPress(comment.userId)}>
+					<Text style={styles.name}>{comment.fullName}</Text>
+				</TouchableOpacity>
 
 				{comment.isOwner && (
 					<TouchableOpacity onPress={() => onDelete(comment.id)}>
