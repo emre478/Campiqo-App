@@ -161,5 +161,11 @@ export const useCampDetail = (camp: Camp) => {
 		handleFavorite,
 		handleJoin,
 		buttonConfig,
+		comments,
+		commentText,
+		setCommentText,
+		handleAddComment,
+		handleDeleteComment,
+		commentsLoading,
 	};
 };

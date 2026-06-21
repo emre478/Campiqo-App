@@ -6,6 +6,8 @@ import CampHeader from "../../../components/camps/CampHeader";
 import CampInfoCard from "../../../components/camps/CampInfoCard";
 import CampMetaInfo from "../../../components/camps/CampMetaInfo";
 import CampRatingCard from "../../../components/camps/CampRatingCard";
+import CommentCard from "../../../components/comments/CommentCard";
+import CommentInput from "../../../components/comments/CommentInput";
 import { SERVER_URL } from "../../../constants/apiConstants";
 import { useCampDetail } from "../../../hooks/useCampDetail";
 import { useCampRating } from "../../../hooks/useCampRating";
@@ -15,8 +17,17 @@ const CampDetailScreen = ({ route, navigation }) => {
 	const { camp: initialCamp } = route.params;
 
 	const [camp, setCamp] = useState(initialCamp);
-	const { isFavorited, handleFavorite, handleJoin, buttonConfig } =
-		useCampDetail(camp);
+	const {
+		isFavorited,
+		handleFavorite,
+		handleJoin,
+		buttonConfig,
+		comments,
+		commentText,
+		setCommentText,
+		handleAddComment,
+		handleDeleteComment,
+	} = useCampDetail(camp);
 	const {
 		selectedRating,
 		setSelectedRating,
@@ -120,6 +131,25 @@ const CampDetailScreen = ({ route, navigation }) => {
 						Sohbete Git
 					</Button>
 				)}
+				{camp.isCompleted && (
+					<View style={styles.commentSection}>
+						<Text style={styles.commentTitle}>Yorumlar</Text>
+
+						<CommentInput
+							value={commentText}
+							onChangeText={setCommentText}
+							onSubmit={handleAddComment}
+						/>
+
+						{comments.map((comment) => (
+							<CommentCard
+								key={comment.id}
+								comment={comment}
+								onDelete={handleDeleteComment}
+							/>
+						))}
+					</View>
+				)}
 				<CampActionButton
 					buttonConfig={buttonConfig}
 					onPress={handleJoin}
@@ -156,5 +186,15 @@ const styles = StyleSheet.create({
 		marginTop: 10,
 		marginBottom: 12,
 		borderRadius: 14,
+	},
+	commentSection: {
+		marginTop: 20,
+	},
+
+	commentTitle: {
+		fontSize: 22,
+		fontWeight: "700",
+		marginBottom: 16,
+		color: "#222",
 	},
 });
