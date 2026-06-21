@@ -8,4 +8,6 @@ export interface UserProfile {
 	profileImageUrl: string;
 	experienceLevel: number;
 	experienceLevelName: string;
+	createdCampCount: number;
+	joinedCampCount: number;
 }
