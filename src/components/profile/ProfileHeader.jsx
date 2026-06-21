@@ -14,7 +14,7 @@ const ProfileHeader = ({ profile }) => {
 				{profile?.firstName} {profile?.lastName}
 			</Text>
 
-			<Text style={styles.email}>{profile?.email}</Text>
+			{profile?.email && <Text style={styles.email}>{profile.email}</Text>}
 
 			<View style={styles.badge}>
 				<Text style={styles.badgeText}>{profile?.experienceLevelName}</Text>
