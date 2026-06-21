@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
 	ActivityIndicator,
 	FlatList,
@@ -8,30 +8,11 @@ import {
 } from "react-native";
 
 import CampCard from "../../components/camps/CampCard";
-import { getUserCreatedCamps } from "../../services/userProfileService";
+import { useUserCreatedCamps } from "../../hooks/useUserCreatedCamps";
 
-const MyCreatedCampsScreen = ({ navigation }) => {
-    const { userId } = route.params;
-    const {
-	camps,
-	loading,
-} = useUserCreatedCamps(userId);
-
-	useEffect(() => {
-		loadCamps();
-	}, []);
-
-	const loadCamps = async () => {
-		try {
-			const response = await getUserCreatedCamps(userId);
-
-			setCamps(response.data || []);
-		} catch (error) {
-			console.log(error);
-		} finally {
-			setLoading(false);
-		}
-	};
+const UserCreatedCampsScreen = ({ navigation, route }) => {
+	const { userId } = route.params;
+	const { camps, loading } = useUserCreatedCamps(userId);
 
 	if (loading) {
 		return (
@@ -71,7 +52,7 @@ const MyCreatedCampsScreen = ({ navigation }) => {
 	);
 };
 
-export default MyCreatedCampsScreen;
+export default UserCreatedCampsScreen;
 
 const styles = StyleSheet.create({
 	container: {

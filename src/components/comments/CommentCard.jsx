@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const CommentCard = ({ comment, onDelete, onUserpress }) => {
+const CommentCard = ({ comment, onDelete, onUserPress }) => {
 	return (
 		<View style={styles.container}>
 			<View style={styles.header}>
