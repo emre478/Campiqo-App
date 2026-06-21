@@ -33,19 +33,14 @@ const MyJoinedCampsScreen = ({ navigation }) => {
 	if (loading) {
 		return (
 			<View style={styles.loadingContainer}>
-				<ActivityIndicator
-					size="large"
-					color="#2E7D32"
-				/>
+				<ActivityIndicator size="large" color="#2E7D32" />
 			</View>
 		);
 	}
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>
-				Katıldığım Kamplar
-			</Text>
+			<Text style={styles.title}>Katıldığım Kamplar</Text>
 
 			<FlatList
 				data={camps}
@@ -55,12 +50,9 @@ const MyJoinedCampsScreen = ({ navigation }) => {
 					<CampCard
 						camp={item}
 						onPress={() =>
-							navigation.navigate(
-								"CampDetail",
-								{
-									camp: item,
-								}
-							)
+							navigation.navigate("CampDetail", {
+								camp: item,
+							})
 						}
 					/>
 				)}
