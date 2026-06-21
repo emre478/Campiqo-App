@@ -20,4 +20,5 @@ export interface Camp {
 	statusName: string;
 	averageRating: number;
 	ratingCount: number;
+	isCompleted: boolean;
 }
