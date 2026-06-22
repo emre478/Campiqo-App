@@ -17,6 +17,15 @@ const CampDetailScreen = ({ route, navigation }) => {
 	const { camp: initialCamp } = route.params;
 
 	const [camp, setCamp] = useState(initialCamp);
+
+	useEffect(() => {
+		setCamp(initialCamp);
+	}, [initialCamp.id]);
+
+	useEffect(() => {
+		loadCamp();
+	}, [initialCamp.id]);
+
 	const {
 		isFavorited,
 		handleFavorite,
@@ -34,9 +43,6 @@ const CampDetailScreen = ({ route, navigation }) => {
 		handleRate,
 		loading: ratingLoading,
 	} = useCampRating(camp.id, camp.myRating);
-	useEffect(() => {
-		loadCamp();
-	}, []);
 
 	const loadCamp = async () => {
 		try {

@@ -25,10 +25,10 @@ export const useCampDetail = (camp: Camp) => {
 	const [commentsLoading, setCommentsLoading] = useState(false);
 
 	useEffect(() => {
-		if (camp.isCompleted) {
+		if (camp?.isCompleted) {
 			loadComments();
 		}
-	}, [camp.id]);
+	}, [camp.id, camp.isCompleted]);
 	const pendingCampIds = useSelector(
 		(state: any) => state.joinRequest.pendingCampIds
 	);
