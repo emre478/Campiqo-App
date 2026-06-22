@@ -108,34 +108,36 @@ export default HomeScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#102315",
+		backgroundColor: "#FAF8F2",
 	},
 
 	sectionTitle: {
-		fontSize: 28,
+		fontSize: 20,
 		fontWeight: "900",
-		color: "#F4F7EF",
-		marginTop: 30,
-		marginBottom: 18,
+		color: "#1F1F1F",
+		marginTop: 24,
+		marginBottom: 14,
 		paddingHorizontal: 20,
 	},
 
 	horizontalList: {
 		paddingLeft: 20,
 		paddingRight: 10,
-		paddingBottom: 10,
+		paddingBottom: 12,
 	},
+
 	loadingContainer: {
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-		backgroundColor: "#102315",
+		backgroundColor: "#FAF8F2",
 	},
 
 	loadingText: {
 		marginTop: 12,
-		color: "#AEBDAE",
+		color: "#777",
 	},
+
 	content: {
 		paddingBottom: 40,
 	},
