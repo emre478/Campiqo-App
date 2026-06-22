@@ -9,21 +9,6 @@ const CampInfoCard = ({ camp }) => {
 		<View style={styles.infoCard}>
 			<Text style={styles.mainTitle}>Hakkında</Text>
 
-			<View style={styles.infoRow}>
-				<View style={styles.infoBox}>
-					<Text style={styles.label}>Kategori</Text>
-
-					<Text style={styles.value}>
-						{selectedCategory?.icon} {selectedCategory?.name}
-					</Text>
-				</View>
-
-				<View style={styles.infoBox}>
-					<Text style={styles.label}>Oluşturan</Text>
-
-					<Text style={styles.value}>👤 {camp.ownerName}</Text>
-				</View>
-			</View>
 
 			<Text style={styles.descriptionTitle}>Açıklama</Text>
 
