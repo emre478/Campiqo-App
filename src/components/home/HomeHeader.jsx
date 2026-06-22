@@ -10,19 +10,17 @@ const HomeHeader = ({}) => {
 	return (
 		<View style={styles.container}>
 			<View>
-				<Text style={styles.greeting}>Merhaba Emre 👋</Text>
+				<Text style={styles.greeting}>Hoş Geldiniz 👋</Text>
 
-				<Text style={styles.subtitle}>
-					Bugün yeni bir kamp keşfetmeye ne dersin?
-				</Text>
+				<Text style={styles.subtitle}>Doğayı Keşfet</Text>
 			</View>
 
 			<TouchableOpacity onPress={() => navigation.navigate("Notifications")}>
 				<View style={styles.notificationContainer}>
 					<MaterialCommunityIcons
 						name="bell-outline"
-						size={28}
-						color="#CFE8D2"
+						size={26}
+						color="#222"
 					/>
 
 					{unreadCount > 0 && (
@@ -47,7 +45,6 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		paddingHorizontal: 20,
 		paddingTop: 65,
-		
 	},
 
 	greeting: {
@@ -61,14 +58,20 @@ const styles = StyleSheet.create({
 		marginTop: 6,
 	},
 	notificationContainer: {
-		width: 48,
-		height: 48,
-		borderRadius: 24,
-		backgroundColor: "#132617",
+		width: 50,
+		height: 50,
+		borderRadius: 25,
+		backgroundColor: "#FFFFFF",
 		justifyContent: "center",
 		alignItems: "center",
-		borderWidth: 1,
-		borderColor: "#203A25",
+		shadowColor: "#000",
+		shadowOpacity: 0.08,
+		shadowRadius: 8,
+		shadowOffset: {
+			width: 0,
+			height: 3,
+		},
+		elevation: 3,
 	},
 
 	badge: {
