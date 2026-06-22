@@ -3,6 +3,8 @@ import React from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 
 const SearchBar = ({ value, onChangeText }) => {
+	const { isDark } = useTheme();
+	const theme = isDark ? darkTheme : lightTheme;
 	return (
 		<View style={styles.container}>
 			<MaterialCommunityIcons

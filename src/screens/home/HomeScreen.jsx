@@ -15,7 +15,6 @@ import HomeCategorySection from "../../components/home/HomeCategorySection";
 import HomeEmptyState from "../../components/home/HomeEmptyState";
 import HomeHeader from "../../components/home/HomeHeader";
 import PopularCampCard from "../../components/home/PopularCampCard";
-import SearchBar from "../../components/home/SearchBar";
 import { useHomeCamps } from "../../hooks/useHomeCamps";
 import { setUnreadCount } from "../../redux/slices/notificationSlice";
 import { getUnreadCount } from "../../services/notificationService";
@@ -93,7 +92,21 @@ const HomeScreen = () => {
 			>
 				<HomeHeader isDark={isDark} />
 
-				<SearchBar value={searchText} onChangeText={setSearchText} />
+				<Searchbar
+					value={value}
+					onChangeText={onChangeText}
+					placeholder="Kamp alanı ara..."
+					style={{
+						marginHorizontal: 20,
+						marginTop: 20,
+						borderRadius: 18,
+						backgroundColor: theme.card,
+					}}
+					inputStyle={{
+						color: theme.text,
+					}}
+					placeholderTextColor={theme.subtitle}
+				/>
 				<HomeCategorySection
 					selectedCategory={selectedCategory}
 					onSelectCategory={setSelectedCategory}
