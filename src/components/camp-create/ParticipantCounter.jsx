@@ -11,7 +11,10 @@ const ParticipantCounter = ({ value, onChange }) => {
 				<Text style={styles.symbol}>-</Text>
 			</TouchableOpacity>
 
-			<Text style={styles.value}>{value}</Text>
+			<View style={styles.valueBox}>
+				<Text style={styles.value}>{value}</Text>
+				<Text style={styles.label}>kişi</Text>
+			</View>
 
 			<TouchableOpacity
 				style={styles.button}
@@ -30,27 +33,38 @@ const styles = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		justifyContent: "center",
+		marginTop: 4,
 	},
 
 	button: {
-		width: 42,
-		height: 42,
-		borderRadius: 21,
-		backgroundColor: "#2E7D32",
-
+		width: 46,
+		height: 46,
+		borderRadius: 23,
+		backgroundColor: "#4F8F5F",
 		alignItems: "center",
 		justifyContent: "center",
 	},
 
 	symbol: {
 		color: "#fff",
-		fontSize: 24,
-		fontWeight: "700",
+		fontSize: 25,
+		fontWeight: "800",
+	},
+
+	valueBox: {
+		minWidth: 90,
+		alignItems: "center",
 	},
 
 	value: {
-		fontSize: 22,
-		fontWeight: "700",
-		marginHorizontal: 20,
+		fontSize: 26,
+		fontWeight: "900",
+		color: "#F4F7EF",
+	},
+
+	label: {
+		fontSize: 12,
+		color: "#91A091",
+		marginTop: 2,
 	},
 });
