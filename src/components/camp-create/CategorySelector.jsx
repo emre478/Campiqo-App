@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
 import { CAMP_CATEGORIES } from "../../constants/campCategories";
 
 const CategorySelector = ({ selectedCategory, onSelect }) => {
@@ -16,8 +15,14 @@ const CategorySelector = ({ selectedCategory, onSelect }) => {
 					onPress={() => onSelect(item.id)}
 				>
 					<Text style={styles.icon}>{item.icon}</Text>
-
-					<Text style={styles.name}>{item.name}</Text>
+					<Text
+						style={[
+							styles.name,
+							selectedCategory === item.id && styles.selectedName,
+						]}
+					>
+						{item.name}
+					</Text>
 				</TouchableOpacity>
 			))}
 		</View>
@@ -35,16 +40,18 @@ const styles = StyleSheet.create({
 
 	card: {
 		width: "48%",
-		backgroundColor: "#fff",
+		backgroundColor: "#132617",
 		padding: 16,
-		borderRadius: 16,
+		borderRadius: 18,
 		marginBottom: 12,
 		alignItems: "center",
+		borderWidth: 1,
+		borderColor: "#203A25",
 	},
 
 	selectedCard: {
-		borderWidth: 2,
-		borderColor: "#2E7D32",
+		backgroundColor: "#1B3A22",
+		borderColor: "#5FA46B",
 	},
 
 	icon: {
@@ -53,6 +60,11 @@ const styles = StyleSheet.create({
 
 	name: {
 		marginTop: 8,
-		fontWeight: "600",
+		fontWeight: "700",
+		color: "#C5CEC4",
+	},
+
+	selectedName: {
+		color: "#F4F7EF",
 	},
 });
