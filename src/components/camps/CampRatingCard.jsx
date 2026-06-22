@@ -47,45 +47,40 @@ export default CampRatingCard;
 
 const styles = StyleSheet.create({
 	card: {
-		backgroundColor: "#fff",
-		borderRadius: 20,
+		backgroundColor: "#132617",
+		borderRadius: 22,
 		padding: 20,
-		marginTop: 12,
-		marginBottom: 12,
+		marginTop: 14,
+		marginBottom: 14,
 
-		elevation: 4,
-
-		shadowColor: "#000",
-		shadowOpacity: 0.08,
-		shadowRadius: 8,
-		shadowOffset: {
-			width: 0,
-			height: 3,
-		},
+		borderWidth: 1,
+		borderColor: "#203A25",
 	},
 
 	title: {
-		fontSize: 18,
-		fontWeight: "700",
+		fontSize: 20,
+		fontWeight: "800",
 		textAlign: "center",
-		marginBottom: 16,
+		color: "#F4F7EF",
+		marginBottom: 18,
 	},
 
 	average: {
 		textAlign: "center",
-		marginTop: 16,
-		fontSize: 15,
-		fontWeight: "600",
+		marginTop: 18,
+		fontSize: 18,
+		fontWeight: "800",
+		color: "#FFD34D",
 	},
 
 	count: {
 		textAlign: "center",
 		marginTop: 4,
-		color: "#666",
+		color: "#91A091",
 	},
 
 	button: {
-		marginTop: 16,
-		borderRadius: 12,
+		marginTop: 18,
+		borderRadius: 16,
 	},
 });
