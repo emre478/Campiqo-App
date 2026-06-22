@@ -11,10 +11,10 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import FeaturedCampCard from "../../components/home/FeaturedCampCard";
+import HomeCategorySection from "../../components/home/HomeCategorySection";
 import HomeHeader from "../../components/home/HomeHeader";
 import PopularCampCard from "../../components/home/PopularCampCard";
 import SearchBar from "../../components/home/SearchBar";
-import HomeCategorySection from "../../components/home/HomeCategorySection";
 import { useHomeCamps } from "../../hooks/useHomeCamps";
 import { setUnreadCount } from "../../redux/slices/notificationSlice";
 import { getUnreadCount } from "../../services/notificationService";
@@ -29,9 +29,11 @@ const HomeScreen = () => {
 		loading,
 		refreshing,
 		refreshCamps,
-	} = useHomeCamps();
+	} = useHomeCamps(selectedCategory);
+
 	const dispatch = useDispatch();
 	const [selectedCategory, setSelectedCategory] = useState(null);
+
 	useEffect(() => {
 		loadUnreadCount();
 	}, []);
@@ -83,6 +85,7 @@ const HomeScreen = () => {
 				>
 					{upcomingCamps.map((camp) => (
 						<FeaturedCampCard
+							key={camp.id}
 							title={camp.title}
 							location={camp.location}
 							image={camp.imageUrl}
