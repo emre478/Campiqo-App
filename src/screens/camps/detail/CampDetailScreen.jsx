@@ -8,6 +8,7 @@ import CampMetaInfo from "../../../components/camps/CampMetaInfo";
 import CampRatingCard from "../../../components/camps/CampRatingCard";
 import CommentCard from "../../../components/comments/CommentCard";
 import CommentInput from "../../../components/comments/CommentInput";
+import CampHeroCard from "../../../components/camps/CampHeroCard";
 import { SERVER_URL } from "../../../constants/apiConstants";
 import { useCampDetail } from "../../../hooks/useCampDetail";
 import { useCampRating } from "../../../hooks/useCampRating";
@@ -79,17 +80,20 @@ const CampDetailScreen = ({ route, navigation }) => {
 				onFavorite={handleFavorite}
 				onBack={() => navigation.goBack()}
 			/>
-
+			<CampHeroCard
+				title={camp.title}
+				location={camp.location}
+				averageRating={camp.averageRating || 0}
+				ratingCount={camp.ratingCount || 0}
+				formattedStartDate={formattedStartDate}
+				formattedEndDate={formattedEndDate}
+				participantCount={camp.participantCount}
+				maxParticipantCount={camp.maxParticipantCount}
+				category={camp.category}
+				ownerName={camp.ownerName}
+			/>
 			<View style={styles.content}>
-				<Text style={styles.title}>{camp.title}</Text>
 
-				<CampMetaInfo
-					location={camp.location}
-					formattedStartDate={formattedStartDate}
-					formattedEndDate={formattedEndDate}
-					participantCount={camp.participantCount}
-					maxParticipantCount={camp.maxParticipantCount}
-				/>
 
 				<CampInfoCard camp={camp} />
 				{camp.isOwner && (
