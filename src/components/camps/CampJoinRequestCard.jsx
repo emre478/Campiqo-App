@@ -29,27 +29,20 @@ export default CampJoinRequestCard;
 
 const styles = StyleSheet.create({
 	card: {
-		backgroundColor: "#fff",
-		padding: 16,
-		borderRadius: 16,
-		marginBottom: 12,
+		backgroundColor: "#132617",
+		padding: 18,
+		borderRadius: 20,
+		marginBottom: 14,
 
-		elevation: 3,
-
-		shadowColor: "#000",
-		shadowOpacity: 0.08,
-		shadowRadius: 6,
-		shadowOffset: {
-			width: 0,
-			height: 2,
-		},
+		borderWidth: 1,
+		borderColor: "#203A25",
 	},
 
 	name: {
-		fontSize: 16,
-		fontWeight: "600",
-		color: "#222",
-		marginBottom: 12,
+		fontSize: 17,
+		fontWeight: "700",
+		color: "#F4F7EF",
+		marginBottom: 14,
 	},
 
 	buttonContainer: {
@@ -59,22 +52,22 @@ const styles = StyleSheet.create({
 
 	approveButton: {
 		flex: 1,
-		backgroundColor: "#2E7D32",
-		paddingVertical: 10,
-		borderRadius: 10,
+		backgroundColor: "#4F8F5F",
+		paddingVertical: 12,
+		borderRadius: 14,
 		alignItems: "center",
 	},
 
 	rejectButton: {
 		flex: 1,
-		backgroundColor: "#D32F2F",
-		paddingVertical: 10,
-		borderRadius: 10,
+		backgroundColor: "#8B2E2E",
+		paddingVertical: 12,
+		borderRadius: 14,
 		alignItems: "center",
 	},
 
 	buttonText: {
 		color: "#fff",
-		fontWeight: "700",
+		fontWeight: "800",
 	},
 });
