@@ -29,36 +29,43 @@ export default CommentCard;
 
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: "#fff",
-		borderRadius: 16,
-		padding: 14,
-		marginBottom: 12,
-	},
+		backgroundColor: "#132617",
 
+		borderRadius: 18,
+
+		padding: 16,
+
+		marginBottom: 12,
+
+		borderWidth: 1,
+		borderColor: "#203A25",
+	},
 	header: {
 		flexDirection: "row",
 		justifyContent: "space-between",
-		marginBottom: 8,
-	},
+		alignItems: "center",
 
+		marginBottom: 10,
+	},
 	name: {
-		fontWeight: "700",
+		fontWeight: "800",
 		fontSize: 15,
+		color: "#F4F7EF",
 	},
-
 	content: {
-		fontSize: 15,
-		color: "#333",
-		marginBottom: 8,
-	},
+		fontSize: 14,
+		lineHeight: 24,
 
+		color: "#C5CEC4",
+
+		marginBottom: 12,
+	},
 	date: {
 		fontSize: 12,
-		color: "#888",
+		color: "#91A091",
 	},
-
 	deleteText: {
-		color: "#D32F2F",
-		fontWeight: "600",
+		color: "#FF8A80",
+		fontWeight: "700",
 	},
 });
