@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
 		justifyContent: "center",
-		gap: 6,
+		gap: 8,
+		marginVertical: 6,
 	},
 });
