@@ -1,11 +1,15 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 const CampFilter = ({ selected, onChange }) => {
 	return (
-		<View style={styles.container}>
+		<ScrollView
+			horizontal
+			showsHorizontalScrollIndicator={false}
+			contentContainerStyle={styles.container}
+		>
 			<TouchableOpacity
-				style={[styles.tab, selected === "all" && styles.activeTab]}
+				style={[styles.chip, selected === "all" && styles.activeChip]}
 				onPress={() => onChange("all")}
 			>
 				<Text
@@ -16,7 +20,7 @@ const CampFilter = ({ selected, onChange }) => {
 			</TouchableOpacity>
 
 			<TouchableOpacity
-				style={[styles.tab, selected === "upcoming" && styles.activeTab]}
+				style={[styles.chip, selected === "upcoming" && styles.activeChip]}
 				onPress={() => onChange("upcoming")}
 			>
 				<Text
@@ -28,7 +32,7 @@ const CampFilter = ({ selected, onChange }) => {
 					Yaklaşan
 				</Text>
 			</TouchableOpacity>
-		</View>
+		</ScrollView>
 	);
 };
 
@@ -36,44 +40,39 @@ export default CampFilter;
 
 const styles = StyleSheet.create({
 	container: {
-		flexDirection: "row",
-		marginHorizontal: 20,
-		marginBottom: 20,
+		paddingBottom: 8,
+	},
+
+	chip: {
+		height: 42,
+
+		paddingHorizontal: 18,
+
+		borderRadius: 21,
 
 		backgroundColor: "#FFFFFF",
 
-		borderRadius: 18,
+		borderWidth: 1,
+		borderColor: "#CDEBD8",
 
-		padding: 5,
+		marginRight: 10,
 
-		shadowColor: "#000",
-		shadowOpacity: 0.06,
-		shadowRadius: 8,
-		shadowOffset: {
-			width: 0,
-			height: 3,
-		},
-
-		elevation: 3,
-	},
-
-	tab: {
-		flex: 1,
 		alignItems: "center",
-		paddingVertical: 10,
-		borderRadius: 10,
+		justifyContent: "center",
 	},
 
-	activeTab: {
-		backgroundColor: "#2E7D32",
+	activeChip: {
+		backgroundColor: "#35C759",
+		borderColor: "#35C759",
 	},
 
 	text: {
-		fontWeight: "600",
-		color: "#666",
+		fontSize: 13,
+		fontWeight: "700",
+		color: "#24523A",
 	},
 
 	activeText: {
-		color: "#fff",
+		color: "#FFFFFF",
 	},
 });
