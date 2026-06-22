@@ -47,7 +47,7 @@ const HomeScreen = () => {
 	if (loading) {
 		return (
 			<SafeAreaView style={styles.loadingContainer}>
-				<ActivityIndicator size="large" color="#2E7D32" />
+				<ActivityIndicator size="large" color="#F59E0B" />
 
 				<Text style={styles.loadingText}>Kamplar yükleniyor...</Text>
 			</SafeAreaView>
@@ -57,11 +57,12 @@ const HomeScreen = () => {
 		<SafeAreaView style={styles.container}>
 			<ScrollView
 				showsVerticalScrollIndicator={false}
+				contentContainerStyle={styles.content}
 				refreshControl={
 					<RefreshControl
 						refreshing={refreshing}
 						onRefresh={refreshCamps}
-						colors={["#2E7D32"]}
+						colors={["#F59E0B"]}
 					/>
 				}
 			>
