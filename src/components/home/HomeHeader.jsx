@@ -5,6 +5,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import { useTheme } from "../../theme/ThemeContext";
 
+
 const HomeHeader = ({}) => {
 	const unreadCount = useSelector((state) => state.notification.unreadCount);
 	const { isDark, toggleTheme } = useTheme();

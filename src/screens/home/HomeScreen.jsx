@@ -19,6 +19,8 @@ import SearchBar from "../../components/home/SearchBar";
 import { useHomeCamps } from "../../hooks/useHomeCamps";
 import { setUnreadCount } from "../../redux/slices/notificationSlice";
 import { getUnreadCount } from "../../services/notificationService";
+import { useTheme } from "../../theme/ThemeContext";
+import { darkTheme, lightTheme } from "../../theme/colors";
 
 const HomeScreen = () => {
 	const navigation = useNavigation();
@@ -35,7 +37,9 @@ const HomeScreen = () => {
 	} = useHomeCamps();
 
 	const dispatch = useDispatch();
+	const { isDark } = useTheme();
 
+	const theme = isDark ? darkTheme : lightTheme;
 	useEffect(() => {
 		loadUnreadCount();
 	}, []);
@@ -52,14 +56,30 @@ const HomeScreen = () => {
 	if (loading) {
 		return (
 			<SafeAreaView style={styles.loadingContainer}>
-				<ActivityIndicator size="large" color="#F59E0B" />
+				<ActivityIndicator size="large" color={theme.primary} />
 
-				<Text style={styles.loadingText}>Kamplar yükleniyor...</Text>
+				<Text
+					style={[
+						styles.loadingText,
+						{
+							color: theme.subtitle,
+						},
+					]}
+				>
+					Kamplar yükleniyor...
+				</Text>
 			</SafeAreaView>
 		);
 	}
 	return (
-		<SafeAreaView style={styles.container}>
+		<SafeAreaView
+			style={[
+				styles.container,
+				{
+					backgroundColor: theme.background,
+				},
+			]}
+		>
 			<ScrollView
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={styles.content}
@@ -71,14 +91,23 @@ const HomeScreen = () => {
 					/>
 				}
 			>
-				<HomeHeader />
+				<HomeHeader isDark={isDark} />
 
 				<SearchBar value={searchText} onChangeText={setSearchText} />
 				<HomeCategorySection
 					selectedCategory={selectedCategory}
 					onSelectCategory={setSelectedCategory}
 				/>
-				<Text style={styles.sectionTitle}>Yaklaşan Kamplar</Text>
+				<Text
+					style={[
+						styles.sectionTitle,
+						{
+							color: theme.text,
+						},
+					]}
+				>
+					Kategoriler
+				</Text>
 
 				{upcomingCamps.length === 0 ? (
 					<HomeEmptyState />
