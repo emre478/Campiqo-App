@@ -9,7 +9,7 @@ import {
 
 import { CAMP_CATEGORIES } from "../../constants/campCategories";
 
-const HomeCategorySection = () => {
+const HomeCategorySection = ({ selectedCategory, onSelectCategory }) => {
 	return (
 		<View style={styles.container}>
 			<Text style={styles.sectionTitle}>Kategoriler</Text>
@@ -22,12 +22,26 @@ const HomeCategorySection = () => {
 				{CAMP_CATEGORIES.map((item) => (
 					<TouchableOpacity
 						key={item.id}
-						style={styles.card}
 						activeOpacity={0.85}
+						onPress={() =>
+							onSelectCategory(
+								selectedCategory === item.id ? null : item.id
+							)
+						}
+						style={[
+							styles.card,
+							selectedCategory === item.id && styles.selectedCard,
+						]}
 					>
 						<Text style={styles.icon}>{item.icon}</Text>
 
-						<Text style={styles.title} numberOfLines={2}>
+						<Text
+							numberOfLines={2}
+							style={[
+								styles.title,
+								selectedCategory === item.id && styles.selectedTitle,
+							]}
+						>
 							{item.name}
 						</Text>
 					</TouchableOpacity>
@@ -90,5 +104,12 @@ const styles = StyleSheet.create({
 		fontWeight: "800",
 		color: "#333",
 		textAlign: "center",
+	},
+	selectedCard: {
+		backgroundColor: "#2E7D32",
+	},
+
+	selectedTitle: {
+		color: "#fff",
 	},
 });
