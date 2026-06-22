@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
 
 	email: {
 		fontSize: 15,
-		color: "#777",
+		color: "#D8E3D8",
 		marginTop: 6,
 	},
 
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
 	bio: {
 		marginTop: 10,
 		fontSize: 16,
-		color: "#444",
+		color: "#D8E3D8",
 		textAlign: "center",
 	},
 });
