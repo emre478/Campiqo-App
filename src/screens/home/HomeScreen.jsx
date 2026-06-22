@@ -106,7 +106,7 @@ const HomeScreen = () => {
 						},
 					]}
 				>
-					Kategoriler
+					Yaklaşan Kamplar
 				</Text>
 
 				{upcomingCamps.length === 0 ? (
