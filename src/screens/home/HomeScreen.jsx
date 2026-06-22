@@ -99,6 +99,7 @@ const HomeScreen = () => {
 						key={camp.id}
 						title={camp.title}
 						location={camp.location}
+						category={camp.category}
 						date={new Date(camp.startDate).toLocaleDateString("tr-TR")}
 						participants={`${camp.participantCount}/${camp.maxParticipantCount}`}
 						image={camp.imageUrl}

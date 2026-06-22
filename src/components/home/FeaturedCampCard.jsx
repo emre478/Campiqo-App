@@ -31,7 +31,6 @@ const FeaturedCampCard = ({
 				<Text style={styles.location}>📍 {location}</Text>
 
 				<View style={styles.statsRow}>
-					<Text style={styles.stat}>⭐ {rating || 0}</Text>
 
 					<Text style={styles.stat}>
 						👥 {participantCount}/{maxParticipantCount}
