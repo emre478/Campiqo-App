@@ -12,13 +12,15 @@ const CommentInput = ({ value, onChangeText, onSubmit }) => {
 		<View style={styles.container}>
 			<TextInput
 				style={styles.input}
-				placeholder="Yorum yaz..."
+				placeholder="Deneyimini paylaş..."
+				placeholderTextColor="#7F907F"
 				value={value}
 				onChangeText={onChangeText}
+				multiline
 			/>
 
 			<TouchableOpacity style={styles.button} onPress={onSubmit}>
-				<Text style={styles.buttonText}>Gönder</Text>
+				<Text style={styles.buttonText}>Yorumu Gönder</Text>
 			</TouchableOpacity>
 		</View>
 	);
@@ -30,23 +32,37 @@ const styles = StyleSheet.create({
 	container: {
 		marginBottom: 20,
 	},
-
 	input: {
-		backgroundColor: "#fff",
-		borderRadius: 16,
-		padding: 14,
-		marginBottom: 10,
-	},
+		backgroundColor: "#132617",
 
+		borderRadius: 18,
+
+		paddingHorizontal: 16,
+		paddingVertical: 14,
+
+		minHeight: 90,
+
+		color: "#F4F7EF",
+
+		borderWidth: 1,
+		borderColor: "#203A25",
+
+		textAlignVertical: "top",
+
+		marginBottom: 12,
+	},
 	button: {
-		backgroundColor: "#2E7D32",
-		padding: 14,
-		borderRadius: 14,
+		backgroundColor: "#4F8F5F",
+
+		paddingVertical: 14,
+
+		borderRadius: 16,
+
 		alignItems: "center",
 	},
-
 	buttonText: {
 		color: "#fff",
-		fontWeight: "700",
+		fontWeight: "800",
+		fontSize: 15,
 	},
 });
