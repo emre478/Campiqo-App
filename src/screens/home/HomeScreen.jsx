@@ -123,6 +123,8 @@ const HomeScreen = () => {
 								title={camp.title}
 								location={camp.location}
 								image={camp.imageUrl}
+								participantCount={camp.participantCount}
+								maxParticipantCount={camp.maxParticipantCount}
 								onPress={() =>
 									navigation.navigate("CampDetail", {
 										camp,
