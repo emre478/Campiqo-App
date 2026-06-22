@@ -9,6 +9,7 @@ const PopularCampCard = ({
 	date,
 	participants,
 	image,
+	category,
 	onPress,
 }) => {
 	return (
@@ -28,32 +29,30 @@ const PopularCampCard = ({
 			/>
 
 			<View style={styles.content}>
-				<Text style={styles.title}>{title}</Text>
+				<View style={styles.topRow}>
+					<Text numberOfLines={2} style={styles.title}>
+						{title}
+					</Text>
+
+					<View style={styles.badge}>
+						<Text style={styles.badgeText}>{category || "Kamp"}</Text>
+					</View>
+				</View>
 
 				<View style={styles.row}>
 					<MaterialCommunityIcons
 						name="map-marker-outline"
 						size={16}
-						color="#7FB28A"
+						color="#F59E0B"
 					/>
 
 					<Text style={styles.text}>{location}</Text>
 				</View>
 
-				<View style={styles.row}>
-					<MaterialCommunityIcons name="calendar" size={16} color="#7FB28A" />
+				<View style={styles.infoRow}>
+					<Text style={styles.info}>👥 {participants}</Text>
 
-					<Text style={styles.text}>{date}</Text>
-				</View>
-
-				<View style={styles.row}>
-					<MaterialCommunityIcons
-						name="account-group-outline"
-						size={16}
-						color="#666"
-					/>
-
-					<Text style={styles.text}>Katılım: {participants}</Text>
+					<Text style={styles.info}>📅 {date}</Text>
 				</View>
 			</View>
 		</TouchableOpacity>
@@ -64,14 +63,26 @@ export default PopularCampCard;
 
 const styles = StyleSheet.create({
 	card: {
-		backgroundColor: "#132617",
-		borderRadius: 22,
+		backgroundColor: "#FFFFFF",
+
+		borderRadius: 24,
+
 		marginHorizontal: 20,
-		marginBottom: 14,
-		flexDirection: "row",
+		marginBottom: 16,
+
 		padding: 12,
-		borderWidth: 1,
-		borderColor: "#203A25",
+
+		flexDirection: "row",
+
+		shadowColor: "#000",
+		shadowOpacity: 0.08,
+		shadowRadius: 12,
+		shadowOffset: {
+			width: 0,
+			height: 4,
+		},
+
+		elevation: 4,
 	},
 
 	image: {
@@ -87,10 +98,13 @@ const styles = StyleSheet.create({
 	},
 
 	title: {
-		fontSize: 19,
-		fontWeight: "800",
-		color: "#F4F7EF",
-		marginBottom: 10,
+		flex: 1,
+
+		fontSize: 18,
+
+		fontWeight: "900",
+
+		color: "#1F1F1F",
 	},
 
 	row: {
@@ -102,5 +116,38 @@ const styles = StyleSheet.create({
 	text: {
 		marginLeft: 6,
 		color: "#AEBDAE",
+	},
+	topRow: {
+		flexDirection: "row",
+		alignItems: "flex-start",
+		justifyContent: "space-between",
+
+		marginBottom: 12,
+	},
+
+	badge: {
+		backgroundColor: "#FFF3D8",
+
+		paddingHorizontal: 10,
+		paddingVertical: 5,
+
+		borderRadius: 12,
+	},
+
+	badgeText: {
+		color: "#D97706",
+		fontWeight: "700",
+		fontSize: 11,
+	},
+
+	infoRow: {
+		flexDirection: "row",
+		marginTop: 10,
+	},
+
+	info: {
+		marginRight: 14,
+		color: "#555",
+		fontWeight: "600",
 	},
 });
