@@ -81,7 +81,11 @@ const CampCard = ({ camp, onPress }) => {
 
 			<View style={styles.content}>
 				<View style={styles.header}>
-					<Text numberOfLines={2} style={styles.title}>
+					<Text
+						numberOfLines={2}
+						ellipsizeMode="tail"
+						style={styles.title}
+					>
 						{camp.title}
 					</Text>
 
@@ -89,39 +93,42 @@ const CampCard = ({ camp, onPress }) => {
 						<View
 							style={[
 								styles.statusBadge,
-								{ backgroundColor: badge.color },
+								{
+									backgroundColor: badge.color,
+								},
 							]}
 						>
 							<Text
-								style={[styles.statusText, { color: badge.textColor }]}
+								style={[
+									styles.statusText,
+									{
+										color: badge.textColor,
+									},
+								]}
 							>
 								{badge.text}
 							</Text>
 						</View>
 					)}
 				</View>
-				{camp.isCompleted && camp.ratingCount > 0 && (
-					<View style={styles.ratingContainer}>
-						<Text style={styles.ratingText}>
-							⭐ {camp.averageRating.toFixed(1)} ({camp.ratingCount})
-						</Text>
-					</View>
-				)}
+
 				<View style={styles.infoRow}>
 					<MaterialCommunityIcons
 						name="map-marker-outline"
 						size={18}
-						color="#666"
+						color="#8FA295"
 					/>
 
-					<Text style={styles.infoText}>{camp.location}</Text>
+					<Text numberOfLines={1} style={styles.infoText}>
+						{camp.location}
+					</Text>
 				</View>
 
 				<View style={styles.infoRow}>
 					<MaterialCommunityIcons
 						name="calendar-month-outline"
 						size={18}
-						color="#666"
+						color="#8FA295"
 					/>
 
 					<Text style={styles.infoText}>{formattedDate}</Text>
@@ -131,7 +138,7 @@ const CampCard = ({ camp, onPress }) => {
 					<MaterialCommunityIcons
 						name="account-group-outline"
 						size={18}
-						color="#666"
+						color="#8FA295"
 					/>
 
 					<Text style={styles.infoText}>
@@ -147,91 +154,91 @@ export default CampCard;
 
 const styles = StyleSheet.create({
 	card: {
-		backgroundColor: "#0D1C10",
-
-		borderRadius: 24,
-
-		marginHorizontal: 16,
-		marginBottom: 16,
-
-		padding: 12,
+		backgroundColor: "#0F2415",
 
 		flexDirection: "row",
 
+		marginHorizontal: 20,
+		marginBottom: 18,
+
+		padding: 14,
+
+		borderRadius: 30,
+
 		borderWidth: 1,
-		borderColor: "#1C3320",
+		borderColor: "#1F3A27",
+
+		shadowColor: "#000",
+		shadowOpacity: 0.12,
+		shadowRadius: 12,
+		shadowOffset: {
+			width: 0,
+			height: 6,
+		},
+
+		elevation: 6,
 	},
 
 	image: {
 		width: 120,
 		height: 120,
-		borderRadius: 18,
+
+		borderRadius: 22,
 	},
+
 	content: {
 		flex: 1,
 		marginLeft: 14,
+
 		justifyContent: "center",
 	},
 
 	header: {
 		flexDirection: "row",
-		justifyContent: "space-between",
 		alignItems: "flex-start",
-		marginBottom: 10,
+
+		marginBottom: 12,
 	},
 
 	title: {
 		flex: 1,
 
-		fontSize: 18,
-
-		fontWeight: "800",
+		fontSize: 20,
+		fontWeight: "900",
 
 		color: "#F4F7EF",
 
-		marginRight: 10,
+		paddingRight: 8,
+	},
+
+	statusBadge: {
+		paddingHorizontal: 10,
+		paddingVertical: 6,
+
+		borderRadius: 12,
+
+		alignSelf: "flex-start",
+	},
+
+	statusText: {
+		fontSize: 11,
+		fontWeight: "800",
 	},
 
 	infoRow: {
 		flexDirection: "row",
 		alignItems: "center",
-		marginBottom: 6,
-	},
 
-	infoText: {
-		marginLeft: 6,
-		fontSize: 13,
-		color: "#AAB8AA",
-	},
-	pendingBadge: {
-		backgroundColor: "#FFF3E0",
-		paddingHorizontal: 10,
-		paddingVertical: 4,
-		borderRadius: 10,
-	},
-
-	pendingText: {
-		color: "#EF6C00",
-		fontSize: 12,
-		fontWeight: "700",
-	},
-	statusBadge: {
-		paddingHorizontal: 10,
-		paddingVertical: 5,
-		borderRadius: 12,
-	},
-
-	statusText: {
-		fontSize: 12,
-		fontWeight: "700",
-	},
-	ratingContainer: {
 		marginBottom: 8,
 	},
 
-	ratingText: {
-		fontSize: 13,
-		fontWeight: "800",
-		color: "#FFD34D",
+	infoText: {
+		marginLeft: 8,
+
+		fontSize: 14,
+
+		color: "#B6C1B7",
+
+		flexShrink: 1,
 	},
 });
