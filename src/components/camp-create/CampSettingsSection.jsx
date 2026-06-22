@@ -16,14 +16,7 @@ const CampSettingsSection = ({
 
 			<CategorySelector selectedCategory={category} onSelect={setCategory} />
 
-			<Text
-				style={[
-					styles.sectionTitle,
-					{
-						marginTop: 20,
-					},
-				]}
-			>
+			<Text style={[styles.sectionTitle, { marginTop: 22 }]}>
 				Maksimum Katılımcı
 			</Text>
 
@@ -39,25 +32,18 @@ export default CampSettingsSection;
 
 const styles = StyleSheet.create({
 	sectionCard: {
-		backgroundColor: "#fff",
-		borderRadius: 20,
+		backgroundColor: "#0D1C10",
+		borderRadius: 24,
 		padding: 18,
 		marginBottom: 18,
-
-		elevation: 4,
-
-		shadowColor: "#000",
-		shadowOpacity: 0.06,
-		shadowRadius: 8,
-		shadowOffset: {
-			width: 0,
-			height: 3,
-		},
+		borderWidth: 1,
+		borderColor: "#1C3320",
 	},
 
 	sectionTitle: {
-		fontSize: 18,
-		fontWeight: "700",
-		color: "#222",
+		fontSize: 20,
+		fontWeight: "800",
+		color: "#F4F7EF",
+		marginBottom: 14,
 	},
 });

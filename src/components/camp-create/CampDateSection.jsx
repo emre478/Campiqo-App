@@ -25,7 +25,6 @@ const CampDateSection = ({
 					onPress={() => setShowStartPicker(true)}
 				>
 					<Text style={styles.dateLabel}>Başlangıç</Text>
-
 					<Text style={styles.dateValue}>
 						{startDate.toLocaleDateString("tr-TR")}
 					</Text>
@@ -36,7 +35,6 @@ const CampDateSection = ({
 					onPress={() => setShowEndPicker(true)}
 				>
 					<Text style={styles.dateLabel}>Bitiş</Text>
-
 					<Text style={styles.dateValue}>
 						{endDate.toLocaleDateString("tr-TR")}
 					</Text>
@@ -51,6 +49,7 @@ const CampDateSection = ({
 				value={description}
 				onChangeText={setDescription}
 				placeholder="Kamp hakkında bilgi ver..."
+				placeholderTextColor="#7F907F"
 			/>
 		</View>
 	);
@@ -60,61 +59,58 @@ export default CampDateSection;
 
 const styles = StyleSheet.create({
 	sectionCard: {
-		backgroundColor: "#fff",
-		borderRadius: 20,
+		backgroundColor: "#0D1C10",
+		borderRadius: 24,
 		padding: 18,
 		marginBottom: 18,
-
-		elevation: 4,
-
-		shadowColor: "#000",
-		shadowOpacity: 0.06,
-		shadowRadius: 8,
-		shadowOffset: {
-			width: 0,
-			height: 3,
-		},
+		borderWidth: 1,
+		borderColor: "#1C3320",
 	},
 
 	sectionTitle: {
-		fontSize: 18,
-		fontWeight: "700",
-		color: "#222",
-		marginBottom: 12,
+		fontSize: 20,
+		fontWeight: "800",
+		color: "#F4F7EF",
+		marginBottom: 14,
 	},
 
 	dateContainer: {
 		flexDirection: "row",
 		gap: 12,
-		marginBottom: 20,
+		marginBottom: 22,
 	},
 
 	dateCard: {
 		flex: 1,
-		backgroundColor: "#F7F8FA",
+		backgroundColor: "#132617",
 		padding: 16,
-		borderRadius: 16,
+		borderRadius: 18,
+		borderWidth: 1,
+		borderColor: "#203A25",
 	},
 
 	dateLabel: {
-		fontSize: 14,
-		color: "#777",
+		fontSize: 13,
+		color: "#91A091",
 		marginBottom: 8,
 	},
 
 	dateValue: {
-		fontSize: 16,
-		fontWeight: "600",
-		color: "#222",
+		fontSize: 15,
+		fontWeight: "700",
+		color: "#F4F7EF",
 	},
 
 	descriptionInput: {
-		backgroundColor: "#F7F8FA",
-		borderRadius: 14,
+		backgroundColor: "#132617",
+		borderRadius: 16,
 		paddingHorizontal: 16,
 		paddingVertical: 14,
 		height: 120,
 		marginTop: 12,
 		textAlignVertical: "top",
+		color: "#F4F7EF",
+		borderWidth: 1,
+		borderColor: "#203A25",
 	},
 });
