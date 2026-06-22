@@ -22,7 +22,7 @@ const HomeHeader = ({}) => {
 					<MaterialCommunityIcons
 						name="bell-outline"
 						size={28}
-						color="#2E7D32"
+						color="#CFE8D2"
 					/>
 
 					{unreadCount > 0 && (
@@ -46,22 +46,28 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		alignItems: "center",
 		paddingHorizontal: 20,
-		paddingTop: 60,
+		paddingTop: 65,
 	},
 
 	greeting: {
-		fontSize: 26,
-		fontWeight: "700",
-		color: "#222",
+		fontSize: 32,
+		fontWeight: "900",
+		color: "#F4F7EF",
 	},
-
 	subtitle: {
 		fontSize: 14,
-		color: "#777",
-		marginTop: 4,
+		color: "#AEBDAE",
+		marginTop: 6,
 	},
 	notificationContainer: {
-		position: "relative",
+		width: 48,
+		height: 48,
+		borderRadius: 24,
+		backgroundColor: "#132617",
+		justifyContent: "center",
+		alignItems: "center",
+		borderWidth: 1,
+		borderColor: "#203A25",
 	},
 
 	badge: {
