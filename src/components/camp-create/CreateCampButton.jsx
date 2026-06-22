@@ -5,14 +5,19 @@ const CreateCampButton = ({ onPress }) => {
 	return (
 		<Button
 			mode="contained"
-			buttonColor="#2E7D32"
+			buttonColor="#4F8F5F"
+			textColor="#fff"
 			style={{
-				borderRadius: 16,
-				paddingVertical: 6,
+				borderRadius: 18,
+				paddingVertical: 7,
+			}}
+			labelStyle={{
+				fontSize: 15,
+				fontWeight: "800",
 			}}
 			onPress={onPress}
 		>
-			🚀 Kampı Oluştur
+			Kampı Oluştur
 		</Button>
 	);
 };

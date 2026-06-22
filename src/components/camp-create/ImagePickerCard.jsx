@@ -14,7 +14,6 @@ const ImagePickerCard = ({ imageUri, onImageSelected }) => {
 
 		if (!result.canceled) {
 			const uploadResponse = await uploadImage(result.assets[0].uri);
-
 			onImageSelected(result.assets[0].uri, uploadResponse.data.url);
 		}
 	};
@@ -27,6 +26,7 @@ const ImagePickerCard = ({ imageUri, onImageSelected }) => {
 				<View style={styles.placeholder}>
 					<Text style={styles.icon}>📷</Text>
 					<Text style={styles.text}>Kamp Fotoğrafı Seç</Text>
+					<Text style={styles.subText}>16:9 oranında görsel önerilir</Text>
 				</View>
 			)}
 		</TouchableOpacity>
@@ -38,10 +38,12 @@ export default ImagePickerCard;
 const styles = StyleSheet.create({
 	container: {
 		height: 220,
-		backgroundColor: "#fff",
-		borderRadius: 20,
+		backgroundColor: "#132617",
+		borderRadius: 22,
 		marginBottom: 20,
 		overflow: "hidden",
+		borderWidth: 1,
+		borderColor: "#203A25",
 	},
 
 	image: {
@@ -56,13 +58,19 @@ const styles = StyleSheet.create({
 	},
 
 	icon: {
-		fontSize: 40,
+		fontSize: 42,
 		marginBottom: 10,
 	},
 
 	text: {
 		fontSize: 16,
-		fontWeight: "600",
-		color: "#666",
+		fontWeight: "800",
+		color: "#F4F7EF",
+	},
+
+	subText: {
+		marginTop: 6,
+		fontSize: 12,
+		color: "#91A091",
 	},
 });
