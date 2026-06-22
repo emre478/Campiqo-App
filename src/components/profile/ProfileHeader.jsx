@@ -31,34 +31,19 @@ export default ProfileHeader;
 
 const styles = StyleSheet.create({
 	profileCard: {
-		backgroundColor: "#fff",
-		marginHorizontal: 20,
-		marginTop: 20,
-		padding: 28,
-		borderRadius: 28,
+		backgroundColor: "#2E6F37",
+		paddingTop: 50,
+		paddingBottom: 90,
+		borderBottomLeftRadius: 40,
+		borderBottomRightRadius: 40,
 		alignItems: "center",
-
-		elevation: 4,
-
-		shadowColor: "#000",
-		shadowOpacity: 0.08,
-		shadowRadius: 10,
-		shadowOffset: {
-			width: 0,
-			height: 4,
-		},
 	},
 
 	avatar: {
-		width: 110,
-		height: 110,
-		borderRadius: 55,
-		backgroundColor: "#2E7D32",
-
-		justifyContent: "center",
-		alignItems: "center",
-
-		marginBottom: 18,
+		width: 120,
+		height: 120,
+		borderRadius: 60,
+		backgroundColor: "#4F8F5F",
 	},
 
 	avatarText: {
@@ -69,8 +54,8 @@ const styles = StyleSheet.create({
 
 	name: {
 		fontSize: 32,
-		fontWeight: "700",
-		color: "#222",
+		fontWeight: "900",
+		color: "#fff",
 	},
 
 	email: {
@@ -80,11 +65,11 @@ const styles = StyleSheet.create({
 	},
 
 	badge: {
-		backgroundColor: "#E8F5E9",
-		paddingHorizontal: 16,
+		marginTop: 12,
+		backgroundColor: "rgba(255,255,255,0.15)",
+		borderRadius: 18,
+		paddingHorizontal: 14,
 		paddingVertical: 8,
-		borderRadius: 20,
-		marginTop: 16,
 	},
 
 	badgeText: {
@@ -93,9 +78,8 @@ const styles = StyleSheet.create({
 	},
 
 	city: {
-		marginTop: 16,
-		fontSize: 16,
-		color: "#666",
+		marginTop: 10,
+		color: "#DDE7DD",
 	},
 
 	bio: {
