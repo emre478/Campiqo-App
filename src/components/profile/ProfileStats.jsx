@@ -25,28 +25,19 @@ export default ProfileStats;
 
 const styles = StyleSheet.create({
 	statsCard: {
-		backgroundColor: "#fff",
-
+		marginTop: -50,
 		marginHorizontal: 20,
-		marginTop: 18,
 
-		paddingVertical: 24,
+		backgroundColor: "#132617",
 
-		borderRadius: 24,
+		borderRadius: 28,
+
+		paddingVertical: 28,
 
 		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "space-around",
 
-		elevation: 4,
-
-		shadowColor: "#000",
-		shadowOpacity: 0.08,
-		shadowRadius: 10,
-		shadowOffset: {
-			width: 0,
-			height: 4,
-		},
+		borderWidth: 1,
+		borderColor: "#203A25",
 	},
 
 	statItem: {
@@ -56,14 +47,12 @@ const styles = StyleSheet.create({
 
 	statNumber: {
 		fontSize: 34,
-		fontWeight: "700",
-		color: "#2E7D32",
+		fontWeight: "900",
+		color: "#fff",
 	},
 
 	statLabel: {
-		fontSize: 15,
-		color: "#666",
-		marginTop: 6,
+		color: "#AEBDAE",
 	},
 
 	divider: {
