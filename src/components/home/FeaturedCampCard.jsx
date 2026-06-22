@@ -1,9 +1,13 @@
 import React from "react";
-import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const FeaturedCampCard = ({ title, location, image, onPress }) => {
 	return (
-		<TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.9}>
+		<TouchableOpacity
+			style={styles.card}
+			onPress={onPress}
+			activeOpacity={0.9}
+		>
 			<Image
 				source={{
 					uri:
@@ -27,11 +31,11 @@ export default FeaturedCampCard;
 
 const styles = StyleSheet.create({
 	card: {
-		width: 260,
-		height: 170,
-		borderRadius: 20,
+		width: 310,
+		height: 220,
+		borderRadius: 28,
 		overflow: "hidden",
-		marginRight: 15,
+		marginRight: 16,
 	},
 
 	image: {
@@ -41,23 +45,22 @@ const styles = StyleSheet.create({
 
 	overlay: {
 		position: "absolute",
-		bottom: 0,
-		left: 0,
-		right: 0,
-
-		padding: 15,
-
-		backgroundColor: "rgba(0,0,0,0.4)",
+		left: 14,
+		right: 14,
+		bottom: 14,
+		padding: 16,
+		borderRadius: 20,
+		backgroundColor: "rgba(8,20,10,0.85)",
 	},
 
 	title: {
 		color: "#fff",
-		fontSize: 18,
-		fontWeight: "700",
+		fontSize: 22,
+		fontWeight: "900",
 	},
 
 	location: {
-		color: "#fff",
-		marginTop: 4,
+		color: "#AEBDAE",
+		marginTop: 6,
 	},
 });
