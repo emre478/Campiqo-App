@@ -2,11 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { getCamps } from "../services/campService";
 import { Camp } from "../types/Camp";
 
-export const useHomeCamps = () => {
+export const useHomeCamps = (selectedCategory?: number | null) => {
 	const [camps, setCamps] = useState<Camp[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [searchText, setSearchText] = useState("");
-    const [refreshing, setRefreshing] = useState(false);
+	const [refreshing, setRefreshing] = useState(false);
 
 	useEffect(() => {
 		loadCamps();
@@ -27,18 +27,24 @@ export const useHomeCamps = () => {
 	};
 
 	const filteredCamps = useMemo(() => {
-		if (!searchText.trim()) {
-			return camps;
+		let result = camps;
+
+		if (searchText.trim()) {
+			const value = searchText.toLowerCase();
+
+			result = result.filter(
+				(camp) =>
+					camp.title?.toLowerCase().includes(value) ||
+					camp.location?.toLowerCase().includes(value)
+			);
 		}
 
-		const value = searchText.toLowerCase();
+		if (selectedCategory) {
+			result = result.filter((camp) => camp.category === selectedCategory);
+		}
 
-		return camps.filter(
-			(camp) =>
-				camp.title?.toLowerCase().includes(value) ||
-				camp.location?.toLowerCase().includes(value)
-		);
-	}, [camps, searchText]);
+		return result;
+	}, [camps, searchText, selectedCategory]);
 
 	const upcomingCamps = useMemo(() => {
 		const now = new Date();
@@ -47,32 +53,26 @@ export const useHomeCamps = () => {
 			.filter((camp) => new Date(camp.startDate) >= now)
 			.sort(
 				(a, b) =>
-					new Date(a.startDate).getTime() -
-					new Date(b.startDate).getTime()
+					new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
 			)
 			.slice(0, 5);
 	}, [filteredCamps]);
 
 	const popularCamps = useMemo(() => {
 		return [...filteredCamps]
-			.sort(
-				(a, b) =>
-					(b.participantCount || 0) -
-					(a.participantCount || 0)
-			)
+			.sort((a, b) => (b.participantCount || 0) - (a.participantCount || 0))
 			.slice(0, 5);
 	}, [filteredCamps]);
 
-    const refreshCamps = async () => {
-	try {
-		setRefreshing(true);
+	const refreshCamps = async () => {
+		try {
+			setRefreshing(true);
 
-		await loadCamps();
-	}
-	finally {
-		setRefreshing(false);
-	}
-};
+			await loadCamps();
+		} finally {
+			setRefreshing(false);
+		}
+	};
 
 	return {
 		loading,
@@ -81,7 +81,7 @@ export const useHomeCamps = () => {
 		upcomingCamps,
 		popularCamps,
 		loadCamps,
-        refreshing,
-        refreshCamps,
+		refreshing,
+		refreshCamps,
 	};
 };
