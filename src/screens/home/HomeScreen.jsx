@@ -78,11 +78,17 @@ const HomeScreen = () => {
 				>
 					{upcomingCamps.map((camp) => (
 						<FeaturedCampCard
-							key={camp.id}
 							title={camp.title}
 							location={camp.location}
 							image={camp.imageUrl}
-							onPress={() => navigation.navigate("CampDetail", { camp })}
+							rating={camp.averageRating}
+							participantCount={camp.participantCount}
+							maxParticipantCount={camp.maxParticipantCount}
+							onPress={() =>
+								navigation.navigate("CampDetail", {
+									camp,
+								})
+							}
 						/>
 					))}
 				</ScrollView>
