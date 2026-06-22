@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
 	ActivityIndicator,
 	RefreshControl,
@@ -14,6 +14,7 @@ import FeaturedCampCard from "../../components/home/FeaturedCampCard";
 import HomeHeader from "../../components/home/HomeHeader";
 import PopularCampCard from "../../components/home/PopularCampCard";
 import SearchBar from "../../components/home/SearchBar";
+import HomeCategorySection from "../../components/home/HomeCategorySection";
 import { useHomeCamps } from "../../hooks/useHomeCamps";
 import { setUnreadCount } from "../../redux/slices/notificationSlice";
 import { getUnreadCount } from "../../services/notificationService";
@@ -30,7 +31,7 @@ const HomeScreen = () => {
 		refreshCamps,
 	} = useHomeCamps();
 	const dispatch = useDispatch();
-
+	const [selectedCategory, setSelectedCategory] = useState(null);
 	useEffect(() => {
 		loadUnreadCount();
 	}, []);
@@ -69,6 +70,10 @@ const HomeScreen = () => {
 				<HomeHeader />
 
 				<SearchBar value={searchText} onChangeText={setSearchText} />
+				<HomeCategorySection
+					selectedCategory={selectedCategory}
+					onSelectCategory={setSelectedCategory}
+				/>
 				<Text style={styles.sectionTitle}>Yaklaşan Kamplar</Text>
 
 				<ScrollView
