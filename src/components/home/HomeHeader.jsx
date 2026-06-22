@@ -50,11 +50,11 @@ const styles = StyleSheet.create({
 	greeting: {
 		fontSize: 32,
 		fontWeight: "900",
-		color: "#F4F7EF",
+		color: "#1c1c1c",
 	},
 	subtitle: {
 		fontSize: 14,
-		color: "#AEBDAE",
+		color: "#111311",
 		marginTop: 6,
 	},
 	notificationContainer: {
