@@ -1,21 +1,46 @@
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
-
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const CampHeader = ({ imageSource, isFavorited, onFavorite, onBack }) => {
+const CampHeader = ({
+	imageSource,
+	isFavorited,
+	onFavorite,
+	onBack,
+	categoryName,
+}) => {
 	return (
 		<View style={styles.imageContainer}>
 			<Image source={imageSource} style={styles.image} />
 
-			<TouchableOpacity style={styles.backButton} onPress={onBack}>
-				<MaterialCommunityIcons name="arrow-left" size={28} color="#fff" />
+			<LinearGradient
+				colors={["transparent", "rgba(7, 19, 11, 0.75)"]}
+				style={styles.gradient}
+			/>
+
+			{categoryName ? (
+				<View style={styles.categoryTag}>
+					<Text style={styles.categoryText}>{categoryName}</Text>
+				</View>
+			) : null}
+
+			<TouchableOpacity
+				style={styles.backButton}
+				onPress={onBack}
+				activeOpacity={0.85}
+			>
+				<MaterialCommunityIcons name="arrow-left" size={24} color="#FFFFFF" />
 			</TouchableOpacity>
 
-			<TouchableOpacity style={styles.favoriteButton} onPress={onFavorite}>
+			<TouchableOpacity
+				style={styles.favoriteButton}
+				onPress={onFavorite}
+				activeOpacity={0.85}
+			>
 				<MaterialCommunityIcons
 					name={isFavorited ? "heart" : "heart-outline"}
-					size={28}
+					size={22}
 					color={isFavorited ? "#E53935" : "#FFFFFF"}
 				/>
 			</TouchableOpacity>
@@ -26,73 +51,61 @@ const CampHeader = ({ imageSource, isFavorited, onFavorite, onBack }) => {
 export default CampHeader;
 
 const styles = StyleSheet.create({
-	image: {
-		width: "100%",
-		height: 320,
-	},
-
 	imageContainer: {
 		position: "relative",
-		borderBottomLeftRadius: 28,
-		borderBottomRightRadius: 28,
 		overflow: "hidden",
 	},
 
-	favoriteButton: {
-		position: "absolute",
-		top: 45,
-		right: 20,
-		width: 44,
-		height: 44,
-		borderRadius: 22,
-		backgroundColor: "rgba(0,0,0,0.35)",
-		justifyContent: "center",
-		alignItems: "center",
+	image: {
+		width: "100%",
+		height: 280,
 	},
 
-	backButton: {
+	gradient: {
 		position: "absolute",
-		top: 45,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		height: 120,
+	},
+
+	categoryTag: {
+		position: "absolute",
 		left: 20,
-		width: 44,
-		height: 44,
-		borderRadius: 22,
-		backgroundColor: "rgba(0,0,0,0.35)",
-		justifyContent: "center",
-		alignItems: "center",
-		zIndex: 10,
+		bottom: 52,
+		backgroundColor: "rgba(0, 0, 0, 0.55)",
+		paddingHorizontal: 12,
+		paddingVertical: 6,
+		borderRadius: 14,
 	},
-	overlay: {
-		...StyleSheet.absoluteFillObject,
-		backgroundColor: "rgba(0,0,0,0.22)",
+
+	categoryText: {
+		color: "#F4F7EF",
+		fontSize: 12,
+		fontWeight: "700",
 	},
+
 	backButton: {
 		position: "absolute",
-		top: 50,
-		left: 18,
-
-		width: 46,
-		height: 46,
-		borderRadius: 23,
-
-		backgroundColor: "rgba(0,0,0,0.38)",
-
+		top: 52,
+		left: 20,
+		width: 42,
+		height: 42,
+		borderRadius: 21,
+		backgroundColor: "rgba(0, 0, 0, 0.38)",
 		justifyContent: "center",
 		alignItems: "center",
-
 		zIndex: 10,
 	},
+
 	favoriteButton: {
 		position: "absolute",
-		top: 50,
-		right: 18,
-
-		width: 46,
-		height: 46,
-		borderRadius: 23,
-
-		backgroundColor: "rgba(0,0,0,0.38)",
-
+		top: 52,
+		right: 20,
+		width: 42,
+		height: 42,
+		borderRadius: 21,
+		backgroundColor: "rgba(0, 0, 0, 0.38)",
 		justifyContent: "center",
 		alignItems: "center",
 	},

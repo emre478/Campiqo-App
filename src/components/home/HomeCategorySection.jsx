@@ -6,64 +6,56 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { CAMP_CATEGORIES } from "../../constants/campCategories";
-import { useTheme } from "../../theme/ThemeContext";
-import { darkTheme, lightTheme } from "../../theme/colors";
+import CategoryIcon from "../common/CategoryIcon";
 
 const HomeCategorySection = ({ selectedCategory, onSelectCategory }) => {
-	const { isDark } = useTheme();
-
-	const theme = isDark ? darkTheme : lightTheme;
 	return (
 		<View style={styles.container}>
-			<Text style={[styles.sectionTitle, { color: theme.text }]}>
-				Kategoriler
-			</Text>
+			<View style={styles.sectionHeader}>
+				<MaterialCommunityIcons
+					name="shape-outline"
+					size={20}
+					color="#6DA878"
+				/>
+				<Text style={styles.sectionTitle}>Kategoriler</Text>
+			</View>
 
 			<ScrollView
 				horizontal
 				showsHorizontalScrollIndicator={false}
 				contentContainerStyle={styles.list}
 			>
-				{CAMP_CATEGORIES.map((item) => (
-					<TouchableOpacity
-						key={item.id}
-						activeOpacity={0.85}
-						onPress={() =>
-							onSelectCategory(
-								selectedCategory === item.id ? null : item.id
-							)
-						}
-						style={[
-							styles.card,
-							{
-								backgroundColor:
-									selectedCategory === item.id
-										? theme.primary
-										: theme.card,
-								borderColor: theme.border,
-							},
-						]}
-					>
-						<Text style={styles.icon}>{item.icon}</Text>
+				{CAMP_CATEGORIES.map((item) => {
+					const isSelected = selectedCategory === item.id;
 
-						<Text
-							numberOfLines={2}
-							style={[
-								styles.title,
-								{
-									color:
-										selectedCategory === item.id
-											? "#fff"
-											: theme.text,
-								},
-							]}
+					return (
+						<TouchableOpacity
+							key={item.id}
+							activeOpacity={0.85}
+							onPress={() =>
+								onSelectCategory(isSelected ? null : item.id)
+							}
+							style={[styles.card, isSelected && styles.selectedCard]}
 						>
-							{item.name}
-						</Text>
-					</TouchableOpacity>
-				))}
+							<CategoryIcon
+								name={item.icon}
+								size={26}
+								color={isSelected ? "#F4F7EF" : "#8DD69A"}
+								style={styles.categoryIcon}
+							/>
+
+							<Text
+								numberOfLines={2}
+								style={[styles.title, isSelected && styles.selectedTitle]}
+							>
+								{item.name}
+							</Text>
+						</TouchableOpacity>
+					);
+				})}
 			</ScrollView>
 		</View>
 	);
@@ -76,12 +68,18 @@ const styles = StyleSheet.create({
 		marginTop: 24,
 	},
 
-	sectionTitle: {
-		fontSize: 20,
-		fontWeight: "900",
-		color: "#1F1F1F",
+	sectionHeader: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 8,
 		marginBottom: 14,
 		paddingHorizontal: 20,
+	},
+
+	sectionTitle: {
+		fontSize: 18,
+		fontWeight: "800",
+		color: "#F4F7EF",
 	},
 
 	list: {
@@ -90,43 +88,35 @@ const styles = StyleSheet.create({
 	},
 
 	card: {
-		width: 100,
-		height: 100,
-		backgroundColor: "#FFFFFF",
+		width: 96,
+		height: 96,
+		backgroundColor: "#132617",
 		borderRadius: 22,
-		marginRight: 14,
-
+		borderWidth: 1,
+		borderColor: "#203A25",
+		marginRight: 12,
 		alignItems: "center",
 		justifyContent: "center",
-
 		paddingHorizontal: 8,
-
-		shadowColor: "#000",
-		shadowOpacity: 0.06,
-		shadowRadius: 10,
-		shadowOffset: {
-			width: 0,
-			height: 4,
-		},
-		elevation: 3,
 	},
 
-	icon: {
-		fontSize: 28,
+	selectedCard: {
+		backgroundColor: "#2E7D32",
+		borderColor: "#2E7D32",
+	},
+
+	categoryIcon: {
 		marginBottom: 8,
 	},
 
 	title: {
-		fontSize: 12,
+		fontSize: 11,
 		fontWeight: "800",
-		color: "#333",
+		color: "#C5CEC4",
 		textAlign: "center",
-	},
-	selectedCard: {
-		backgroundColor: "#2E7D32",
 	},
 
 	selectedTitle: {
-		color: "#fff",
+		color: "#F4F7EF",
 	},
 });

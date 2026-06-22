@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { Button } from "react-native-paper";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
 import { useCampRating } from "../../hooks/useCampRating";
 import StarRating from "./StarRating";
 
@@ -16,29 +17,39 @@ const CampRatingCard = ({
 			await onRated();
 		}
 	};
+
 	const { selectedRating, setSelectedRating, handleRate, loading } =
 		useCampRating(campId, myRating, refreshCamp);
 
 	return (
 		<View style={styles.card}>
-			<Text style={styles.title}>Kampı Değerlendir</Text>
+			<View style={styles.header}>
+				<MaterialCommunityIcons name="star-circle" size={22} color="#FFD34D" />
+				<Text style={styles.title}>Kampı Değerlendir</Text>
+			</View>
 
 			<StarRating rating={selectedRating} onChange={setSelectedRating} />
 
-			<Text style={styles.average}>Ortalama Puan: {averageRating} ⭐</Text>
+			<View style={styles.statsRow}>
+				<View style={styles.statPill}>
+					<MaterialCommunityIcons name="star" size={14} color="#FFD34D" />
+					<Text style={styles.statText}>
+						{averageRating?.toFixed(1) ?? "0.0"}
+					</Text>
+				</View>
+				<Text style={styles.count}>{ratingCount} değerlendirme</Text>
+			</View>
 
-			<Text style={styles.count}>Toplam Değerlendirme: {ratingCount}</Text>
-
-			<Button
-				mode="contained"
-				buttonColor="#2E7D32"
+			<TouchableOpacity
+				style={[styles.button, loading && styles.buttonDisabled]}
 				onPress={handleRate}
-				loading={loading}
 				disabled={loading}
-				style={styles.button}
+				activeOpacity={0.85}
 			>
-				Puan Ver
-			</Button>
+				<Text style={styles.buttonText}>
+					{loading ? "Gönderiliyor..." : "Puan Ver"}
+				</Text>
+			</TouchableOpacity>
 		</View>
 	);
 };
@@ -48,39 +59,72 @@ export default CampRatingCard;
 const styles = StyleSheet.create({
 	card: {
 		backgroundColor: "#132617",
-		borderRadius: 22,
-		padding: 20,
-		marginTop: 14,
-		marginBottom: 14,
-
+		borderRadius: 24,
+		padding: 18,
 		borderWidth: 1,
 		borderColor: "#203A25",
 	},
 
-	title: {
-		fontSize: 20,
-		fontWeight: "800",
-		textAlign: "center",
-		color: "#F4F7EF",
-		marginBottom: 18,
+	header: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		gap: 8,
+		marginBottom: 8,
 	},
 
-	average: {
-		textAlign: "center",
-		marginTop: 18,
+	title: {
 		fontSize: 18,
 		fontWeight: "800",
-		color: "#FFD34D",
+		color: "#F4F7EF",
+	},
+
+	statsRow: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		gap: 10,
+		marginTop: 12,
+	},
+
+	statPill: {
+		flexDirection: "row",
+		alignItems: "center",
+		backgroundColor: "#0D1C10",
+		paddingHorizontal: 10,
+		paddingVertical: 6,
+		borderRadius: 14,
+		gap: 4,
+	},
+
+	statText: {
+		fontSize: 13,
+		fontWeight: "800",
+		color: "#C5CEC4",
 	},
 
 	count: {
-		textAlign: "center",
-		marginTop: 4,
+		fontSize: 13,
 		color: "#91A091",
+		fontWeight: "600",
 	},
 
 	button: {
-		marginTop: 18,
-		borderRadius: 16,
+		marginTop: 16,
+		backgroundColor: "#2E7D32",
+		borderRadius: 18,
+		height: 52,
+		alignItems: "center",
+		justifyContent: "center",
+	},
+
+	buttonDisabled: {
+		opacity: 0.7,
+	},
+
+	buttonText: {
+		color: "#F4F7EF",
+		fontWeight: "800",
+		fontSize: 15,
 	},
 });

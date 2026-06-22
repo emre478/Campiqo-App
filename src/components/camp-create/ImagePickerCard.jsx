@@ -1,6 +1,7 @@
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { uploadImage } from "../../services/uploadService";
 
 const ImagePickerCard = ({ imageUri, onImageSelected }) => {
@@ -19,12 +20,32 @@ const ImagePickerCard = ({ imageUri, onImageSelected }) => {
 	};
 
 	return (
-		<TouchableOpacity style={styles.container} onPress={pickImage}>
+		<TouchableOpacity
+			style={styles.container}
+			onPress={pickImage}
+			activeOpacity={0.9}
+		>
 			{imageUri ? (
-				<Image source={{ uri: imageUri }} style={styles.image} />
+				<>
+					<Image source={{ uri: imageUri }} style={styles.image} />
+					<View style={styles.editBadge}>
+						<MaterialCommunityIcons
+							name="image-edit-outline"
+							size={16}
+							color="#F4F7EF"
+						/>
+						<Text style={styles.editText}>Değiştir</Text>
+					</View>
+				</>
 			) : (
 				<View style={styles.placeholder}>
-					<Text style={styles.icon}>📷</Text>
+					<View style={styles.iconCircle}>
+						<MaterialCommunityIcons
+							name="camera-plus-outline"
+							size={32}
+							color="#8DD69A"
+						/>
+					</View>
 					<Text style={styles.text}>Kamp Fotoğrafı Seç</Text>
 					<Text style={styles.subText}>16:9 oranında görsel önerilir</Text>
 				</View>
@@ -37,13 +58,14 @@ export default ImagePickerCard;
 
 const styles = StyleSheet.create({
 	container: {
-		height: 220,
-		backgroundColor: "#132617",
-		borderRadius: 22,
-		marginBottom: 20,
+		height: 200,
+		backgroundColor: "#0D1C10",
+		borderRadius: 20,
+		marginBottom: 4,
 		overflow: "hidden",
 		borderWidth: 1,
 		borderColor: "#203A25",
+		borderStyle: "dashed",
 	},
 
 	image: {
@@ -51,15 +73,42 @@ const styles = StyleSheet.create({
 		height: "100%",
 	},
 
+	editBadge: {
+		position: "absolute",
+		bottom: 12,
+		right: 12,
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 6,
+		backgroundColor: "rgba(0, 0, 0, 0.55)",
+		paddingHorizontal: 12,
+		paddingVertical: 8,
+		borderRadius: 14,
+	},
+
+	editText: {
+		color: "#F4F7EF",
+		fontSize: 12,
+		fontWeight: "700",
+	},
+
 	placeholder: {
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
+		paddingHorizontal: 20,
 	},
 
-	icon: {
-		fontSize: 42,
-		marginBottom: 10,
+	iconCircle: {
+		width: 64,
+		height: 64,
+		borderRadius: 32,
+		backgroundColor: "#132617",
+		borderWidth: 1,
+		borderColor: "#203A25",
+		alignItems: "center",
+		justifyContent: "center",
+		marginBottom: 12,
 	},
 
 	text: {
@@ -72,5 +121,6 @@ const styles = StyleSheet.create({
 		marginTop: 6,
 		fontSize: 12,
 		color: "#91A091",
+		fontWeight: "600",
 	},
 });

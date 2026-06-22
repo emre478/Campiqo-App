@@ -13,8 +13,8 @@ const StarRating = ({ rating, onChange, disabled = false }) => {
 				>
 					<MaterialCommunityIcons
 						name={star <= rating ? "star" : "star-outline"}
-						size={36}
-						color="#FFC107"
+						size={32}
+						color="#FFD34D"
 					/>
 				</TouchableOpacity>
 			))}

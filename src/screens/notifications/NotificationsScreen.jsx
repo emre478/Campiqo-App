@@ -1,19 +1,35 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import {
+	ActivityIndicator,
+	SafeAreaView,
+	StyleSheet,
+	View,
+} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import NotificationHeader from "../../components/notifications/NotificationHeader";
 import NotificationList from "../../components/notifications/NotificationList";
 import { useNotifications } from "../../hooks/useNotifications";
 
 const NotificationsScreen = () => {
-	const { notifications, handleNotificationPress, handleReadAll } =
+	const navigation = useNavigation();
+	const { notifications, loading, handleNotificationPress, handleReadAll } =
 		useNotifications();
 
 	const unreadCount = notifications.filter((x) => !x.isRead).length;
 
+	if (loading) {
+		return (
+			<View style={styles.loadingContainer}>
+				<ActivityIndicator size="large" color="#8DD69A" />
+			</View>
+		);
+	}
+
 	return (
-		<View style={styles.container}>
+		<SafeAreaView style={styles.container}>
 			<NotificationHeader
+				navigation={navigation}
 				unreadCount={unreadCount}
 				onReadAll={handleReadAll}
 			/>
@@ -22,7 +38,7 @@ const NotificationsScreen = () => {
 				notifications={notifications}
 				onNotificationPress={handleNotificationPress}
 			/>
-		</View>
+		</SafeAreaView>
 	);
 };
 
@@ -31,7 +47,14 @@ export default NotificationsScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#F5F5F5",
-		padding: 20,
+		backgroundColor: "#07130B",
+		paddingHorizontal: 20,
+	},
+
+	loadingContainer: {
+		flex: 1,
+		backgroundColor: "#07130B",
+		justifyContent: "center",
+		alignItems: "center",
 	},
 });

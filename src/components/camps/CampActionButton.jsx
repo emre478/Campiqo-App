@@ -1,24 +1,35 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const CampActionButton = ({ buttonConfig, onPress }) => {
 	return (
-		<Button
-			mode="contained"
-			buttonColor={buttonConfig.color}
-			textColor={buttonConfig.textColor}
-			contentStyle={styles.content}
-			labelStyle={styles.label}
-			style={[styles.button, buttonConfig.disabled && styles.disabledButton]}
+		<TouchableOpacity
+			activeOpacity={buttonConfig.disabled ? 1 : 0.85}
+			style={[
+				styles.button,
+				{ backgroundColor: buttonConfig.color },
+				buttonConfig.disabled && styles.disabledButton,
+			]}
 			onPress={() => {
 				if (!buttonConfig.disabled) {
 					onPress();
 				}
 			}}
 		>
-			{buttonConfig.text}
-		</Button>
+			<View style={styles.content}>
+				{buttonConfig.icon ? (
+					<MaterialCommunityIcons
+						name={buttonConfig.icon}
+						size={20}
+						color={buttonConfig.textColor}
+					/>
+				) : null}
+				<Text style={[styles.label, { color: buttonConfig.textColor }]}>
+					{buttonConfig.text}
+				</Text>
+			</View>
+		</TouchableOpacity>
 	);
 };
 
@@ -26,12 +37,17 @@ export default CampActionButton;
 
 const styles = StyleSheet.create({
 	button: {
-		borderRadius: 18,
-		overflow: "hidden",
+		borderRadius: 20,
+		height: 56,
+		alignItems: "center",
+		justifyContent: "center",
+		marginTop: 8,
 	},
 
 	content: {
-		height: 58,
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 8,
 	},
 
 	label: {
@@ -41,6 +57,6 @@ const styles = StyleSheet.create({
 	},
 
 	disabledButton: {
-		opacity: 0.75,
+		opacity: 0.85,
 	},
 });

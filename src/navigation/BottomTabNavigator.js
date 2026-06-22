@@ -15,8 +15,20 @@ export default function BottomTabNavigator() {
 		<Tab.Navigator
 			screenOptions={{
 				headerShown: false,
-				tabBarActiveTintColor: "#2E7D32",
-				tabBarInactiveTintColor: "gray",
+				tabBarActiveTintColor: "#FFFFFF",
+				tabBarInactiveTintColor: "#91A091",
+				tabBarStyle: {
+					backgroundColor: "#132617",
+					borderTopWidth: 1,
+					borderTopColor: "#203A25",
+					height: 64,
+					paddingBottom: 8,
+					paddingTop: 8,
+				},
+				tabBarLabelStyle: {
+					fontSize: 11,
+					fontWeight: "700",
+				},
 			}}
 		>
 			<Tab.Screen

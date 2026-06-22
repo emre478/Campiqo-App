@@ -50,9 +50,23 @@ const PopularCampCard = ({
 				</View>
 
 				<View style={styles.infoRow}>
-					<Text style={styles.info}>👥 {participants}</Text>
+					<View style={styles.infoItem}>
+						<MaterialCommunityIcons
+							name="account-group-outline"
+							size={14}
+							color="#555"
+						/>
+						<Text style={styles.info}>{participants}</Text>
+					</View>
 
-					<Text style={styles.info}>📅 {date}</Text>
+					<View style={styles.infoItem}>
+						<MaterialCommunityIcons
+							name="calendar-month-outline"
+							size={14}
+							color="#555"
+						/>
+						<Text style={styles.info}>{date}</Text>
+					</View>
 				</View>
 			</View>
 		</TouchableOpacity>
@@ -143,10 +157,16 @@ const styles = StyleSheet.create({
 	infoRow: {
 		flexDirection: "row",
 		marginTop: 10,
+		gap: 14,
+	},
+
+	infoItem: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 4,
 	},
 
 	info: {
-		marginRight: 14,
 		color: "#555",
 		fontWeight: "600",
 	},

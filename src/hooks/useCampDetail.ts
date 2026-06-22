@@ -114,7 +114,8 @@ export const useCampDetail = (camp: Camp) => {
 	const buttonConfig = (() => {
 		if (camp.isOwner) {
 			return {
-				text: "👑 Kamp Sahibi",
+				text: "Kamp Sahibi",
+				icon: "crown",
 				color: "#E8F5E9",
 				textColor: "#2E7D32",
 				disabled: true,
@@ -123,7 +124,8 @@ export const useCampDetail = (camp: Camp) => {
 
 		if (camp.isParticipant) {
 			return {
-				text: "✓ Katıldın",
+				text: "Katıldın",
+				icon: "check-circle",
 				color: "#E8F5E9",
 				textColor: "#2E7D32",
 				disabled: true,
@@ -132,7 +134,8 @@ export const useCampDetail = (camp: Camp) => {
 
 		if (hasPendingRequest) {
 			return {
-				text: "⏳ Katılma İsteği Gönderildi",
+				text: "Katılma İsteği Gönderildi",
+				icon: "clock-outline",
 				color: "#FFF8E1",
 				textColor: "#F9A825",
 				disabled: true,
@@ -141,7 +144,8 @@ export const useCampDetail = (camp: Camp) => {
 
 		if (camp.isFull) {
 			return {
-				text: "⚠ Kamp Dolu",
+				text: "Kamp Dolu",
+				icon: "alert-circle-outline",
 				color: "#FFF3E0",
 				textColor: "#EF6C00",
 				disabled: true,
@@ -150,6 +154,7 @@ export const useCampDetail = (camp: Camp) => {
 
 		return {
 			text: "Katıl",
+			icon: "account-plus-outline",
 			color: "#2E7D32",
 			textColor: "#FFFFFF",
 			disabled: false,

@@ -1,5 +1,7 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { SERVER_URL } from "../../constants/apiConstants";
 
 const FeaturedCampCard = ({
 	title,
@@ -8,32 +10,72 @@ const FeaturedCampCard = ({
 	onPress,
 	participantCount,
 	maxParticipantCount,
+	categoryName,
+	averageRating,
+	ratingCount,
 }) => {
+	const imageSource = image && image !== "string"
+		? { uri: `${SERVER_URL}${image}` }
+		: {
+				uri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+			};
+
+	const ratingLabel =
+		ratingCount > 0
+			? `${averageRating?.toFixed(1) ?? "0.0"}`
+			: "Yeni";
+
 	return (
 		<TouchableOpacity
 			style={styles.card}
 			onPress={onPress}
-			activeOpacity={0.9}
+			activeOpacity={0.92}
 		>
-			<Image
-				source={{
-					uri:
-						image && image !== "string"
-							? image
-							: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-				}}
-				style={styles.image}
-			/>
+			<View style={styles.imageWrapper}>
+				<Image source={imageSource} style={styles.image} />
 
-			<View style={styles.overlay}>
-				<Text style={styles.title}>{title}</Text>
+				{categoryName ? (
+					<View style={styles.categoryTag}>
+						<Text style={styles.categoryText}>{categoryName}</Text>
+					</View>
+				) : null}
+			</View>
 
-				<Text style={styles.location}>📍 {location}</Text>
+			<View style={styles.content}>
+				<View style={styles.titleRow}>
+					<Text numberOfLines={1} style={styles.title}>
+						{title}
+					</Text>
+
+					<View style={styles.ratingPill}>
+						<MaterialCommunityIcons
+							name="star"
+							size={12}
+							color="#FFD34D"
+						/>
+						<Text style={styles.ratingText}>{ratingLabel}</Text>
+					</View>
+				</View>
+
+				<View style={styles.locationRow}>
+					<MaterialCommunityIcons
+						name="map-marker-outline"
+						size={14}
+						color="#6DA878"
+					/>
+					<Text numberOfLines={1} style={styles.location}>
+						{location}
+					</Text>
+				</View>
 
 				<View style={styles.statsRow}>
-
+					<MaterialCommunityIcons
+						name="account-group-outline"
+						size={14}
+						color="#AAB8AA"
+					/>
 					<Text style={styles.stat}>
-						👥 {participantCount}/{maxParticipantCount}
+						{participantCount}/{maxParticipantCount} kişi
 					</Text>
 				</View>
 			</View>
@@ -45,51 +87,97 @@ export default FeaturedCampCard;
 
 const styles = StyleSheet.create({
 	card: {
-		width: 320,
-		height: 250,
-		borderRadius: 28,
+		width: 280,
+		backgroundColor: "#132617",
+		borderRadius: 24,
+		borderWidth: 1,
+		borderColor: "#203A25",
 		overflow: "hidden",
 		marginRight: 16,
 	},
 
-	image: {
-		width: "100%",
-		height: "100%",
+	imageWrapper: {
+		position: "relative",
 	},
 
-	overlay: {
+	image: {
+		width: "100%",
+		height: 160,
+	},
+
+	categoryTag: {
 		position: "absolute",
+		left: 12,
+		bottom: 12,
+		backgroundColor: "rgba(0, 0, 0, 0.55)",
+		paddingHorizontal: 10,
+		paddingVertical: 5,
+		borderRadius: 12,
+	},
 
-		left: 14,
-		right: 14,
-		bottom: 14,
+	categoryText: {
+		color: "#F4F7EF",
+		fontSize: 11,
+		fontWeight: "700",
+	},
 
-		padding: 16,
+	content: {
+		padding: 14,
+	},
 
-		borderRadius: 22,
-
-		backgroundColor: "rgba(255,255,255,0.92)",
+	titleRow: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+		gap: 8,
 	},
 
 	title: {
-		fontSize: 22,
-		fontWeight: "900",
-		color: "#1F1F1F",
+		flex: 1,
+		fontSize: 17,
+		fontWeight: "800",
+		color: "#F4F7EF",
+	},
+
+	ratingPill: {
+		flexDirection: "row",
+		alignItems: "center",
+		backgroundColor: "#0D1C10",
+		paddingHorizontal: 8,
+		paddingVertical: 4,
+		borderRadius: 12,
+		gap: 3,
+	},
+
+	ratingText: {
+		fontSize: 11,
+		fontWeight: "700",
+		color: "#C5CEC4",
+	},
+
+	locationRow: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 4,
+		marginTop: 8,
 	},
 
 	location: {
-		marginTop: 5,
-		fontSize: 14,
-		color: "#777",
+		flex: 1,
+		fontSize: 13,
+		color: "#91A091",
 	},
 
 	statsRow: {
 		flexDirection: "row",
-		marginTop: 12,
+		alignItems: "center",
+		gap: 4,
+		marginTop: 10,
 	},
+
 	stat: {
-		marginRight: 16,
+		fontSize: 12,
 		fontWeight: "700",
-		color: "#444",
+		color: "#C5CEC4",
 	},
 });

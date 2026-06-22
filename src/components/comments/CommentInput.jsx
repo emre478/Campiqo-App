@@ -6,6 +6,7 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const CommentInput = ({ value, onChangeText, onSubmit }) => {
 	return (
@@ -13,13 +14,18 @@ const CommentInput = ({ value, onChangeText, onSubmit }) => {
 			<TextInput
 				style={styles.input}
 				placeholder="Deneyimini paylaş..."
-				placeholderTextColor="#7F907F"
+				placeholderTextColor="#91A091"
 				value={value}
 				onChangeText={onChangeText}
 				multiline
 			/>
 
-			<TouchableOpacity style={styles.button} onPress={onSubmit}>
+			<TouchableOpacity
+				style={styles.button}
+				onPress={onSubmit}
+				activeOpacity={0.85}
+			>
+				<MaterialCommunityIcons name="send" size={18} color="#F4F7EF" />
 				<Text style={styles.buttonText}>Yorumu Gönder</Text>
 			</TouchableOpacity>
 		</View>
@@ -30,38 +36,36 @@ export default CommentInput;
 
 const styles = StyleSheet.create({
 	container: {
-		marginBottom: 20,
+		marginBottom: 16,
 	},
+
 	input: {
 		backgroundColor: "#132617",
-
-		borderRadius: 18,
-
+		borderRadius: 20,
 		paddingHorizontal: 16,
 		paddingVertical: 14,
-
-		minHeight: 90,
-
+		minHeight: 96,
 		color: "#F4F7EF",
-
 		borderWidth: 1,
 		borderColor: "#203A25",
-
 		textAlignVertical: "top",
-
 		marginBottom: 12,
+		fontSize: 15,
+		lineHeight: 22,
 	},
+
 	button: {
-		backgroundColor: "#4F8F5F",
-
+		backgroundColor: "#2E7D32",
 		paddingVertical: 14,
-
-		borderRadius: 16,
-
+		borderRadius: 18,
 		alignItems: "center",
+		justifyContent: "center",
+		flexDirection: "row",
+		gap: 8,
 	},
+
 	buttonText: {
-		color: "#fff",
+		color: "#F4F7EF",
 		fontWeight: "800",
 		fontSize: 15,
 	},

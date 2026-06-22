@@ -11,6 +11,7 @@ const CampFilter = ({ selected, onChange }) => {
 			<TouchableOpacity
 				style={[styles.chip, selected === "all" && styles.activeChip]}
 				onPress={() => onChange("all")}
+				activeOpacity={0.85}
 			>
 				<Text
 					style={[styles.text, selected === "all" && styles.activeText]}
@@ -22,6 +23,7 @@ const CampFilter = ({ selected, onChange }) => {
 			<TouchableOpacity
 				style={[styles.chip, selected === "upcoming" && styles.activeChip]}
 				onPress={() => onChange("upcoming")}
+				activeOpacity={0.85}
 			>
 				<Text
 					style={[
@@ -40,39 +42,34 @@ export default CampFilter;
 
 const styles = StyleSheet.create({
 	container: {
-		paddingBottom: 8,
+		paddingBottom: 4,
+		gap: 10,
 	},
 
 	chip: {
-		height: 42,
-
-		paddingHorizontal: 18,
-
-		borderRadius: 21,
-
-		backgroundColor: "#FFFFFF",
-
+		height: 44,
+		paddingHorizontal: 20,
+		borderRadius: 22,
+		backgroundColor: "#132617",
 		borderWidth: 1,
-		borderColor: "#CDEBD8",
-
+		borderColor: "#203A25",
 		marginRight: 10,
-
 		alignItems: "center",
 		justifyContent: "center",
 	},
 
 	activeChip: {
-		backgroundColor: "#35C759",
-		borderColor: "#35C759",
+		backgroundColor: "#2E7D32",
+		borderColor: "#2E7D32",
 	},
 
 	text: {
-		fontSize: 13,
+		fontSize: 14,
 		fontWeight: "700",
-		color: "#24523A",
+		color: "#C5CEC4",
 	},
 
 	activeText: {
-		color: "#FFFFFF",
+		color: "#F4F7EF",
 	},
 });

@@ -1,25 +1,42 @@
 import React from "react";
-import { Button } from "react-native-paper";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const CreateCampButton = ({ onPress }) => {
 	return (
-		<Button
-			mode="contained"
-			buttonColor="#4F8F5F"
-			textColor="#fff"
-			style={{
-				borderRadius: 18,
-				paddingVertical: 7,
-			}}
-			labelStyle={{
-				fontSize: 15,
-				fontWeight: "800",
-			}}
+		<TouchableOpacity
+			style={styles.button}
 			onPress={onPress}
+			activeOpacity={0.85}
 		>
-			Kampı Oluştur
-		</Button>
+			<MaterialCommunityIcons
+				name="check-circle-outline"
+				size={22}
+				color="#F4F7EF"
+			/>
+			<Text style={styles.label}>Kampı Oluştur</Text>
+		</TouchableOpacity>
 	);
 };
 
 export default CreateCampButton;
+
+const styles = StyleSheet.create({
+	button: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		gap: 8,
+		backgroundColor: "#2E7D32",
+		borderRadius: 20,
+		height: 56,
+		marginTop: 8,
+	},
+
+	label: {
+		fontSize: 16,
+		fontWeight: "800",
+		color: "#F4F7EF",
+		letterSpacing: 0.3,
+	},
+});

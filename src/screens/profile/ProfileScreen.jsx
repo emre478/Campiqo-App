@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import {
+	ScrollView,
+	SafeAreaView,
+	StyleSheet,
+	Text,
+	View,
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileMenuItem from "../../components/profile/ProfileMenuItem";
@@ -7,12 +14,10 @@ import ProfileStats from "../../components/profile/ProfileStats";
 import { logout } from "../../redux/slices/authSlice";
 import { setProfile } from "../../redux/slices/profileSlice";
 import { removeToken } from "../../services/tokenService";
-
 import {
 	getMyCreatedCamps,
 	getMyJoinedCamps,
 } from "../../services/myCampService";
-
 import { getMyProfile } from "../../services/userService";
 
 const ProfileScreen = ({ navigation }) => {
@@ -59,44 +64,139 @@ const ProfileScreen = ({ navigation }) => {
 	};
 
 	return (
-		<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-			<ProfileHeader profile={profile} />
+		<SafeAreaView style={styles.safeArea}>
+			<ScrollView
+				style={styles.container}
+				showsVerticalScrollIndicator={false}
+				contentContainerStyle={styles.scrollContent}
+			>
+				<View style={styles.header}>
+					<View>
+						<Text style={styles.title}>Profil</Text>
+						<Text style={styles.subtitle}>Hesap bilgilerin</Text>
+					</View>
 
-			<ProfileStats createdCount={createdCount} joinedCount={joinedCount} />
+					<View style={styles.headerIcon}>
+						<MaterialCommunityIcons
+							name="account-circle-outline"
+							size={28}
+							color="#8DD69A"
+						/>
+					</View>
+				</View>
 
-			<ProfileMenuItem
-				icon="🏕️"
-				title="Oluşturduğum Kamplar"
-				onPress={() => navigation.navigate("MyCreatedCamps")}
-			/>
+				<ProfileHeader profile={profile} />
 
-			<ProfileMenuItem
-				icon="🤝"
-				title="Katıldığım Kamplar"
-				onPress={() => navigation.navigate("MyJoinedCamps")}
-			/>
+				<ProfileStats
+					createdCount={createdCount}
+					joinedCount={joinedCount}
+				/>
 
-			<ProfileMenuItem
-				icon="✏️"
-				title="Profili Düzenle"
-				onPress={() => navigation.navigate("EditProfile")}
-			/>
+				<View style={styles.sectionHeader}>
+					<MaterialCommunityIcons
+						name="cog-outline"
+						size={18}
+						color="#6DA878"
+					/>
+					<Text style={styles.sectionTitle}>Hesap</Text>
+				</View>
 
-			<ProfileMenuItem
-				icon="🚪"
-				title="Çıkış Yap"
-				danger
-				onPress={handleLogout}
-			/>
-		</ScrollView>
+				<View style={styles.menuGroup}>
+					<ProfileMenuItem
+						icon="tent"
+						title="Oluşturduğum Kamplar"
+						onPress={() => navigation.navigate("MyCreatedCamps")}
+					/>
+
+					<ProfileMenuItem
+						icon="handshake-outline"
+						title="Katıldığım Kamplar"
+						onPress={() => navigation.navigate("MyJoinedCamps")}
+					/>
+
+					<ProfileMenuItem
+						icon="account-edit-outline"
+						title="Profili Düzenle"
+						onPress={() => navigation.navigate("EditProfile")}
+					/>
+
+					<ProfileMenuItem
+						icon="logout"
+						title="Çıkış Yap"
+						danger
+						onPress={handleLogout}
+					/>
+				</View>
+			</ScrollView>
+		</SafeAreaView>
 	);
 };
 
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
+	safeArea: {
+		flex: 1,
+		backgroundColor: "#07130B",
+	},
+
 	container: {
 		flex: 1,
-		backgroundColor: "#021006",
+	},
+
+	scrollContent: {
+		paddingHorizontal: 20,
+		paddingTop: 8,
+		paddingBottom: 100,
+	},
+
+	header: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+		marginBottom: 20,
+	},
+
+	title: {
+		fontSize: 32,
+		fontWeight: "900",
+		color: "#F4F7EF",
+		letterSpacing: -0.5,
+	},
+
+	subtitle: {
+		fontSize: 14,
+		color: "#91A091",
+		marginTop: 4,
+		fontWeight: "600",
+	},
+
+	headerIcon: {
+		width: 52,
+		height: 52,
+		borderRadius: 26,
+		backgroundColor: "#132617",
+		borderWidth: 1,
+		borderColor: "#203A25",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+
+	sectionHeader: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 8,
+		marginTop: 24,
+		marginBottom: 4,
+	},
+
+	sectionTitle: {
+		fontSize: 16,
+		fontWeight: "800",
+		color: "#F4F7EF",
+	},
+
+	menuGroup: {
+		marginHorizontal: -20,
 	},
 });

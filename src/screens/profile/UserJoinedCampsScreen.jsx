@@ -1,88 +1,25 @@
 import React from "react";
-import {
-	ActivityIndicator,
-	FlatList,
-	StyleSheet,
-	Text,
-	View,
-} from "react-native";
 
-import CampCard from "../../components/camps/CampCard";
+import ProfileCampsListLayout from "../../components/profile/ProfileCampsListLayout";
 import { useUserJoinedCamps } from "../../hooks/useUserJoinedCamps";
 
 const UserJoinedCampsScreen = ({ navigation, route }) => {
 	const { userId } = route.params;
-
 	const { camps, loading } = useUserJoinedCamps(userId);
 
-	if (loading) {
-		return (
-			<View style={styles.loadingContainer}>
-				<ActivityIndicator size="large" color="#2E7D32" />
-			</View>
-		);
-	}
-
 	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>Katıldığı Kamplar</Text>
-
-			<FlatList
-				data={camps}
-				keyExtractor={(item) => item.id}
-				showsVerticalScrollIndicator={false}
-				renderItem={({ item }) => (
-					<CampCard
-						camp={item}
-						onPress={() =>
-							navigation.navigate("CampDetail", {
-								camp: item,
-							})
-						}
-					/>
-				)}
-				ListEmptyComponent={
-					<View style={styles.emptyContainer}>
-						<Text style={styles.emptyText}>
-							Henüz katıldığı bir kamp yok.
-						</Text>
-					</View>
-				}
-			/>
-		</View>
+		<ProfileCampsListLayout
+			navigation={navigation}
+			title="Katıldığı Kamplar"
+			subtitle="Kullanıcının katıldığı kamp etkinlikleri"
+			headerIcon="handshake-outline"
+			camps={camps}
+			loading={loading}
+			emptyIcon="handshake-outline"
+			emptyTitle="Henüz katıldığı kamp yok"
+			emptyDescription="Bu kullanıcı henüz herhangi bir kampa katılmamış."
+		/>
 	);
 };
 
 export default UserJoinedCampsScreen;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "#F5F6FA",
-		paddingTop: 20,
-	},
-
-	title: {
-		fontSize: 28,
-		fontWeight: "700",
-		color: "#222",
-		paddingHorizontal: 20,
-		marginBottom: 20,
-	},
-
-	loadingContainer: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-	},
-
-	emptyContainer: {
-		marginTop: 80,
-		alignItems: "center",
-	},
-
-	emptyText: {
-		fontSize: 16,
-		color: "#888",
-	},
-});

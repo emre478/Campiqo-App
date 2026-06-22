@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-	ActivityIndicator,
-	FlatList,
-	StyleSheet,
-	Text,
-	View,
-} from "react-native";
 
-import CampCard from "../../components/camps/CampCard";
+import ProfileCampsListLayout from "../../components/profile/ProfileCampsListLayout";
 import { getMyJoinedCamps } from "../../services/myCampService";
 
 const MyJoinedCampsScreen = ({ navigation }) => {
@@ -30,74 +23,19 @@ const MyJoinedCampsScreen = ({ navigation }) => {
 		}
 	};
 
-	if (loading) {
-		return (
-			<View style={styles.loadingContainer}>
-				<ActivityIndicator size="large" color="#2E7D32" />
-			</View>
-		);
-	}
-
 	return (
-		<View style={styles.container}>
-			<Text style={styles.title}>Katıldığım Kamplar</Text>
-
-			<FlatList
-				data={camps}
-				keyExtractor={(item) => item.id}
-				showsVerticalScrollIndicator={false}
-				renderItem={({ item }) => (
-					<CampCard
-						camp={item}
-						onPress={() =>
-							navigation.navigate("CampDetail", {
-								camp: item,
-							})
-						}
-					/>
-				)}
-				ListEmptyComponent={
-					<View style={styles.emptyContainer}>
-						<Text style={styles.emptyText}>
-							Henüz katıldığın bir kamp yok.
-						</Text>
-					</View>
-				}
-			/>
-		</View>
+		<ProfileCampsListLayout
+			navigation={navigation}
+			title="Katıldığım Kamplar"
+			subtitle="Katıldığın kamp deneyimleri"
+			headerIcon="handshake-outline"
+			camps={camps}
+			loading={loading}
+			emptyIcon="handshake-outline"
+			emptyTitle="Henüz katıldığın kamp yok"
+			emptyDescription="Kamplara katılarak deneyimlerini burada takip edebilirsin."
+		/>
 	);
 };
 
 export default MyJoinedCampsScreen;
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "#F5F6FA",
-		paddingTop: 20,
-	},
-
-	title: {
-		fontSize: 28,
-		fontWeight: "700",
-		color: "#222",
-		paddingHorizontal: 20,
-		marginBottom: 20,
-	},
-
-	loadingContainer: {
-		flex: 1,
-		justifyContent: "center",
-		alignItems: "center",
-	},
-
-	emptyContainer: {
-		marginTop: 80,
-		alignItems: "center",
-	},
-
-	emptyText: {
-		fontSize: 16,
-		color: "#888",
-	},
-});

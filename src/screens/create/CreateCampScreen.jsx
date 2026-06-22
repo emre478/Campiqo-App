@@ -1,6 +1,11 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-
+import {
+	ScrollView,
+	StyleSheet,
+	Text,
+	View,
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 import CampBasicInfoSection from "../../components/camp-create/CampBasicInfoSection";
@@ -36,8 +41,27 @@ const CreateCampScreen = ({ navigation }) => {
 	} = useCreateCamp(navigation);
 
 	return (
-		<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-			<Text style={styles.title}>🏕️ Kamp Oluştur</Text>
+		<ScrollView
+			style={styles.container}
+			showsVerticalScrollIndicator={false}
+			contentContainerStyle={styles.scrollContent}
+		>
+			<View style={styles.header}>
+				<View>
+					<Text style={styles.title}>Kamp Oluştur</Text>
+					<Text style={styles.subtitle}>
+						Yeni bir kamp deneyimi planla
+					</Text>
+				</View>
+
+				<View style={styles.headerIcon}>
+					<MaterialCommunityIcons
+						name="tent"
+						size={26}
+						color="#8DD69A"
+					/>
+				</View>
+			</View>
 
 			<CampBasicInfoSection
 				title={title}
@@ -94,9 +118,8 @@ const CreateCampScreen = ({ navigation }) => {
 					}}
 				/>
 			)}
-			<CreateCampButton onPress={handleCreateCamp} />
 
-			<View style={{ height: 90 }} />
+			<CreateCampButton onPress={handleCreateCamp} />
 		</ScrollView>
 	);
 };
@@ -106,16 +129,44 @@ export default CreateCampScreen;
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: "#F6F7FB",
-		paddingHorizontal: 20,
-		paddingTop: 60,
+		backgroundColor: "#07130B",
 	},
 
-	title: {
-		fontSize: 30,
-		fontWeight: "700",
-		color: "#222",
+	scrollContent: {
+		paddingHorizontal: 20,
+		paddingTop: 56,
+		paddingBottom: 100,
+	},
+
+	header: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
 		marginBottom: 24,
 	},
 
+	title: {
+		fontSize: 32,
+		fontWeight: "900",
+		color: "#F4F7EF",
+		letterSpacing: -0.5,
+	},
+
+	subtitle: {
+		fontSize: 14,
+		color: "#91A091",
+		marginTop: 4,
+		fontWeight: "600",
+	},
+
+	headerIcon: {
+		width: 52,
+		height: 52,
+		borderRadius: 26,
+		backgroundColor: "#132617",
+		borderWidth: 1,
+		borderColor: "#203A25",
+		alignItems: "center",
+		justifyContent: "center",
+	},
 });

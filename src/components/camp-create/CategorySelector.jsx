@@ -1,30 +1,34 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { CAMP_CATEGORIES } from "../../constants/campCategories";
+import CategoryIcon from "../common/CategoryIcon";
 
 const CategorySelector = ({ selectedCategory, onSelect }) => {
 	return (
 		<View style={styles.container}>
-			{CAMP_CATEGORIES.map((item) => (
-				<TouchableOpacity
-					key={item.id}
-					style={[
-						styles.card,
-						selectedCategory === item.id && styles.selectedCard,
-					]}
-					onPress={() => onSelect(item.id)}
-				>
-					<Text style={styles.icon}>{item.icon}</Text>
-					<Text
-						style={[
-							styles.name,
-							selectedCategory === item.id && styles.selectedName,
-						]}
+			{CAMP_CATEGORIES.map((item) => {
+				const isSelected = selectedCategory === item.id;
+
+				return (
+					<TouchableOpacity
+						key={item.id}
+						style={[styles.card, isSelected && styles.selectedCard]}
+						onPress={() => onSelect(item.id)}
+						activeOpacity={0.85}
 					>
-						{item.name}
-					</Text>
-				</TouchableOpacity>
-			))}
+						<CategoryIcon
+							name={item.icon}
+							size={28}
+							color={isSelected ? "#F4F7EF" : "#8DD69A"}
+						/>
+						<Text
+							style={[styles.name, isSelected && styles.selectedName]}
+						>
+							{item.name}
+						</Text>
+					</TouchableOpacity>
+				);
+			})}
 		</View>
 	);
 };
@@ -40,8 +44,9 @@ const styles = StyleSheet.create({
 
 	card: {
 		width: "48%",
-		backgroundColor: "#132617",
-		padding: 16,
+		backgroundColor: "#0D1C10",
+		paddingVertical: 16,
+		paddingHorizontal: 12,
 		borderRadius: 18,
 		marginBottom: 12,
 		alignItems: "center",
@@ -50,18 +55,16 @@ const styles = StyleSheet.create({
 	},
 
 	selectedCard: {
-		backgroundColor: "#1B3A22",
-		borderColor: "#5FA46B",
-	},
-
-	icon: {
-		fontSize: 28,
+		backgroundColor: "#2E7D32",
+		borderColor: "#2E7D32",
 	},
 
 	name: {
 		marginTop: 8,
 		fontWeight: "700",
+		fontSize: 13,
 		color: "#C5CEC4",
+		textAlign: "center",
 	},
 
 	selectedName: {

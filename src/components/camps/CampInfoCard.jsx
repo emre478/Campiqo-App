@@ -1,16 +1,18 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { CAMP_CATEGORIES } from "../../constants/campCategories";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const CampInfoCard = ({ camp }) => {
-	const selectedCategory = CAMP_CATEGORIES.find((x) => x.id === camp.category);
-
 	return (
 		<View style={styles.infoCard}>
-			<Text style={styles.mainTitle}>Hakkında</Text>
-
-
-			<Text style={styles.descriptionTitle}>Açıklama</Text>
+			<View style={styles.sectionHeader}>
+				<MaterialCommunityIcons
+					name="text-box-outline"
+					size={20}
+					color="#6DA878"
+				/>
+				<Text style={styles.mainTitle}>Hakkında</Text>
+			</View>
 
 			<Text style={styles.description}>{camp.description}</Text>
 		</View>
@@ -21,53 +23,24 @@ export default CampInfoCard;
 
 const styles = StyleSheet.create({
 	infoCard: {
-		marginTop: 20,
-	},
-
-	mainTitle: {
-		fontSize: 22,
-		fontWeight: "800",
-		color: "#F4F7EF",
-		marginBottom: 16,
-	},
-
-	infoRow: {
-		flexDirection: "row",
-		gap: 12,
-	},
-
-	infoBox: {
-		flex: 1,
-
 		backgroundColor: "#132617",
-
-		borderRadius: 18,
-
-		padding: 16,
-
+		borderRadius: 24,
+		padding: 18,
 		borderWidth: 1,
 		borderColor: "#203A25",
 	},
 
-	label: {
-		fontSize: 12,
-		color: "#91A091",
-		marginBottom: 8,
+	sectionHeader: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 8,
+		marginBottom: 14,
 	},
 
-	value: {
-		fontSize: 15,
-		fontWeight: "700",
-		color: "#F4F7EF",
-	},
-
-	descriptionTitle: {
+	mainTitle: {
 		fontSize: 18,
 		fontWeight: "800",
 		color: "#F4F7EF",
-
-		marginTop: 24,
-		marginBottom: 12,
 	},
 
 	description: {

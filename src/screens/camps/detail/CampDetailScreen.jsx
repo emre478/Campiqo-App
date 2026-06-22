@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { Button } from "react-native-paper";
+import {
+	ScrollView,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CampActionButton from "../../../components/camps/CampActionButton";
 import CampHeader from "../../../components/camps/CampHeader";
+import CampHeroCard from "../../../components/camps/CampHeroCard";
 import CampInfoCard from "../../../components/camps/CampInfoCard";
-import CampMetaInfo from "../../../components/camps/CampMetaInfo";
 import CampRatingCard from "../../../components/camps/CampRatingCard";
 import CommentCard from "../../../components/comments/CommentCard";
 import CommentInput from "../../../components/comments/CommentInput";
-import CampHeroCard from "../../../components/camps/CampHeroCard";
 import { SERVER_URL } from "../../../constants/apiConstants";
 import { useCampDetail } from "../../../hooks/useCampDetail";
-import { useCampRating } from "../../../hooks/useCampRating";
 import { getCampById } from "../../../services/campService";
 
 const CampDetailScreen = ({ route, navigation }) => {
@@ -29,12 +33,7 @@ const CampDetailScreen = ({ route, navigation }) => {
 		handleAddComment,
 		handleDeleteComment,
 	} = useCampDetail(camp);
-	const {
-		selectedRating,
-		setSelectedRating,
-		handleRate,
-		loading: ratingLoading,
-	} = useCampRating(camp.id, camp.myRating);
+
 	useEffect(() => {
 		loadCamp();
 	}, []);
@@ -73,13 +72,19 @@ const CampDetailScreen = ({ route, navigation }) => {
 	});
 
 	return (
-		<ScrollView style={styles.container}>
+		<ScrollView
+			style={styles.container}
+			showsVerticalScrollIndicator={false}
+			contentContainerStyle={styles.scrollContent}
+		>
 			<CampHeader
 				imageSource={imageSource}
 				isFavorited={isFavorited}
 				onFavorite={handleFavorite}
 				onBack={() => navigation.goBack()}
+				categoryName={camp.categoryName}
 			/>
+
 			<CampHeroCard
 				title={camp.title}
 				location={camp.location}
@@ -87,42 +92,54 @@ const CampDetailScreen = ({ route, navigation }) => {
 				ratingCount={camp.ratingCount || 0}
 				formattedStartDate={formattedStartDate}
 				formattedEndDate={formattedEndDate}
+				startDate={camp.startDate}
+				endDate={camp.endDate}
 				participantCount={camp.participantCount}
 				maxParticipantCount={camp.maxParticipantCount}
 				category={camp.category}
+				categoryName={camp.categoryName}
 				ownerName={camp.ownerName}
 			/>
+
 			<View style={styles.content}>
-
-
 				<CampInfoCard camp={camp} />
+
 				{camp.isOwner && (
-					<Button
-						mode="outlined"
-						style={styles.requestButton}
+					<TouchableOpacity
+						style={styles.outlineButton}
 						onPress={() =>
 							navigation.navigate("CampJoinRequests", {
 								campId: camp.id,
 							})
 						}
+						activeOpacity={0.85}
 					>
-						Katılım İsteklerini Gör
-					</Button>
+						<MaterialCommunityIcons
+							name="account-clock-outline"
+							size={20}
+							color="#8DD69A"
+						/>
+						<Text style={styles.outlineButtonText}>
+							Katılım İsteklerini Gör
+						</Text>
+					</TouchableOpacity>
 				)}
+
 				{camp.isCompleted && camp.isParticipant && (
-					<CampRatingCard
-						campId={camp.id}
-						myRating={camp.myRating}
-						averageRating={camp.averageRating}
-						ratingCount={camp.ratingCount}
-						onRated={loadCamp}
-					/>
+					<View style={styles.section}>
+						<CampRatingCard
+							campId={camp.id}
+							myRating={camp.myRating}
+							averageRating={camp.averageRating}
+							ratingCount={camp.ratingCount}
+							onRated={loadCamp}
+						/>
+					</View>
 				)}
+
 				{(camp.isParticipant || camp.isOwner) && (
-					<Button
-						mode="contained"
-						buttonColor="#2E7D32"
-						style={styles.chatButton}
+					<TouchableOpacity
+						style={styles.primaryButton}
 						onPress={() =>
 							navigation.navigate("Chat", {
 								campId: camp.id,
@@ -131,13 +148,32 @@ const CampDetailScreen = ({ route, navigation }) => {
 								maxParticipantCount: camp.maxParticipantCount,
 							})
 						}
+						activeOpacity={0.85}
 					>
-						Sohbete Git
-					</Button>
+						<MaterialCommunityIcons
+							name="chat-outline"
+							size={20}
+							color="#F4F7EF"
+						/>
+						<Text style={styles.primaryButtonText}>Sohbete Git</Text>
+					</TouchableOpacity>
 				)}
+
 				{camp.isCompleted && (
 					<View style={styles.commentSection}>
-						<Text style={styles.commentTitle}>Yorumlar</Text>
+						<View style={styles.sectionHeader}>
+							<MaterialCommunityIcons
+								name="comment-text-outline"
+								size={20}
+								color="#6DA878"
+							/>
+							<Text style={styles.commentTitle}>Yorumlar</Text>
+							<View style={styles.commentBadge}>
+								<Text style={styles.commentBadgeText}>
+									{comments.length}
+								</Text>
+							</View>
+						</View>
 
 						<CommentInput
 							value={commentText}
@@ -159,6 +195,7 @@ const CampDetailScreen = ({ route, navigation }) => {
 						))}
 					</View>
 				)}
+
 				<CampActionButton
 					buttonConfig={buttonConfig}
 					onPress={handleJoin}
@@ -176,38 +213,82 @@ const styles = StyleSheet.create({
 		backgroundColor: "#07130B",
 	},
 
+	scrollContent: {
+		paddingBottom: 40,
+	},
+
 	content: {
-		padding: 20,
+		paddingHorizontal: 20,
+		paddingTop: 16,
+		gap: 14,
 	},
 
-	title: {
-		fontSize: 30,
-		fontWeight: "800",
-		color: "#F4F7EF",
-		marginBottom: 20,
+	section: {
+		marginTop: 2,
 	},
 
-	requestButton: {
-		marginTop: 14,
-		marginBottom: 12,
-		borderRadius: 18,
+	sectionHeader: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 8,
+		marginBottom: 14,
+	},
+
+	outlineButton: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		gap: 8,
+		backgroundColor: "#132617",
+		borderRadius: 20,
+		borderWidth: 1,
 		borderColor: "#203A25",
+		height: 52,
 	},
 
-	chatButton: {
-		marginTop: 14,
-		marginBottom: 12,
-		borderRadius: 18,
+	outlineButtonText: {
+		color: "#F4F7EF",
+		fontWeight: "800",
+		fontSize: 15,
+	},
+
+	primaryButton: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
+		gap: 8,
+		backgroundColor: "#2E7D32",
+		borderRadius: 20,
+		height: 52,
+	},
+
+	primaryButtonText: {
+		color: "#F4F7EF",
+		fontWeight: "800",
+		fontSize: 15,
 	},
 
 	commentSection: {
-		marginTop: 24,
+		marginTop: 8,
 	},
 
 	commentTitle: {
-		fontSize: 22,
+		fontSize: 18,
 		fontWeight: "800",
 		color: "#F4F7EF",
-		marginBottom: 16,
+		flex: 1,
+	},
+
+	commentBadge: {
+		backgroundColor: "#0D1C10",
+		paddingHorizontal: 10,
+		paddingVertical: 4,
+		borderRadius: 12,
+	},
+
+	commentBadgeText: {
+		color: "#8DD69A",
+		fontSize: 12,
+		fontWeight: "800",
 	},
 });

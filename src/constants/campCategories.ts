@@ -1,32 +1,34 @@
+export const DEFAULT_CATEGORY_ICON = "tent";
+
 export const CAMP_CATEGORIES = [
 	{
 		id: 1,
 		name: "Doğa Kampı",
-		icon: "🌲",
+		icon: "pine-tree",
 	},
 	{
 		id: 2,
 		name: "Karavan Kampı",
-		icon: "🚐",
+		icon: "rv-truck",
 	},
 	{
 		id: 3,
 		name: "Dağ Kampı",
-		icon: "⛰️",
+		icon: "image-filter-hdr",
 	},
 	{
 		id: 4,
 		name: "Deniz Kampı",
-		icon: "🌊",
+		icon: "waves",
 	},
 	{
 		id: 5,
 		name: "Kış Kampı",
-		icon: "❄️",
+		icon: "snowflake",
 	},
 	{
 		id: 6,
 		name: "Hayatta Kalma",
-		icon: "🔥",
+		icon: "fire",
 	},
 ];
