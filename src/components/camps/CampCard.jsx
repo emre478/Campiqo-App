@@ -37,32 +37,32 @@ const CampCard = ({ camp, onPress }) => {
 		if (camp.isOwner) {
 			return {
 				text: "Kamp Sahibi",
-				color: "#E8F5E9",
-				textColor: "#2E7D32",
+				color: "#1B3A22",
+				textColor: "#8DD69A",
 			};
 		}
 
 		if (camp.isParticipant) {
 			return {
 				text: "Katıldın",
-				color: "#E8F5E9",
-				textColor: "#2E7D32",
+				color: "#1B3A22",
+				textColor: "#8DD69A",
 			};
 		}
 
 		if (hasPendingRequest) {
 			return {
-				text: "İstek Gönderildi",
-				color: "#FFF3E0",
-				textColor: "#EF6C00",
+				text: "Bekliyor",
+				color: "#3A2A12",
+				textColor: "#F5B04C",
 			};
 		}
 
 		if (camp.isFull) {
 			return {
-				text: "Kamp Dolu",
-				color: "#FFEBEE",
-				textColor: "#C62828",
+				text: "Dolu",
+				color: "#3A1717",
+				textColor: "#FF8A80",
 			};
 		}
 
@@ -147,31 +147,26 @@ export default CampCard;
 
 const styles = StyleSheet.create({
 	card: {
-		backgroundColor: "#fff",
-		borderRadius: 20,
+		backgroundColor: "#0D1C10",
+
+		borderRadius: 24,
+
 		marginHorizontal: 16,
 		marginBottom: 16,
+
 		padding: 12,
 
 		flexDirection: "row",
 
-		elevation: 4,
-
-		shadowColor: "#000",
-		shadowOpacity: 0.08,
-		shadowRadius: 8,
-		shadowOffset: {
-			width: 0,
-			height: 3,
-		},
+		borderWidth: 1,
+		borderColor: "#1C3320",
 	},
 
 	image: {
-		width: 110,
-		height: 110,
-		borderRadius: 16,
+		width: 120,
+		height: 120,
+		borderRadius: 18,
 	},
-
 	content: {
 		flex: 1,
 		marginLeft: 14,
@@ -187,9 +182,13 @@ const styles = StyleSheet.create({
 
 	title: {
 		flex: 1,
-		fontSize: 20,
-		fontWeight: "700",
-		color: "#222",
+
+		fontSize: 18,
+
+		fontWeight: "800",
+
+		color: "#F4F7EF",
+
 		marginRight: 10,
 	},
 
@@ -201,8 +200,8 @@ const styles = StyleSheet.create({
 
 	infoText: {
 		marginLeft: 6,
-		fontSize: 14,
-		color: "#666",
+		fontSize: 13,
+		color: "#AAB8AA",
 	},
 	pendingBadge: {
 		backgroundColor: "#FFF3E0",
@@ -218,8 +217,8 @@ const styles = StyleSheet.create({
 	},
 	statusBadge: {
 		paddingHorizontal: 10,
-		paddingVertical: 4,
-		borderRadius: 10,
+		paddingVertical: 5,
+		borderRadius: 12,
 	},
 
 	statusText: {
@@ -232,7 +231,7 @@ const styles = StyleSheet.create({
 
 	ratingText: {
 		fontSize: 13,
-		fontWeight: "700",
-		color: "#F59E0B",
+		fontWeight: "800",
+		color: "#FFD34D",
 	},
 });
