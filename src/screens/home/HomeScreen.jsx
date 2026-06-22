@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import FeaturedCampCard from "../../components/home/FeaturedCampCard";
 import HomeCategorySection from "../../components/home/HomeCategorySection";
+import HomeEmptyState from "../../components/home/HomeEmptyState";
 import HomeHeader from "../../components/home/HomeHeader";
 import PopularCampCard from "../../components/home/PopularCampCard";
 import SearchBar from "../../components/home/SearchBar";
@@ -79,42 +80,50 @@ const HomeScreen = () => {
 				/>
 				<Text style={styles.sectionTitle}>Yaklaşan Kamplar</Text>
 
-				<ScrollView
-					horizontal
-					showsHorizontalScrollIndicator={false}
-					contentContainerStyle={styles.horizontalList}
-				>
-					{upcomingCamps.map((camp) => (
-						<FeaturedCampCard
+				{upcomingCamps.length === 0 ? (
+					<HomeEmptyState />
+				) : (
+					<ScrollView
+						horizontal
+						showsHorizontalScrollIndicator={false}
+						contentContainerStyle={styles.horizontalList}
+					>
+						{upcomingCamps.map((camp) => (
+							<FeaturedCampCard
+								key={camp.id}
+								title={camp.title}
+								location={camp.location}
+								image={camp.imageUrl}
+								onPress={() =>
+									navigation.navigate("CampDetail", {
+										camp,
+									})
+								}
+							/>
+						))}
+					</ScrollView>
+				)}
+				<Text style={styles.sectionTitle}>Popüler Kamplar</Text>
+
+				{popularCamps.length === 0 ? (
+					<HomeEmptyState />
+				) : (
+					popularCamps.map((camp) => (
+						<PopularCampCard
 							key={camp.id}
 							title={camp.title}
 							location={camp.location}
+							date={new Date(camp.startDate).toLocaleDateString("tr-TR")}
+							participants={`${camp.participantCount}/${camp.maxParticipantCount}`}
 							image={camp.imageUrl}
-							rating={camp.averageRating}
-							participantCount={camp.participantCount}
-							maxParticipantCount={camp.maxParticipantCount}
 							onPress={() =>
 								navigation.navigate("CampDetail", {
 									camp,
 								})
 							}
 						/>
-					))}
-				</ScrollView>
-				<Text style={styles.sectionTitle}>Popüler Kamplar</Text>
-
-				{popularCamps.map((camp) => (
-					<PopularCampCard
-						key={camp.id}
-						title={camp.title}
-						location={camp.location}
-						category={camp.category}
-						date={new Date(camp.startDate).toLocaleDateString("tr-TR")}
-						participants={`${camp.participantCount}/${camp.maxParticipantCount}`}
-						image={camp.imageUrl}
-						onPress={() => navigation.navigate("CampDetail", { camp })}
-					/>
-				))}
+					))
+				)}
 			</ScrollView>
 		</SafeAreaView>
 	);
