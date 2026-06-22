@@ -1,7 +1,14 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const FeaturedCampCard = ({ title, location, image, onPress }) => {
+const FeaturedCampCard = ({
+	title,
+	location,
+	image,
+	onPress,
+	participantCount,
+	maxParticipantCount,
+}) => {
 	return (
 		<TouchableOpacity
 			style={styles.card}
@@ -22,6 +29,14 @@ const FeaturedCampCard = ({ title, location, image, onPress }) => {
 				<Text style={styles.title}>{title}</Text>
 
 				<Text style={styles.location}>📍 {location}</Text>
+
+				<View style={styles.statsRow}>
+					<Text style={styles.stat}>⭐ {rating || 0}</Text>
+
+					<Text style={styles.stat}>
+						👥 {participantCount}/{maxParticipantCount}
+					</Text>
+				</View>
 			</View>
 		</TouchableOpacity>
 	);
@@ -31,8 +46,8 @@ export default FeaturedCampCard;
 
 const styles = StyleSheet.create({
 	card: {
-		width: 310,
-		height: 220,
+		width: 320,
+		height: 250,
 		borderRadius: 28,
 		overflow: "hidden",
 		marginRight: 16,
@@ -45,22 +60,37 @@ const styles = StyleSheet.create({
 
 	overlay: {
 		position: "absolute",
+
 		left: 14,
 		right: 14,
 		bottom: 14,
+
 		padding: 16,
-		borderRadius: 20,
-		backgroundColor: "rgba(8,20,10,0.85)",
+
+		borderRadius: 22,
+
+		backgroundColor: "rgba(255,255,255,0.92)",
 	},
 
 	title: {
-		color: "#fff",
 		fontSize: 22,
 		fontWeight: "900",
+		color: "#1F1F1F",
 	},
 
 	location: {
-		color: "#AEBDAE",
-		marginTop: 6,
+		marginTop: 5,
+		fontSize: 14,
+		color: "#777",
+	},
+
+	statsRow: {
+		flexDirection: "row",
+		marginTop: 12,
+	},
+	stat: {
+		marginRight: 16,
+		fontWeight: "700",
+		color: "#444",
 	},
 });
