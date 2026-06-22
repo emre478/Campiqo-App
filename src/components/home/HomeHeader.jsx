@@ -3,9 +3,11 @@ import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
+import { useTheme } from "../../theme/ThemeContext";
 
 const HomeHeader = ({}) => {
 	const unreadCount = useSelector((state) => state.notification.unreadCount);
+	const { isDark, toggleTheme } = useTheme();
 	const navigation = useNavigation();
 	return (
 		<View style={styles.container}>
@@ -14,24 +16,35 @@ const HomeHeader = ({}) => {
 
 				<Text style={styles.subtitle}>Doğayı Keşfet</Text>
 			</View>
-
-			<TouchableOpacity onPress={() => navigation.navigate("Notifications")}>
-				<View style={styles.notificationContainer}>
+			<View style={styles.rightActions}>
+				<TouchableOpacity style={styles.themeButton} onPress={toggleTheme}>
 					<MaterialCommunityIcons
-						name="bell-outline"
-						size={26}
-						color="#222"
+						name={isDark ? "weather-sunny" : "moon-waning-crescent"}
+						size={24}
+						color={isDark ? "#FFD54F" : "#444"}
 					/>
+				</TouchableOpacity>
 
-					{unreadCount > 0 && (
-						<View style={styles.badge}>
-							<Text style={styles.badgeText}>
-								{unreadCount > 99 ? "99+" : unreadCount}
-							</Text>
-						</View>
-					)}
-				</View>
-			</TouchableOpacity>
+				<TouchableOpacity
+					onPress={() => navigation.navigate("Notifications")}
+				>
+					<View style={styles.notificationContainer}>
+						<MaterialCommunityIcons
+							name="bell-outline"
+							size={26}
+							color="#222"
+						/>
+
+						{unreadCount > 0 && (
+							<View style={styles.badge}>
+								<Text style={styles.badgeText}>
+									{unreadCount > 99 ? "99+" : unreadCount}
+								</Text>
+							</View>
+						)}
+					</View>
+				</TouchableOpacity>
+			</View>
 		</View>
 	);
 };
@@ -96,5 +109,30 @@ const styles = StyleSheet.create({
 		color: "#fff",
 		fontSize: 10,
 		fontWeight: "700",
+	},
+	themeButton: {
+		width: 48,
+		height: 48,
+		borderRadius: 24,
+
+		backgroundColor: "#fff",
+
+		alignItems: "center",
+		justifyContent: "center",
+
+		marginRight: 12,
+		shadowColor: "#000",
+		shadowOpacity: 0.08,
+		shadowRadius: 8,
+		shadowOffset: {
+			width: 0,
+			height: 3,
+		},
+
+		elevation: 3,
+	},
+	rightActions: {
+		flexDirection: "row",
+		alignItems: "center",
 	},
 });
