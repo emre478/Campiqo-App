@@ -66,7 +66,11 @@ const CampsScreen = ({ navigation }) => {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Kamplar</Text>
+			<View style={styles.header}>
+				<Text style={styles.title}>Kampları Keşfet</Text>
+
+				<Text style={styles.subtitle}>Sana uygun kampı bul ve katıl</Text>
+			</View>
 
 			<FlatList
 				data={filteredCamps}
@@ -102,5 +106,22 @@ const styles = StyleSheet.create({
 		fontSize: 28,
 		fontWeight: "700",
 		marginBottom: 20,
+	},
+	header: {
+		paddingHorizontal: 20,
+		paddingTop: 20,
+		marginBottom: 12,
+	},
+
+	title: {
+		fontSize: 34,
+		fontWeight: "900",
+		color: "#1F1F1F",
+	},
+
+	subtitle: {
+		marginTop: 4,
+		fontSize: 14,
+		color: "#777",
 	},
 });
