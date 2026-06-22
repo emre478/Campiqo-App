@@ -1,4 +1,5 @@
 import React from "react";
+import { StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 
 const CampActionButton = ({ buttonConfig, onPress }) => {
@@ -7,11 +8,9 @@ const CampActionButton = ({ buttonConfig, onPress }) => {
 			mode="contained"
 			buttonColor={buttonConfig.color}
 			textColor={buttonConfig.textColor}
-			style={{
-				marginTop: 24,
-				borderRadius: 14,
-				paddingVertical: 6,
-			}}
+			contentStyle={styles.content}
+			labelStyle={styles.label}
+			style={[styles.button, buttonConfig.disabled && styles.disabledButton]}
 			onPress={() => {
 				if (!buttonConfig.disabled) {
 					onPress();
@@ -24,3 +23,24 @@ const CampActionButton = ({ buttonConfig, onPress }) => {
 };
 
 export default CampActionButton;
+
+const styles = StyleSheet.create({
+	button: {
+		borderRadius: 18,
+		overflow: "hidden",
+	},
+
+	content: {
+		height: 58,
+	},
+
+	label: {
+		fontSize: 16,
+		fontWeight: "800",
+		letterSpacing: 0.3,
+	},
+
+	disabledButton: {
+		opacity: 0.75,
+	},
+});
