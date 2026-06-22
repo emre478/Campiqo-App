@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
-
 import ImagePickerCard from "./ImagePickerCard";
 
 const CampBasicInfoSection = ({
@@ -27,6 +26,7 @@ const CampBasicInfoSection = ({
 			<TextInput
 				style={styles.input}
 				placeholder="Kamp Başlığı"
+				placeholderTextColor="#7F907F"
 				value={title}
 				onChangeText={setTitle}
 			/>
@@ -34,6 +34,7 @@ const CampBasicInfoSection = ({
 			<TextInput
 				style={styles.input}
 				placeholder="Lokasyon"
+				placeholderTextColor="#7F907F"
 				value={location}
 				onChangeText={setLocation}
 			/>
@@ -45,35 +46,30 @@ export default CampBasicInfoSection;
 
 const styles = StyleSheet.create({
 	sectionCard: {
-		backgroundColor: "#fff",
-		borderRadius: 20,
+		backgroundColor: "#0D1C10",
+		borderRadius: 24,
 		padding: 18,
 		marginBottom: 18,
-
-		elevation: 4,
-
-		shadowColor: "#000",
-		shadowOpacity: 0.06,
-		shadowRadius: 8,
-		shadowOffset: {
-			width: 0,
-			height: 3,
-		},
+		borderWidth: 1,
+		borderColor: "#1C3320",
 	},
 
 	sectionTitle: {
-		fontSize: 18,
-		fontWeight: "700",
-		color: "#222",
-		marginBottom: 12,
+		fontSize: 20,
+		fontWeight: "800",
+		color: "#F4F7EF",
+		marginBottom: 14,
 	},
 
 	input: {
-		backgroundColor: "#F7F8FA",
-		borderRadius: 14,
+		backgroundColor: "#132617",
+		borderRadius: 16,
 		paddingHorizontal: 16,
-		paddingVertical: 14,
-		fontSize: 16,
+		paddingVertical: 15,
+		fontSize: 15,
 		marginTop: 12,
+		color: "#F4F7EF",
+		borderWidth: 1,
+		borderColor: "#203A25",
 	},
 });

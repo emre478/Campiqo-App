@@ -1,10 +1,17 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+	Image,
+	ScrollView,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
 import { Button } from "react-native-paper";
+
 import CampActionButton from "../../../components/camps/CampActionButton";
-import CampHeader from "../../../components/camps/CampHeader";
 import CampInfoCard from "../../../components/camps/CampInfoCard";
-import CampMetaInfo from "../../../components/camps/CampMetaInfo";
 import CampRatingCard from "../../../components/camps/CampRatingCard";
 import CommentCard from "../../../components/comments/CommentCard";
 import CommentInput from "../../../components/comments/CommentInput";
@@ -37,6 +44,7 @@ const CampDetailScreen = ({ route, navigation }) => {
 		handleAddComment,
 		handleDeleteComment,
 	} = useCampDetail(camp);
+
 	const {
 		selectedRating,
 		setSelectedRating,
@@ -47,7 +55,6 @@ const CampDetailScreen = ({ route, navigation }) => {
 	const loadCamp = async () => {
 		try {
 			const response = await getCampById(initialCamp.id);
-
 			setCamp(response.data);
 		} catch (error) {
 			console.log(error);
@@ -55,12 +62,8 @@ const CampDetailScreen = ({ route, navigation }) => {
 	};
 
 	const imageSource = camp.imageUrl
-		? {
-				uri: `${SERVER_URL}${camp.imageUrl}`,
-			}
-		: {
-				uri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-			};
+		? { uri: `${SERVER_URL}${camp.imageUrl}` }
+		: { uri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb" };
 
 	const startDate = new Date(camp.startDate);
 	const endDate = new Date(camp.endDate);
@@ -77,135 +80,380 @@ const CampDetailScreen = ({ route, navigation }) => {
 		year: "numeric",
 	});
 
+	const dayCount =
+		Math.max(
+			1,
+			Math.ceil(
+				(endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
+			)
+		) || 1;
+
+	const averageRating = camp.averageRating || 0;
+	const ratingCount = camp.ratingCount || 0;
+
 	return (
-		<ScrollView style={styles.container}>
-			<CampHeader
-				imageSource={imageSource}
-				isFavorited={isFavorited}
-				onFavorite={handleFavorite}
-				onBack={() => navigation.goBack()}
-			/>
+		<View style={styles.screen}>
+			<ScrollView
+				style={styles.container}
+				contentContainerStyle={styles.scrollContent}
+				showsVerticalScrollIndicator={false}
+			>
+				<View style={styles.heroWrapper}>
+					<Image source={imageSource} style={styles.heroImage} />
 
-			<View style={styles.content}>
-				<Text style={styles.title}>{camp.title}</Text>
+					<View style={styles.heroOverlay} />
 
-				<CampMetaInfo
-					location={camp.location}
-					formattedStartDate={formattedStartDate}
-					formattedEndDate={formattedEndDate}
-					participantCount={camp.participantCount}
-					maxParticipantCount={camp.maxParticipantCount}
-				/>
-
-				<CampInfoCard camp={camp} />
-				{camp.isOwner && (
-					<Button
-						mode="outlined"
-						style={styles.requestButton}
-						onPress={() =>
-							navigation.navigate("CampJoinRequests", {
-								campId: camp.id,
-							})
-						}
+					<TouchableOpacity
+						style={styles.backButton}
+						onPress={() => navigation.goBack()}
 					>
-						Katılım İsteklerini Gör
-					</Button>
-				)}
-				{camp.isCompleted && camp.isParticipant && (
-					<CampRatingCard
-						campId={camp.id}
-						myRating={camp.myRating}
-						averageRating={camp.averageRating}
-						ratingCount={camp.ratingCount}
-						onRated={loadCamp}
-					/>
-				)}
-				{(camp.isParticipant || camp.isOwner) && (
-					<Button
-						mode="contained"
-						buttonColor="#2E7D32"
-						style={styles.chatButton}
-						onPress={() =>
-							navigation.navigate("Chat", {
-								campId: camp.id,
-								campTitle: camp.title,
-								participantCount: camp.participantCount,
-								maxParticipantCount: camp.maxParticipantCount,
-							})
-						}
-					>
-						Sohbete Git
-					</Button>
-				)}
-				{camp.isCompleted && (
-					<View style={styles.commentSection}>
-						<Text style={styles.commentTitle}>Yorumlar</Text>
-
-						<CommentInput
-							value={commentText}
-							onChangeText={setCommentText}
-							onSubmit={handleAddComment}
+						<MaterialCommunityIcons
+							name="chevron-left"
+							size={30}
+							color="#fff"
 						/>
+					</TouchableOpacity>
 
-						{comments.map((comment) => (
-							<CommentCard
-								key={comment.id}
-								comment={comment}
-								onDelete={handleDeleteComment}
-								onUserPress={(userId) =>
-									navigation.navigate("UserProfile", {
-										userId,
-									})
-								}
-							/>
-						))}
+					<TouchableOpacity
+						style={styles.favoriteButton}
+						onPress={handleFavorite}
+					>
+						<MaterialCommunityIcons
+							name={isFavorited ? "heart" : "heart-outline"}
+							size={24}
+							color={isFavorited ? "#FF6B6B" : "#fff"}
+						/>
+					</TouchableOpacity>
+				</View>
+
+				<View style={styles.contentCard}>
+					<View style={styles.titleRow}>
+						<View style={styles.titleArea}>
+							<Text style={styles.title}>{camp.title}</Text>
+
+							<View style={styles.locationRow}>
+								<MaterialCommunityIcons
+									name="map-marker-outline"
+									size={15}
+									color="#6DA878"
+								/>
+								<Text style={styles.location}>{camp.location}</Text>
+							</View>
+						</View>
 					</View>
-				)}
-				<CampActionButton
-					buttonConfig={buttonConfig}
-					onPress={handleJoin}
-				/>
+
+					<View style={styles.metaCard}>
+						<View style={styles.metaItem}>
+							<MaterialCommunityIcons
+								name="star"
+								size={17}
+								color="#FFD34D"
+							/>
+							<Text style={styles.metaText}>
+								{averageRating > 0 ? averageRating.toFixed(1) : "0.0"} (
+								{ratingCount})
+							</Text>
+						</View>
+
+						<View style={styles.metaItem}>
+							<MaterialCommunityIcons
+								name="clock-outline"
+								size={16}
+								color="#AAB8AA"
+							/>
+							<Text style={styles.metaText}>{dayCount} gün</Text>
+						</View>
+
+						<View style={styles.metaItem}>
+							<MaterialCommunityIcons
+								name="account-group-outline"
+								size={16}
+								color="#AAB8AA"
+							/>
+							<Text style={styles.metaText}>
+								Max {camp.maxParticipantCount} kişi
+							</Text>
+						</View>
+					</View>
+
+					<View style={styles.dateBox}>
+						<Text style={styles.dateText}>
+							{formattedStartDate} - {formattedEndDate}
+						</Text>
+					</View>
+
+					<CampInfoCard camp={camp} />
+
+					{camp.isOwner && (
+						<Button
+							mode="outlined"
+							textColor="#CFE8D2"
+							style={styles.outlineButton}
+							onPress={() =>
+								navigation.navigate("CampJoinRequests", {
+									campId: camp.id,
+								})
+							}
+						>
+							Katılım İsteklerini Gör
+						</Button>
+					)}
+
+					{camp.isCompleted && camp.isParticipant && (
+						<CampRatingCard
+							campId={camp.id}
+							myRating={camp.myRating}
+							averageRating={camp.averageRating}
+							ratingCount={camp.ratingCount}
+							onRated={loadCamp}
+						/>
+					)}
+
+					{(camp.isParticipant || camp.isOwner) && (
+						<Button
+							mode="contained"
+							buttonColor="#4F8F5F"
+							style={styles.chatButton}
+							onPress={() =>
+								navigation.navigate("Chat", {
+									campId: camp.id,
+									campTitle: camp.title,
+									participantCount: camp.participantCount,
+									maxParticipantCount: camp.maxParticipantCount,
+								})
+							}
+						>
+							Sohbete Git
+						</Button>
+					)}
+
+					{camp.isCompleted && (
+						<View style={styles.commentSection}>
+							<Text style={styles.sectionTitle}>Yorumlar</Text>
+
+							<CommentInput
+								value={commentText}
+								onChangeText={setCommentText}
+								onSubmit={handleAddComment}
+							/>
+
+							{comments.map((comment) => (
+								<CommentCard
+									key={comment.id}
+									comment={comment}
+									onDelete={handleDeleteComment}
+									onUserPress={(userId) =>
+										navigation.navigate("UserProfile", {
+											userId,
+										})
+									}
+								/>
+							))}
+						</View>
+					)}
+				</View>
+			</ScrollView>
+
+			<View style={styles.bottomBar}>
+				<View>
+					<Text style={styles.totalLabel}>Katılım Durumu</Text>
+					<Text style={styles.totalText}>
+						{camp.participantCount}/{camp.maxParticipantCount}
+					</Text>
+				</View>
+
+				<View style={styles.actionWrapper}>
+					<CampActionButton
+						buttonConfig={buttonConfig}
+						onPress={handleJoin}
+					/>
+				</View>
 			</View>
-		</ScrollView>
+		</View>
 	);
 };
 
 export default CampDetailScreen;
 
 const styles = StyleSheet.create({
-	container: {
+	screen: {
 		flex: 1,
-		backgroundColor: "#F5F5F5",
+		backgroundColor: "#07130B",
 	},
 
-	content: {
-		padding: 20,
+	container: {
+		flex: 1,
+		backgroundColor: "#07130B",
+	},
+
+	scrollContent: {
+		paddingBottom: 110,
+	},
+
+	heroWrapper: {
+		height: 300,
+		position: "relative",
+	},
+
+	heroImage: {
+		width: "100%",
+		height: "100%",
+	},
+
+	heroOverlay: {
+		...StyleSheet.absoluteFillObject,
+		backgroundColor: "rgba(0,0,0,0.25)",
+	},
+
+	backButton: {
+		position: "absolute",
+		top: 48,
+		left: 18,
+		width: 44,
+		height: 44,
+		borderRadius: 22,
+		backgroundColor: "rgba(0,0,0,0.35)",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+
+	favoriteButton: {
+		position: "absolute",
+		top: 48,
+		right: 18,
+		width: 44,
+		height: 44,
+		borderRadius: 22,
+		backgroundColor: "rgba(0,0,0,0.35)",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+
+	contentCard: {
+		marginTop: -42,
+		marginHorizontal: 14,
+		backgroundColor: "#0D1C10",
+		borderRadius: 26,
+		padding: 18,
+		borderWidth: 1,
+		borderColor: "#1C3320",
+	},
+
+	titleRow: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+	},
+
+	titleArea: {
+		flex: 1,
 	},
 
 	title: {
-		fontSize: 30,
-		fontWeight: "700",
-		marginBottom: 20,
-		color: "#222",
-	},
-	requestButton: {
-		marginTop: 10,
-		marginBottom: 12,
-		borderRadius: 14,
-	},
-	chatButton: {
-		marginTop: 10,
-		marginBottom: 12,
-		borderRadius: 14,
-	},
-	commentSection: {
-		marginTop: 20,
+		fontSize: 25,
+		fontWeight: "800",
+		color: "#F4F7EF",
+		lineHeight: 31,
 	},
 
-	commentTitle: {
+	locationRow: {
+		flexDirection: "row",
+		alignItems: "center",
+		marginTop: 8,
+	},
+
+	location: {
+		fontSize: 13,
+		color: "#9FAE9F",
+		marginLeft: 4,
+	},
+
+	metaCard: {
+		marginTop: 18,
+		paddingTop: 14,
+		borderTopWidth: 1,
+		borderColor: "#1E3322",
+		flexDirection: "row",
+		justifyContent: "space-between",
+	},
+
+	metaItem: {
+		flexDirection: "row",
+		alignItems: "center",
+	},
+
+	metaText: {
+		marginLeft: 5,
+		fontSize: 12,
+		color: "#C5CEC4",
+		fontWeight: "600",
+	},
+
+	dateBox: {
+		marginTop: 16,
+		backgroundColor: "#132617",
+		borderRadius: 16,
+		paddingVertical: 12,
+		paddingHorizontal: 14,
+	},
+
+	dateText: {
+		color: "#CFE8D2",
+		fontSize: 13,
+		fontWeight: "600",
+	},
+
+	outlineButton: {
+		marginTop: 14,
+		borderRadius: 16,
+		borderColor: "#4F8F5F",
+	},
+
+	chatButton: {
+		marginTop: 14,
+		borderRadius: 16,
+	},
+
+	commentSection: {
+		marginTop: 24,
+	},
+
+	sectionTitle: {
+		fontSize: 20,
+		fontWeight: "800",
+		color: "#F4F7EF",
+		marginBottom: 14,
+	},
+
+	bottomBar: {
+		position: "absolute",
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: "#152C19",
+		borderTopWidth: 1,
+		borderColor: "#243E28",
+		paddingHorizontal: 18,
+		paddingTop: 14,
+		paddingBottom: 24,
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+	},
+
+	totalLabel: {
+		color: "#AEBDAE",
+		fontSize: 12,
+	},
+
+	totalText: {
+		color: "#fff",
 		fontSize: 22,
-		fontWeight: "700",
-		marginBottom: 16,
-		color: "#222",
+		fontWeight: "900",
+		marginTop: 2,
+	},
+
+	actionWrapper: {
+		flex: 1,
+		marginLeft: 18,
 	},
 });
