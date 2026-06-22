@@ -15,6 +15,7 @@ import HomeCategorySection from "../../components/home/HomeCategorySection";
 import HomeEmptyState from "../../components/home/HomeEmptyState";
 import HomeHeader from "../../components/home/HomeHeader";
 import PopularCampCard from "../../components/home/PopularCampCard";
+import SearchBar from "../../components/home/SearchBar";
 import { useHomeCamps } from "../../hooks/useHomeCamps";
 import { setUnreadCount } from "../../redux/slices/notificationSlice";
 import { getUnreadCount } from "../../services/notificationService";
@@ -92,9 +93,9 @@ const HomeScreen = () => {
 			>
 				<HomeHeader isDark={isDark} />
 
-				<Searchbar
-					value={value}
-					onChangeText={onChangeText}
+				<SearchBar
+					value={searchText}
+					onChangeText={setSearchText}
 					placeholder="Kamp alanı ara..."
 					style={{
 						marginHorizontal: 20,
@@ -147,7 +148,16 @@ const HomeScreen = () => {
 						))}
 					</ScrollView>
 				)}
-				<Text style={styles.sectionTitle}>Popüler Kamplar</Text>
+				<Text
+					style={[
+						styles.sectionTitle,
+						{
+							color: theme.text,
+						},
+					]}
+				>
+					Popüler Kamplar
+				</Text>
 
 				{popularCamps.length === 0 ? (
 					<HomeEmptyState />
