@@ -35,7 +35,15 @@ const HomeHeader = ({}) => {
 				</Text>
 			</View>
 			<View style={styles.rightActions}>
-				<TouchableOpacity style={styles.themeButton} onPress={toggleTheme}>
+				<TouchableOpacity
+					style={[
+						styles.themeButton,
+						{
+							backgroundColor: isDark ? "#132617" : "#FFFFFF",
+						},
+					]}
+					onPress={toggleTheme}
+				>
 					<MaterialCommunityIcons
 						name={isDark ? "weather-sunny" : "moon-waning-crescent"}
 						size={24}
@@ -46,7 +54,14 @@ const HomeHeader = ({}) => {
 				<TouchableOpacity
 					onPress={() => navigation.navigate("Notifications")}
 				>
-					<View style={styles.notificationContainer}>
+					<View
+						style={[
+							styles.notificationContainer,
+							{
+								backgroundColor: isDark ? "#132617" : "#FFFFFF",
+							},
+						]}
+					>
 						<MaterialCommunityIcons
 							name="bell-outline"
 							size={26}
@@ -79,7 +94,7 @@ const styles = StyleSheet.create({
 	},
 
 	greeting: {
-		fontSize: 32,
+		fontSize: 28,
 		fontWeight: "900",
 		color: "#1c1c1c",
 	},
@@ -87,15 +102,14 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		color: "#111311",
 		marginTop: 6,
-
 	},
 	notificationContainer: {
 		width: 50,
 		height: 50,
 		borderRadius: 25,
-		backgroundColor: "#FFFFFF",
 		justifyContent: "center",
 		alignItems: "center",
+
 		shadowColor: "#000",
 		shadowOpacity: 0.08,
 		shadowRadius: 8,
@@ -133,8 +147,6 @@ const styles = StyleSheet.create({
 		width: 48,
 		height: 48,
 		borderRadius: 24,
-
-		backgroundColor: "#fff",
 
 		alignItems: "center",
 		justifyContent: "center",
