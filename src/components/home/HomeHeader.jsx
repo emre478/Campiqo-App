@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		paddingHorizontal: 20,
 		paddingTop: 65,
+		
 	},
 
 	greeting: {
