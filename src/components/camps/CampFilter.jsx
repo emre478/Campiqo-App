@@ -1,31 +1,22 @@
 import React from "react";
-import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const CampFilter = ({ selected, onChange }) => {
 	return (
 		<View style={styles.container}>
 			<TouchableOpacity
-				style={[
-					styles.tab,
-					selected === "all" && styles.activeTab,
-				]}
+				style={[styles.tab, selected === "all" && styles.activeTab]}
 				onPress={() => onChange("all")}
 			>
 				<Text
-					style={[
-						styles.text,
-						selected === "all" && styles.activeText,
-					]}
+					style={[styles.text, selected === "all" && styles.activeText]}
 				>
 					Tümü
 				</Text>
 			</TouchableOpacity>
 
 			<TouchableOpacity
-				style={[
-					styles.tab,
-					selected === "upcoming" && styles.activeTab,
-				]}
+				style={[styles.tab, selected === "upcoming" && styles.activeTab]}
 				onPress={() => onChange("upcoming")}
 			>
 				<Text
@@ -46,11 +37,24 @@ export default CampFilter;
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
-		marginHorizontal: 16,
-		marginBottom: 16,
-		backgroundColor: "#F1F3F5",
-		borderRadius: 12,
-		padding: 4,
+		marginHorizontal: 20,
+		marginBottom: 20,
+
+		backgroundColor: "#FFFFFF",
+
+		borderRadius: 18,
+
+		padding: 5,
+
+		shadowColor: "#000",
+		shadowOpacity: 0.06,
+		shadowRadius: 8,
+		shadowOffset: {
+			width: 0,
+			height: 3,
+		},
+
+		elevation: 3,
 	},
 
 	tab: {
