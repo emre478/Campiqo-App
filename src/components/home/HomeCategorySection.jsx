@@ -8,11 +8,18 @@ import {
 } from "react-native";
 
 import { CAMP_CATEGORIES } from "../../constants/campCategories";
+import { useTheme } from "../../theme/ThemeContext";
+import { darkTheme, lightTheme } from "../../theme/colors";
 
 const HomeCategorySection = ({ selectedCategory, onSelectCategory }) => {
+	const { isDark } = useTheme();
+
+	const theme = isDark ? darkTheme : lightTheme;
 	return (
 		<View style={styles.container}>
-			<Text style={styles.sectionTitle}>Kategoriler</Text>
+			<Text style={[styles.sectionTitle, { color: theme.text }]}>
+				Kategoriler
+			</Text>
 
 			<ScrollView
 				horizontal
@@ -30,7 +37,13 @@ const HomeCategorySection = ({ selectedCategory, onSelectCategory }) => {
 						}
 						style={[
 							styles.card,
-							selectedCategory === item.id && styles.selectedCard,
+							{
+								backgroundColor:
+									selectedCategory === item.id
+										? theme.primary
+										: theme.card,
+								borderColor: theme.border,
+							},
 						]}
 					>
 						<Text style={styles.icon}>{item.icon}</Text>
@@ -39,7 +52,12 @@ const HomeCategorySection = ({ selectedCategory, onSelectCategory }) => {
 							numberOfLines={2}
 							style={[
 								styles.title,
-								selectedCategory === item.id && styles.selectedTitle,
+								{
+									color:
+										selectedCategory === item.id
+											? "#fff"
+											: theme.text,
+								},
 							]}
 						>
 							{item.name}
@@ -90,7 +108,6 @@ const styles = StyleSheet.create({
 			width: 0,
 			height: 4,
 		},
-
 		elevation: 3,
 	},
 

@@ -5,16 +5,34 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import { useTheme } from "../../theme/ThemeContext";
 
-const HomeHeader = ({ isDark }) => {
+const HomeHeader = ({}) => {
 	const unreadCount = useSelector((state) => state.notification.unreadCount);
 	const { isDark, toggleTheme } = useTheme();
 	const navigation = useNavigation();
 	return (
 		<View style={styles.container}>
 			<View>
-				<Text style={styles.greeting}>Hoş Geldiniz 👋</Text>
+				<Text
+					style={[
+						styles.greeting,
+						{
+							color: isDark ? "#F4F7EF" : "#1C1C1C",
+						},
+					]}
+				>
+					Hoş Geldiniz 👋
+				</Text>
 
-				<Text style={styles.subtitle}>Doğayı Keşfet</Text>
+				<Text
+					style={[
+						styles.subtitle,
+						{
+							color: isDark ? "#AEBDAE" : "#666",
+						},
+					]}
+				>
+					Doğayı Keşfet
+				</Text>
 			</View>
 			<View style={styles.rightActions}>
 				<TouchableOpacity style={styles.themeButton} onPress={toggleTheme}>
@@ -64,13 +82,12 @@ const styles = StyleSheet.create({
 		fontSize: 32,
 		fontWeight: "900",
 		color: "#1c1c1c",
-		color: isDark ? "#F4F7EF" : "#1C1C1C",
 	},
 	subtitle: {
 		fontSize: 14,
 		color: "#111311",
 		marginTop: 6,
-		color: isDark ? "#AEBDAE" : "#666",
+
 	},
 	notificationContainer: {
 		width: 50,
@@ -87,7 +104,6 @@ const styles = StyleSheet.create({
 			height: 3,
 		},
 		elevation: 3,
-		backgroundColor: isDark ? "#132617" : "#FFFFFF",
 	},
 
 	badge: {
