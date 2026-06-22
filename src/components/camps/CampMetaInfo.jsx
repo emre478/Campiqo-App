@@ -11,56 +11,68 @@ const CampMetaInfo = ({
 	maxParticipantCount,
 }) => {
 	return (
-		<>
-			<View style={styles.row}>
+		<View style={styles.container}>
+			<View style={styles.infoCard}>
 				<MaterialCommunityIcons
 					name="map-marker-outline"
-					size={20}
-					color="#666"
+					size={18}
+					color="#6DA878"
 				/>
 
 				<Text style={styles.text}>{location}</Text>
 			</View>
 
-			<View style={styles.row}>
+			<View style={styles.infoCard}>
 				<MaterialCommunityIcons
 					name="calendar-range"
-					size={20}
-					color="#666"
+					size={18}
+					color="#6DA878"
 				/>
 
-				<Text style={styles.text}>
-					{formattedStartDate} - {formattedEndDate}
-				</Text>
+				<Text style={styles.text}>{formattedStartDate}</Text>
 			</View>
 
-			<View style={styles.row}>
+			<View style={styles.infoCard}>
 				<MaterialCommunityIcons
 					name="account-group-outline"
-					size={20}
-					color="#666"
+					size={18}
+					color="#6DA878"
 				/>
 
 				<Text style={styles.text}>
 					{participantCount}/{maxParticipantCount}
 				</Text>
 			</View>
-		</>
+		</View>
 	);
 };
 
 export default CampMetaInfo;
 
 const styles = StyleSheet.create({
-	row: {
+	container: {
+		marginTop: 18,
+	},
+	infoCard: {
 		flexDirection: "row",
 		alignItems: "center",
-		marginBottom: 12,
-	},
 
+		backgroundColor: "#132617",
+
+		paddingVertical: 12,
+		paddingHorizontal: 14,
+
+		borderRadius: 16,
+
+		marginBottom: 10,
+
+		borderWidth: 1,
+		borderColor: "#203A25",
+	},
 	text: {
-		marginLeft: 8,
-		fontSize: 16,
-		color: "#666",
+		marginLeft: 10,
+		fontSize: 14,
+		fontWeight: "600",
+		color: "#D7DED7",
 	},
 });
