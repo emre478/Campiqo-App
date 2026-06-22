@@ -1,9 +1,16 @@
 import React from "react";
-import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-const PopularCampCard = ({ title, location, date, participants, image, onPress }) => {
+const PopularCampCard = ({
+	title,
+	location,
+	date,
+	participants,
+	image,
+	onPress,
+}) => {
 	return (
 		<TouchableOpacity
 			style={styles.card}
@@ -27,14 +34,14 @@ const PopularCampCard = ({ title, location, date, participants, image, onPress }
 					<MaterialCommunityIcons
 						name="map-marker-outline"
 						size={16}
-						color="#666"
+						color="#7FB28A"
 					/>
 
 					<Text style={styles.text}>{location}</Text>
 				</View>
 
 				<View style={styles.row}>
-					<MaterialCommunityIcons name="calendar" size={16} color="#666" />
+					<MaterialCommunityIcons name="calendar" size={16} color="#7FB28A" />
 
 					<Text style={styles.text}>{date}</Text>
 				</View>
@@ -57,19 +64,20 @@ export default PopularCampCard;
 
 const styles = StyleSheet.create({
 	card: {
-		backgroundColor: "#fff",
-		borderRadius: 20,
+		backgroundColor: "#132617",
+		borderRadius: 22,
 		marginHorizontal: 20,
-		marginBottom: 15,
+		marginBottom: 14,
 		flexDirection: "row",
-		padding: 10,
-		elevation: 3,
+		padding: 12,
+		borderWidth: 1,
+		borderColor: "#203A25",
 	},
 
 	image: {
-		width: 120,
-		height: 120,
-		borderRadius: 16,
+		width: 110,
+		height: 110,
+		borderRadius: 18,
 	},
 
 	content: {
@@ -79,8 +87,9 @@ const styles = StyleSheet.create({
 	},
 
 	title: {
-		fontSize: 18,
-		fontWeight: "700",
+		fontSize: 19,
+		fontWeight: "800",
+		color: "#F4F7EF",
 		marginBottom: 10,
 	},
 
@@ -91,7 +100,7 @@ const styles = StyleSheet.create({
 	},
 
 	text: {
-		marginLeft: 5,
-		color: "#666",
+		marginLeft: 6,
+		color: "#AEBDAE",
 	},
 });
