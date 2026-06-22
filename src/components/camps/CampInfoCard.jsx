@@ -7,17 +7,25 @@ const CampInfoCard = ({ camp }) => {
 
 	return (
 		<View style={styles.infoCard}>
-			<Text style={styles.sectionTitle}>Kategori</Text>
+			<Text style={styles.mainTitle}>Hakkında</Text>
 
-			<Text style={styles.sectionValue}>
-				{selectedCategory?.icon} {selectedCategory?.name}
-			</Text>
+			<View style={styles.infoRow}>
+				<View style={styles.infoBox}>
+					<Text style={styles.label}>Kategori</Text>
 
-			<Text style={styles.sectionTitle}>Oluşturan</Text>
+					<Text style={styles.value}>
+						{selectedCategory?.icon} {selectedCategory?.name}
+					</Text>
+				</View>
 
-			<Text style={styles.sectionValue}>{camp.ownerName}</Text>
+				<View style={styles.infoBox}>
+					<Text style={styles.label}>Oluşturan</Text>
 
-			<Text style={styles.sectionTitle}>Açıklama</Text>
+					<Text style={styles.value}>👤 {camp.ownerName}</Text>
+				</View>
+			</View>
+
+			<Text style={styles.descriptionTitle}>Açıklama</Text>
 
 			<Text style={styles.description}>{camp.description}</Text>
 		</View>
@@ -28,38 +36,58 @@ export default CampInfoCard;
 
 const styles = StyleSheet.create({
 	infoCard: {
-		backgroundColor: "#fff",
-		borderRadius: 20,
-		padding: 20,
 		marginTop: 20,
-
-		elevation: 4,
-
-		shadowColor: "#000",
-		shadowOpacity: 0.08,
-		shadowRadius: 8,
-		shadowOffset: {
-			width: 0,
-			height: 3,
-		},
 	},
 
-	sectionTitle: {
-		fontSize: 18,
+	mainTitle: {
+		fontSize: 22,
+		fontWeight: "800",
+		color: "#F4F7EF",
+		marginBottom: 16,
+	},
+
+	infoRow: {
+		flexDirection: "row",
+		gap: 12,
+	},
+
+	infoBox: {
+		flex: 1,
+
+		backgroundColor: "#132617",
+
+		borderRadius: 18,
+
+		padding: 16,
+
+		borderWidth: 1,
+		borderColor: "#203A25",
+	},
+
+	label: {
+		fontSize: 12,
+		color: "#91A091",
+		marginBottom: 8,
+	},
+
+	value: {
+		fontSize: 15,
 		fontWeight: "700",
-		color: "#222",
-		marginBottom: 6,
-		marginTop: 16,
+		color: "#F4F7EF",
 	},
 
-	sectionValue: {
-		fontSize: 16,
-		color: "#666",
+	descriptionTitle: {
+		fontSize: 18,
+		fontWeight: "800",
+		color: "#F4F7EF",
+
+		marginTop: 24,
+		marginBottom: 12,
 	},
 
 	description: {
-		fontSize: 16,
-		lineHeight: 24,
-		color: "#555",
+		fontSize: 15,
+		lineHeight: 26,
+		color: "#C5CEC4",
 	},
 });
