@@ -17,7 +17,6 @@ import CommentCard from "../../../components/comments/CommentCard";
 import CommentInput from "../../../components/comments/CommentInput";
 import { SERVER_URL } from "../../../constants/apiConstants";
 import { useCampDetail } from "../../../hooks/useCampDetail";
-import { useCampRating } from "../../../hooks/useCampRating";
 import { getCampById } from "../../../services/campService";
 
 const CampDetailScreen = ({ route, navigation }) => {
@@ -45,13 +44,6 @@ const CampDetailScreen = ({ route, navigation }) => {
 		handleDeleteComment,
 	} = useCampDetail(camp);
 
-	const {
-		selectedRating,
-		setSelectedRating,
-		handleRate,
-		loading: ratingLoading,
-	} = useCampRating(camp.id, camp.myRating);
-
 	const loadCamp = async () => {
 		try {
 			const response = await getCampById(initialCamp.id);
@@ -63,7 +55,9 @@ const CampDetailScreen = ({ route, navigation }) => {
 
 	const imageSource = camp.imageUrl
 		? { uri: `${SERVER_URL}${camp.imageUrl}` }
-		: { uri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb" };
+		: {
+				uri: "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+			};
 
 	const startDate = new Date(camp.startDate);
 	const endDate = new Date(camp.endDate);
@@ -109,7 +103,7 @@ const CampDetailScreen = ({ route, navigation }) => {
 					>
 						<MaterialCommunityIcons
 							name="chevron-left"
-							size={30}
+							size={32}
 							color="#fff"
 						/>
 					</TouchableOpacity>
@@ -120,33 +114,29 @@ const CampDetailScreen = ({ route, navigation }) => {
 					>
 						<MaterialCommunityIcons
 							name={isFavorited ? "heart" : "heart-outline"}
-							size={24}
+							size={25}
 							color={isFavorited ? "#FF6B6B" : "#fff"}
 						/>
 					</TouchableOpacity>
 				</View>
 
 				<View style={styles.contentCard}>
-					<View style={styles.titleRow}>
-						<View style={styles.titleArea}>
-							<Text style={styles.title}>{camp.title}</Text>
+					<Text style={styles.title}>{camp.title}</Text>
 
-							<View style={styles.locationRow}>
-								<MaterialCommunityIcons
-									name="map-marker-outline"
-									size={15}
-									color="#6DA878"
-								/>
-								<Text style={styles.location}>{camp.location}</Text>
-							</View>
-						</View>
+					<View style={styles.locationRow}>
+						<MaterialCommunityIcons
+							name="map-marker-outline"
+							size={16}
+							color="#6DA878"
+						/>
+						<Text style={styles.location}>{camp.location}</Text>
 					</View>
 
 					<View style={styles.metaCard}>
 						<View style={styles.metaItem}>
 							<MaterialCommunityIcons
 								name="star"
-								size={17}
+								size={19}
 								color="#FFD34D"
 							/>
 							<Text style={styles.metaText}>
@@ -158,7 +148,7 @@ const CampDetailScreen = ({ route, navigation }) => {
 						<View style={styles.metaItem}>
 							<MaterialCommunityIcons
 								name="clock-outline"
-								size={16}
+								size={18}
 								color="#AAB8AA"
 							/>
 							<Text style={styles.metaText}>{dayCount} gün</Text>
@@ -167,16 +157,21 @@ const CampDetailScreen = ({ route, navigation }) => {
 						<View style={styles.metaItem}>
 							<MaterialCommunityIcons
 								name="account-group-outline"
-								size={16}
+								size={18}
 								color="#AAB8AA"
 							/>
 							<Text style={styles.metaText}>
-								Max {camp.maxParticipantCount} kişi
+								Max {camp.maxParticipantCount}
 							</Text>
 						</View>
 					</View>
 
 					<View style={styles.dateBox}>
+						<MaterialCommunityIcons
+							name="calendar-range"
+							size={18}
+							color="#CFE8D2"
+						/>
 						<Text style={styles.dateText}>
 							{formattedStartDate} - {formattedEndDate}
 						</Text>
@@ -186,9 +181,11 @@ const CampDetailScreen = ({ route, navigation }) => {
 
 					{camp.isOwner && (
 						<Button
-							mode="outlined"
+							mode="contained-tonal"
+							buttonColor="#132617"
 							textColor="#CFE8D2"
-							style={styles.outlineButton}
+							style={styles.ownerButton}
+							labelStyle={styles.buttonLabel}
 							onPress={() =>
 								navigation.navigate("CampJoinRequests", {
 									campId: camp.id,
@@ -213,7 +210,9 @@ const CampDetailScreen = ({ route, navigation }) => {
 						<Button
 							mode="contained"
 							buttonColor="#4F8F5F"
+							textColor="#fff"
 							style={styles.chatButton}
+							labelStyle={styles.buttonLabel}
 							onPress={() =>
 								navigation.navigate("Chat", {
 									campId: camp.id,
@@ -256,9 +255,9 @@ const CampDetailScreen = ({ route, navigation }) => {
 
 			<View style={styles.bottomBar}>
 				<View>
-					<Text style={styles.totalLabel}>Katılım Durumu</Text>
+					<Text style={styles.totalLabel}>Katılımcılar</Text>
 					<Text style={styles.totalText}>
-						{camp.participantCount}/{camp.maxParticipantCount}
+						{camp.participantCount} / {camp.maxParticipantCount}
 					</Text>
 				</View>
 
@@ -287,11 +286,11 @@ const styles = StyleSheet.create({
 	},
 
 	scrollContent: {
-		paddingBottom: 110,
+		paddingBottom: 115,
 	},
 
 	heroWrapper: {
-		height: 300,
+		height: 360,
 		position: "relative",
 	},
 
@@ -302,17 +301,17 @@ const styles = StyleSheet.create({
 
 	heroOverlay: {
 		...StyleSheet.absoluteFillObject,
-		backgroundColor: "rgba(0,0,0,0.25)",
+		backgroundColor: "rgba(0,0,0,0.28)",
 	},
 
 	backButton: {
 		position: "absolute",
 		top: 48,
 		left: 18,
-		width: 44,
-		height: 44,
-		borderRadius: 22,
-		backgroundColor: "rgba(0,0,0,0.35)",
+		width: 46,
+		height: 46,
+		borderRadius: 23,
+		backgroundColor: "rgba(0,0,0,0.38)",
 		alignItems: "center",
 		justifyContent: "center",
 	},
@@ -321,59 +320,54 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		top: 48,
 		right: 18,
-		width: 44,
-		height: 44,
-		borderRadius: 22,
-		backgroundColor: "rgba(0,0,0,0.35)",
+		width: 46,
+		height: 46,
+		borderRadius: 23,
+		backgroundColor: "rgba(0,0,0,0.38)",
 		alignItems: "center",
 		justifyContent: "center",
 	},
 
 	contentCard: {
-		marginTop: -42,
+		marginTop: -55,
 		marginHorizontal: 14,
 		backgroundColor: "#0D1C10",
-		borderRadius: 26,
+		borderRadius: 28,
 		padding: 18,
 		borderWidth: 1,
 		borderColor: "#1C3320",
 	},
 
-	titleRow: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-	},
-
-	titleArea: {
-		flex: 1,
-	},
-
 	title: {
-		fontSize: 25,
-		fontWeight: "800",
+		fontSize: 30,
+		fontWeight: "900",
 		color: "#F4F7EF",
-		lineHeight: 31,
+		lineHeight: 36,
 	},
 
 	locationRow: {
 		flexDirection: "row",
 		alignItems: "center",
-		marginTop: 8,
+		marginTop: 9,
 	},
 
 	location: {
-		fontSize: 13,
+		fontSize: 14,
 		color: "#9FAE9F",
-		marginLeft: 4,
+		marginLeft: 5,
+		fontWeight: "600",
 	},
 
 	metaCard: {
 		marginTop: 18,
-		paddingTop: 14,
-		borderTopWidth: 1,
-		borderColor: "#1E3322",
+		backgroundColor: "#132617",
+		borderRadius: 18,
+		paddingVertical: 14,
+		paddingHorizontal: 10,
+		borderWidth: 1,
+		borderColor: "#203A25",
 		flexDirection: "row",
-		justifyContent: "space-between",
+		justifyContent: "space-around",
 	},
 
 	metaItem: {
@@ -385,41 +379,55 @@ const styles = StyleSheet.create({
 		marginLeft: 5,
 		fontSize: 12,
 		color: "#C5CEC4",
-		fontWeight: "600",
+		fontWeight: "700",
 	},
 
 	dateBox: {
 		marginTop: 16,
 		backgroundColor: "#132617",
 		borderRadius: 16,
-		paddingVertical: 12,
+		paddingVertical: 13,
 		paddingHorizontal: 14,
+		borderWidth: 1,
+		borderColor: "#203A25",
+		flexDirection: "row",
+		alignItems: "center",
 	},
 
 	dateText: {
 		color: "#CFE8D2",
 		fontSize: 13,
-		fontWeight: "600",
+		fontWeight: "700",
+		marginLeft: 8,
 	},
 
-	outlineButton: {
-		marginTop: 14,
-		borderRadius: 16,
-		borderColor: "#4F8F5F",
+	ownerButton: {
+		marginTop: 16,
+		borderRadius: 18,
+		borderWidth: 1,
+		borderColor: "#203A25",
 	},
 
 	chatButton: {
-		marginTop: 14,
-		borderRadius: 16,
+		marginTop: 16,
+		borderRadius: 18,
+	},
+
+	buttonLabel: {
+		fontWeight: "800",
+		fontSize: 15,
 	},
 
 	commentSection: {
-		marginTop: 24,
+		marginTop: 28,
+		paddingTop: 24,
+		borderTopWidth: 1,
+		borderColor: "#203A25",
 	},
 
 	sectionTitle: {
-		fontSize: 20,
-		fontWeight: "800",
+		fontSize: 21,
+		fontWeight: "900",
 		color: "#F4F7EF",
 		marginBottom: 14,
 	},
@@ -443,6 +451,7 @@ const styles = StyleSheet.create({
 	totalLabel: {
 		color: "#AEBDAE",
 		fontSize: 12,
+		fontWeight: "600",
 	},
 
 	totalText: {

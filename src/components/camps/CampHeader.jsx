@@ -28,11 +28,14 @@ export default CampHeader;
 const styles = StyleSheet.create({
 	image: {
 		width: "100%",
-		height: 260,
+		height: 320,
 	},
 
 	imageContainer: {
 		position: "relative",
+		borderBottomLeftRadius: 28,
+		borderBottomRightRadius: 28,
+		overflow: "hidden",
 	},
 
 	favoriteButton: {
@@ -58,5 +61,39 @@ const styles = StyleSheet.create({
 		justifyContent: "center",
 		alignItems: "center",
 		zIndex: 10,
+	},
+	overlay: {
+		...StyleSheet.absoluteFillObject,
+		backgroundColor: "rgba(0,0,0,0.22)",
+	},
+	backButton: {
+		position: "absolute",
+		top: 50,
+		left: 18,
+
+		width: 46,
+		height: 46,
+		borderRadius: 23,
+
+		backgroundColor: "rgba(0,0,0,0.38)",
+
+		justifyContent: "center",
+		alignItems: "center",
+
+		zIndex: 10,
+	},
+	favoriteButton: {
+		position: "absolute",
+		top: 50,
+		right: 18,
+
+		width: 46,
+		height: 46,
+		borderRadius: 23,
+
+		backgroundColor: "rgba(0,0,0,0.38)",
+
+		justifyContent: "center",
+		alignItems: "center",
 	},
 });
