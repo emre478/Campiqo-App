@@ -24,31 +24,37 @@ export default ProfileMenuItem;
 
 const styles = StyleSheet.create({
 	card: {
-		backgroundColor: "#fff",
+		backgroundColor: "#132617",
 
 		marginHorizontal: 20,
 		marginTop: 14,
 
-		paddingHorizontal: 20,
-		paddingVertical: 20,
+		paddingHorizontal: 18,
+		paddingVertical: 18,
 
 		borderRadius: 20,
 
 		flexDirection: "row",
 		alignItems: "center",
-		justifyContent: "space-between",
 
-		elevation: 3,
-
-		shadowColor: "#000",
-		shadowOpacity: 0.08,
-		shadowRadius: 8,
-		shadowOffset: {
-			width: 0,
-			height: 3,
-		},
+		borderWidth: 1,
+		borderColor: "#203A25",
 	},
+	iconContainer: {
+		width: 48,
+		height: 48,
+		borderRadius: 14,
 
+		backgroundColor: "#1B3120",
+
+		alignItems: "center",
+		justifyContent: "center",
+
+		marginRight: 14,
+	},
+	arrow: {
+		color: "#91A091",
+	},
 	left: {
 		flexDirection: "row",
 		alignItems: "center",
@@ -61,21 +67,21 @@ const styles = StyleSheet.create({
 
 	title: {
 		fontSize: 17,
-		fontWeight: "600",
-		color: "#222",
+		fontWeight: "700",
+		color: "#F4F7EF",
 	},
 
 	arrow: {
 		fontSize: 24,
-		color: "#BDBDBD",
+		color: "#91A091",
 	},
 
 	dangerCard: {
-		backgroundColor: "#FFEBEE",
+		backgroundColor: "transparent",
+		borderColor: "#4D2C2C",
 	},
 
 	dangerText: {
-		color: "#D32F2F",
-		fontWeight: "700",
+		color: "#FF5A5A",
 	},
 });
