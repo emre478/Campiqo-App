@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
 	ActivityIndicator,
 	RefreshControl,
@@ -29,10 +29,11 @@ const HomeScreen = () => {
 		loading,
 		refreshing,
 		refreshCamps,
-	} = useHomeCamps(selectedCategory);
+		selectedCategory,
+		setSelectedCategory,
+	} = useHomeCamps();
 
 	const dispatch = useDispatch();
-	const [selectedCategory, setSelectedCategory] = useState(null);
 
 	useEffect(() => {
 		loadUnreadCount();

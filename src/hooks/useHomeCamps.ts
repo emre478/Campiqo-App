@@ -2,11 +2,14 @@ import { useEffect, useMemo, useState } from "react";
 import { getCamps } from "../services/campService";
 import { Camp } from "../types/Camp";
 
-export const useHomeCamps = (selectedCategory?: number | null) => {
+export const useHomeCamps = () => {
 	const [camps, setCamps] = useState<Camp[]>([]);
 	const [loading, setLoading] = useState(false);
 	const [searchText, setSearchText] = useState("");
 	const [refreshing, setRefreshing] = useState(false);
+	const [selectedCategory, setSelectedCategory] = useState<number | null>(
+		null
+	);
 
 	useEffect(() => {
 		loadCamps();
@@ -83,5 +86,7 @@ export const useHomeCamps = (selectedCategory?: number | null) => {
 		loadCamps,
 		refreshing,
 		refreshCamps,
+		selectedCategory,
+		setSelectedCategory,
 	};
 };
