@@ -110,6 +110,7 @@ const CampDetailScreen = ({ route, navigation }) => {
 						onPress={() =>
 							navigation.navigate("CampJoinRequests", {
 								campId: camp.id,
+								campTitle: camp.title,
 							})
 						}
 						activeOpacity={0.85}

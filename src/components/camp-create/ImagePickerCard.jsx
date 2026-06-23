@@ -1,7 +1,7 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { uploadImage } from "../../services/uploadService";
 
 const ImagePickerCard = ({ imageUri, onImageSelected }) => {
@@ -14,8 +14,26 @@ const ImagePickerCard = ({ imageUri, onImageSelected }) => {
 		});
 
 		if (!result.canceled) {
-			const uploadResponse = await uploadImage(result.assets[0].uri);
-			onImageSelected(result.assets[0].uri, uploadResponse.data.url);
+			try {
+				// uploadImage doğrudan response.data'yı (isSuccess, message, data içeren objeyi) döner
+				const uploadResponse = await uploadImage(result.assets[0].uri);
+
+				// Swagger yapısına göre kontrol ediyoruz:
+				if (uploadResponse && uploadResponse.isSuccess) {
+					// Görsel URL'si uploadResponse.data.url içinde yer alıyor
+					const backendImageUrl = uploadResponse.data.url;
+
+					// State'i veya üst bileşeni güncelliyoruz
+					onImageSelected(result.assets[0].uri, backendImageUrl);
+				} else {
+					console.error(
+						"Görsel yükleme başarısız:",
+						uploadResponse?.message
+					);
+				}
+			} catch (error) {
+				console.error("Yükleme sırasında hata oluştu:", error);
+			}
 		}
 	};
 

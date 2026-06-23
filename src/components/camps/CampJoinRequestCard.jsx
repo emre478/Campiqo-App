@@ -1,20 +1,62 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { getTimeAgo } from "../../utils/dateUtils";
+
+const getDisplayName = (request) =>
+	request.fullName || request.userFullName || "Kullanıcı";
+
+const getInitials = (name) => {
+	const parts = name.trim().split(/\s+/).filter(Boolean);
+
+	if (parts.length === 0) return "?";
+
+	if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+
+	return `${parts[0].charAt(0)}${parts[parts.length - 1].charAt(0)}`.toUpperCase();
+};
 
 const CampJoinRequestCard = ({ request, onApprove, onReject }) => {
+	const displayName = getDisplayName(request);
+	const initials = getInitials(displayName);
+
 	return (
 		<View style={styles.card}>
-			<View style={styles.nameRow}>
-				<View style={styles.avatar}>
-					<MaterialCommunityIcons
-						name="account"
-						size={18}
-						color="#8DD69A"
-					/>
+			<View style={styles.topRow}>
+				<View style={styles.userInfo}>
+					<View style={styles.avatar}>
+						<Text style={styles.avatarText}>{initials}</Text>
+					</View>
+
+					<View style={styles.textBlock}>
+						<Text style={styles.name}>{displayName}</Text>
+
+						{request.createdAt ? (
+							<View style={styles.timeRow}>
+								<MaterialCommunityIcons
+									name="clock-outline"
+									size={12}
+									color="#91A091"
+								/>
+								<Text style={styles.timeText}>
+									{getTimeAgo(request.createdAt)}
+								</Text>
+							</View>
+						) : null}
+					</View>
 				</View>
-				<Text style={styles.name}>{request.fullName}</Text>
+
+				<View style={styles.pendingBadge}>
+					<MaterialCommunityIcons
+						name="timer-sand"
+						size={12}
+						color="#FFD34D"
+					/>
+					<Text style={styles.pendingText}>Bekliyor</Text>
+				</View>
 			</View>
+
+			<View style={styles.divider} />
 
 			<View style={styles.buttonContainer}>
 				<TouchableOpacity
@@ -27,7 +69,7 @@ const CampJoinRequestCard = ({ request, onApprove, onReject }) => {
 						size={18}
 						color="#F4F7EF"
 					/>
-					<Text style={styles.buttonText}>Kabul Et</Text>
+					<Text style={styles.approveButtonText}>Kabul Et</Text>
 				</TouchableOpacity>
 
 				<TouchableOpacity
@@ -38,9 +80,9 @@ const CampJoinRequestCard = ({ request, onApprove, onReject }) => {
 					<MaterialCommunityIcons
 						name="close"
 						size={18}
-						color="#F4F7EF"
+						color="#F4A4A4"
 					/>
-					<Text style={styles.buttonText}>Reddet</Text>
+					<Text style={styles.rejectButtonText}>Reddet</Text>
 				</TouchableOpacity>
 			</View>
 		</View>
@@ -59,27 +101,82 @@ const styles = StyleSheet.create({
 		borderColor: "#203A25",
 	},
 
-	nameRow: {
+	topRow: {
+		flexDirection: "row",
+		alignItems: "flex-start",
+		justifyContent: "space-between",
+		gap: 12,
+	},
+
+	userInfo: {
+		flex: 1,
 		flexDirection: "row",
 		alignItems: "center",
-		gap: 10,
-		marginBottom: 14,
+		gap: 12,
 	},
 
 	avatar: {
-		width: 36,
-		height: 36,
-		borderRadius: 18,
+		width: 48,
+		height: 48,
+		borderRadius: 24,
 		backgroundColor: "#0D1C10",
+		borderWidth: 1,
+		borderColor: "#203A25",
 		alignItems: "center",
 		justifyContent: "center",
 	},
 
-	name: {
+	avatarText: {
+		fontSize: 16,
+		fontWeight: "800",
+		color: "#8DD69A",
+	},
+
+	textBlock: {
 		flex: 1,
+	},
+
+	name: {
 		fontSize: 17,
-		fontWeight: "700",
+		fontWeight: "800",
 		color: "#F4F7EF",
+	},
+
+	timeRow: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 4,
+		marginTop: 4,
+	},
+
+	timeText: {
+		fontSize: 12,
+		color: "#91A091",
+		fontWeight: "600",
+	},
+
+	pendingBadge: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 4,
+		backgroundColor: "#0D1C10",
+		borderWidth: 1,
+		borderColor: "#203A25",
+		paddingHorizontal: 10,
+		paddingVertical: 6,
+		borderRadius: 12,
+	},
+
+	pendingText: {
+		fontSize: 11,
+		fontWeight: "700",
+		color: "#FFD34D",
+	},
+
+	divider: {
+		height: 1,
+		backgroundColor: "#203A25",
+		marginVertical: 14,
 	},
 
 	buttonContainer: {
@@ -98,9 +195,16 @@ const styles = StyleSheet.create({
 		gap: 6,
 	},
 
+	approveButtonText: {
+		color: "#F4F7EF",
+		fontWeight: "800",
+	},
+
 	rejectButton: {
 		flex: 1,
-		backgroundColor: "#8B2E2E",
+		backgroundColor: "#0D1C10",
+		borderWidth: 1,
+		borderColor: "#8B2E2E",
 		paddingVertical: 12,
 		borderRadius: 14,
 		alignItems: "center",
@@ -109,8 +213,8 @@ const styles = StyleSheet.create({
 		gap: 6,
 	},
 
-	buttonText: {
-		color: "#F4F7EF",
+	rejectButtonText: {
+		color: "#F4A4A4",
 		fontWeight: "800",
 	},
 });

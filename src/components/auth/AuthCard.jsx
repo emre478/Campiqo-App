@@ -1,12 +1,13 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { Card } from "react-native-paper";
+import { StyleSheet, Text, View } from "react-native";
 
-const AuthCard = ({ children }) => {
+const AuthCard = ({ title, subtitle, children }) => {
 	return (
-		<Card style={styles.card}>
-			<Card.Content>{children}</Card.Content>
-		</Card>
+		<View style={styles.card}>
+			{title ? <Text style={styles.title}>{title}</Text> : null}
+			{subtitle ? <Text style={styles.subtitle}>{subtitle}</Text> : null}
+			{children}
+		</View>
 	);
 };
 
@@ -14,14 +15,24 @@ export default AuthCard;
 
 const styles = StyleSheet.create({
 	card: {
-		marginHorizontal: 20,
-		marginTop: 40,
-		borderRadius: 30,
-		elevation: 12,
+		backgroundColor: "#132617",
+		borderRadius: 24,
+		padding: 20,
+		borderWidth: 1,
+		borderColor: "#203A25",
+	},
 
-		backgroundColor: "rgba(255,255,255,0.97)",
+	title: {
+		fontSize: 24,
+		fontWeight: "900",
+		color: "#F4F7EF",
+		marginBottom: 6,
+	},
 
-		paddingVertical: 24,
-		paddingHorizontal: 12,
+	subtitle: {
+		fontSize: 14,
+		color: "#91A091",
+		fontWeight: "600",
+		marginBottom: 20,
 	},
 });
