@@ -116,11 +116,11 @@ Uygulama boyunca aşağıdaki kararlar korunacaktır:
 8. Kullanıcıya gösterilecek hata metni Problem Details `code`, `detail` ve `errors`
    alanlarından merkezi olarak üretilir; ham backend hata metnine string eşitliği yapılmaz.
 9. Mutating ve idempotent endpoint'lerde generated client'ın `Idempotency-Key` desteği kullanılır.
-10. Backend metadata endpoint'leri enum ve seçeneklerin kaynağıdır; mobilde paralel sabit
-    kategori/status listeleri tutulmaz.
-11. Tüm yeni bağımlılıklar Expo SDK 55'in sürümlü dokümantasyonuna göre ve mümkün olan
-    yerlerde `npx expo install` ile eklenir.
-12. Her faz, kendi kabul kriterleri ve otomatik testleri tamamlanmadan kapatılmaz.
+10.   Backend metadata endpoint'leri enum ve seçeneklerin kaynağıdır; mobilde paralel sabit
+      kategori/status listeleri tutulmaz.
+11.   Tüm yeni bağımlılıklar Expo SDK 55'in sürümlü dokümantasyonuna göre ve mümkün olan
+      yerlerde `npx expo install` ile eklenir.
+12.   Her faz, kendi kabul kriterleri ve otomatik testleri tamamlanmadan kapatılmaz.
 
 ## 4. Hedef mobil mimari
 
@@ -176,17 +176,16 @@ Kurallar:
 
 ### İşler
 
-- [ ] Mobildeki mevcut kullanıcı akışları için kısa video/screenshot baseline oluştur.
-- [ ] Backend ve mobil çalışma ağaçlarındaki mevcut değişiklikleri sahipleriyle ayır ve commit'le.
-- [ ] Backend Docker engine'i çalışır hale getir ve 954 testin tamamını çalıştır.
-- [ ] Backend OpenAPI sözleşmesini mobile senkronize et.
-- [ ] Generated TypeScript client'ı yeniden üret.
-- [ ] Backend baseline, mobil contract ve generated client arasında sıfır drift doğrula.
-- [ ] Consumer endpoint'leri için endpoint -> ekran -> query/mutation -> test izlenebilirlik
-  matrisi oluştur.
-- [ ] Admin endpoint'lerini consumer mobil kapsamı dışında açıkça işaretle.
-- [ ] Ürün dili, desteklenen minimum iOS/Android, tablet kapsamı ve web kapsamı kararlarını yaz.
-- [ ] Analytics event isimlendirme ve kişisel veri sınıflandırma dokümanını başlat.
+- [x] Görsel/video baseline, hızlı teslim kararıyla bilinçli olarak kapsam dışı bırakıldı.
+- [x] Backend ve mobil çalışma ağaçlarındaki mevcut değişiklikler ayrıldı ve commit'lendi.
+- [x] Backend Docker engine ile 954 testin tamamı çalıştırıldı.
+- [x] Backend OpenAPI sözleşmesi mobile senkronize edildi.
+- [x] Generated TypeScript client yeniden üretildi.
+- [x] Backend baseline, mobil contract ve generated client arasında sıfır drift doğrulandı.
+- [x] Consumer endpoint'leri için endpoint -> ekran -> query/mutation -> test matrisi oluşturuldu.
+- [x] Admin endpoint'leri consumer mobil kapsamı dışında işaretlendi.
+- [x] Ürün dili, minimum iOS/Android, tablet ve web kapsamı kararları yazıldı.
+- [x] Analytics event isimlendirme ve kişisel veri sınıflandırma dokümanı başlatıldı.
 
 ### Kabul kriterleri
 
@@ -203,9 +202,9 @@ Kurallar:
 ### İşler
 
 - [ ] Generated client factory'yi Auth, Camp, User, Chat, Notification, Upload, Legal,
-  Metadata, Report ve UserBlock API'lerini expose edecek şekilde genişlet.
+      Metadata, Report ve UserBlock API'lerini expose edecek şekilde genişlet.
 - [ ] Environment-aware API origin doğrulaması ekle; development, staging ve production
-  adreslerini build profile üzerinden yönet.
+      adreslerini build profile üzerinden yönet.
 - [ ] HTTPS zorunluluğunu staging/production build'lerinde fail-fast uygula.
 - [ ] SecureStore session repository'yi tek session kaynağı yap.
 - [ ] Access/refresh token save, restore, rotate, clear ve corrupt-session senaryolarını tamamla.
@@ -217,7 +216,7 @@ Kurallar:
 - [ ] Upload işlemlerinde FormData boundary'sini transport katmanına bırak.
 - [ ] Bütün legacy `src/services/*`, Axios client ve AsyncStorage token servisini kaldır.
 - [ ] Manuel `Camp`, `Notification`, `ChatMessage`, `UserProfile` API tiplerini kaldır veya
-  yalnızca açık UI view-model'lerine dönüştür.
+      yalnızca açık UI view-model'lerine dönüştür.
 
 ### Testler
 
@@ -243,16 +242,16 @@ Kurallar:
 
 - [ ] Tüm `.js`/`.jsx` uygulama dosyalarını `.ts`/`.tsx`'e geçir.
 - [ ] TypeScript `strict`, `noUncheckedIndexedAccess`, `noImplicitOverride` ve uygun
-  unused kontrollerini etkinleştir.
+      unused kontrollerini etkinleştir.
 - [ ] Typed Redux hook'ları ve typed navigation param listeleri oluştur.
 - [ ] AuthStack, VerificationStack ve AppStack'i ayır.
 - [ ] Bootstrap state'leri tanımla: loading, authenticated, unauthenticated,
-  email-unverified, reactivation-required ve fatal-config-error.
+      email-unverified, reactivation-required ve fatal-config-error.
 - [ ] SecureStore session restore bitmeden yanlış ekranın görünmesini engelle.
 - [ ] Navigation history'de auth ekranı bırakmayan reset davranışı ekle.
 - [ ] Universal/app link şeması ve `/notifications/open` resolver'ını kur.
 - [ ] Cold start, background ve foreground notification/deep-link davranışlarını aynı
-  resolver üzerinden geçir.
+      resolver üzerinden geçir.
 - [ ] Global Error Boundary ve kurtarılabilir fatal-error ekranı ekle.
 - [ ] AppState değişiminde session/query yenileme politikasını tanımla.
 
@@ -275,7 +274,7 @@ Kurallar:
 - [ ] Kullanılacak tema yaklaşımını tekleştir; ölü Paper/theme kodunu kaldır veya gerçekten bağla.
 - [ ] Light/dark/system theme kararını uygula ve kalıcı hale getir.
 - [ ] Ortak Button, IconButton, TextField, Select, DateField, Card, Avatar, Badge,
-  Snackbar, Dialog, Sheet, Skeleton, EmptyState ve ErrorState bileşenlerini oluştur.
+      Snackbar, Dialog, Sheet, Skeleton, EmptyState ve ErrorState bileşenlerini oluştur.
 - [ ] Safe area için yalnızca `react-native-safe-area-context` kullan.
 - [ ] Form alanlarında label, inline error, required state ve submit state standardı oluştur.
 - [ ] Destructive aksiyonlarda confirmation ve geri alınabilir aksiyonlarda undo standardı ekle.
@@ -324,19 +323,19 @@ Kurallar:
 
 - [ ] Server-side search ve debounce ekle.
 - [ ] Location, koordinat/radius, status, category, difficulty, minimum experience,
-  amenities, availability, upcoming ve date-range filtrelerini ekle.
+      amenities, availability, upcoming ve date-range filtrelerini ekle.
 - [ ] Backend `CampSortOption` seçenekleriyle sıralamayı bağla.
 - [ ] Metadata endpoint'inden kategori, difficulty, visibility ve sort seçeneklerini getir/cache'le.
 - [ ] Offset pagination için tekrar etmeyen, yarış koşulu güvenli infinite list kur.
 - [ ] Pull-to-refresh ve stale-cache davranışlarını standardize et.
 - [ ] Ana sayfadaki "popüler" ve "yaklaşan" bölümleri ilk 10 kaydı client-side sıralamak
-  yerine backend sorgularından üret.
+      yerine backend sorgularından üret.
 - [ ] Kamp detayında address, meeting point, harita koordinatı, application window,
-  available spots, difficulty, experience, pet/child friendly, equipment, rules ve
-  amenities alanlarını göster.
+      available spots, difficulty, experience, pet/child friendly, equipment, rules ve
+      amenities alanlarını göster.
 - [ ] Kartlarda `thumbnailUrl`, detayda `detailImageUrl`, tam ekranda original fallback kullan.
 - [ ] Organizer rating, tamamlanan/iptal edilen kamp sayısı ve cancellation-rate güven
-  göstergesini açıklayıcı biçimde göster.
+      göstergesini açıklayıcı biçimde göster.
 - [ ] Cancelled/full/applications-closed/waitlisted gibi bütün join-action durumlarını işle.
 - [ ] Deep link ile doğrudan kamp detayına güvenli giriş ekle.
 
@@ -357,7 +356,7 @@ Kurallar:
 - [ ] Başlık, açıklama, location/address/meeting point ve koordinat alanlarını ekle.
 - [ ] Application start/end, camp start/end ve timezone davranışını açıkça yönet.
 - [ ] Visibility, category, difficulty, minimum experience, pet/child friendly,
-  equipment, rules ve amenities alanlarını ekle.
+      equipment, rules ve amenities alanlarını ekle.
 - [ ] Draft oluşturma/kaydetme/devam etme ve publish akışlarını bağla.
 - [ ] Autosave veya kontrollü "taslak kaydet" davranışı ekle.
 - [ ] Publish validation hatalarını ilgili form adımına/alanına taşı.
@@ -439,11 +438,11 @@ Kurallar:
 - [ ] Expo/React Native uyumlu SignalR client ekle.
 - [ ] `/chatHub` bağlantısında SecureStore-backed access-token factory kullan.
 - [ ] Automatic reconnect, exponential backoff, foreground/background ve token-refresh
-  yeniden bağlantı davranışlarını uygula.
+      yeniden bağlantı davranışlarını uygula.
 - [ ] `JoinCampRoom`/`LeaveCampRoom` yaşam döngüsünü screen focus ile bağla.
 - [ ] Cursor pagination ile geçmiş mesajları yükle.
 - [ ] `ReceiveMessage`, `MessageEdited`, `MessageDeleted` ve `ChatAccessRevoked`
-  event'lerini query cache ile birleştir.
+      event'lerini query cache ile birleştir.
 - [ ] Text mesajlarını optimistic ve idempotent gönder.
 - [ ] Image message için upload `fileId`, thumbnail/detail/original gösterimini bağla.
 - [ ] Location message gönderme ve haritada açma akışını ekle.
@@ -469,7 +468,7 @@ Kurallar:
 
 - [ ] Expo 55 uyumlu notification ve device paketlerini ekle.
 - [ ] Backend Firebase kullandığı için Expo push token yerine platform native device token
-  stratejisini doğrula ve dokümante et.
+      stratejisini doğrula ve dokümante et.
 - [ ] Android notification channel ve iOS permission akışlarını ekle.
 - [ ] Permission istemeden önce kullanıcıya bağlam açıklaması göster.
 - [ ] Push device tokenı backend'e platform ve device name ile register et.
@@ -606,11 +605,11 @@ Kurallar:
 - [ ] Backend correlation/trace ID'yi hata raporlarında PII içermeden taşı.
 - [ ] Backend ürün funnel'ıyla uyumlu mobil event kataloğu oluştur.
 - [ ] Login/register/verify, discovery, camp-create/publish, join, chat, notification ve
-  retention funnel event'lerini ekle.
+      retention funnel event'lerini ekle.
 - [ ] Consent ve privacy kararlarına uygun analytics opt-out/disable mekanizması ekle.
 - [ ] Performance spans: app startup, API latency, screen load ve image upload.
 - [ ] Feature flag/kill-switch ihtiyacını değerlendir; chat/push gibi riskli özelliklerde
-  gerektiğinde kontrollü kapatma desteği ekle.
+      gerektiğinde kontrollü kapatma desteği ekle.
 - [ ] Support ekranına app version, build number, environment ve correlation ID kopyalama ekle.
 
 ### Kabul kriterleri
@@ -629,7 +628,7 @@ Kurallar:
 - [ ] App scheme, associated domains/app links ve intent filter'ları yapılandır.
 - [ ] Development, preview/staging ve production EAS build profile'larını oluştur.
 - [ ] Environment değişkenlerini profile bazlı ayır; secret olmayan public config ile
-  gerçek secret yönetimini karıştırma.
+      gerçek secret yönetimini karıştırma.
 - [ ] iOS entitlements, push capability ve APNs/Firebase yapılandırmasını tamamla.
 - [ ] Android notification icon/channel, signing ve Firebase yapılandırmasını tamamla.
 - [ ] Runtime version ve OTA update politikasını tanımla.
@@ -637,7 +636,7 @@ Kurallar:
 - [ ] Semantic version/build number otomasyonu kur.
 - [ ] App icon, splash, adaptive icon ve store screenshot'larını finalleştir.
 - [ ] Privacy manifest/labels, data safety formu, izin açıklamaları, destek URL'si ve
-  hesap silme gerekliliklerini tamamla.
+      hesap silme gerekliliklerini tamamla.
 - [ ] Third-party license notices üret.
 - [ ] Release notes, rollback ve incident runbook'u yaz.
 - [ ] Internal distribution ile release candidate üret.
@@ -657,7 +656,7 @@ Kurallar:
 ### İşler
 
 - [ ] QA test matrisi: desteklenen iOS/Android sürümleri, küçük/büyük ekranlar ve düşük/orta
-  segment cihazlar.
+      segment cihazlar.
 - [ ] En az bir gerçek iPhone ve iki farklı Android üretici/segment cihazında test.
 - [ ] TestFlight ve Play Internal Testing dağıtımı.
 - [ ] 1 haftalık ekip dogfood dönemi.
@@ -687,28 +686,28 @@ Aşağıdakilerden biri sağlanmıyorsa yayın yapılmaz:
 
 ## 6. Backend özellikleri için mobil kapsama matrisi
 
-| Backend alanı | Bugünkü mobil durum | Roadmap sonu hedefi | Faz |
-|---|---|---|---|
-| Register/login | Legacy ve response uyumsuz | Typed, legal-aware, güvenli session | 1, 4 |
-| Refresh/logout/sessions | UI'da yok | Rotation, revoke, session listesi | 1, 4 |
-| Verify/reset/reactivate | Yok | Deep-link destekli tam akış | 4 |
-| Camp discovery | Temel ilk sayfa | Tüm server filtre/sort/pagination | 5 |
-| Camp detail | Kısmi | Tüm metadata, güven ve durumlar | 5 |
-| Draft/publish/edit/cancel | Yok veya çok sınırlı | Tam organizer yaşam döngüsü | 6 |
-| Multi-image | Tek upload | Variant, sıra, cover, delete | 6 |
-| Join request | Kısmi | Mine/history/withdraw/waitlist | 7 |
-| Invitations | Yok | Inbox, send, accept/reject/revoke | 7 |
-| Participants/attendance | Yok | Liste, remove, leave, bulk, transfer, attendance | 7 |
-| Comments/ratings/reviews | Kısmi | Pagination, cursor, organizer response | 8 |
-| Reports/blocking | Yok | Consumer safety merkezi | 8 |
-| Chat | Poll/reload, text | SignalR + cursor + 4 mesaj tipi | 9 |
-| Chat edit/delete/announcement | Yok | Tam destek | 9 |
-| Notification list | Kısmi | Pagination ve doğru routing | 10 |
-| Push/preferences | Yok | Native push lifecycle ve tercihler | 10 |
-| Profile | Kısmi, concurrency eksik | Typed ve conflict-safe | 11 |
-| Password/security | Yok | Change password + active sessions | 4, 11 |
-| Export/deactivate/delete | Yok | Tam privacy lifecycle | 11 |
-| Admin moderation/audit | Bilinçli kapsam dışı | Ayrı admin istemcisi | Kapsam dışı |
+| Backend alanı                 | Bugünkü mobil durum        | Roadmap sonu hedefi                              | Faz         |
+| ----------------------------- | -------------------------- | ------------------------------------------------ | ----------- |
+| Register/login                | Legacy ve response uyumsuz | Typed, legal-aware, güvenli session              | 1, 4        |
+| Refresh/logout/sessions       | UI'da yok                  | Rotation, revoke, session listesi                | 1, 4        |
+| Verify/reset/reactivate       | Yok                        | Deep-link destekli tam akış                      | 4           |
+| Camp discovery                | Temel ilk sayfa            | Tüm server filtre/sort/pagination                | 5           |
+| Camp detail                   | Kısmi                      | Tüm metadata, güven ve durumlar                  | 5           |
+| Draft/publish/edit/cancel     | Yok veya çok sınırlı       | Tam organizer yaşam döngüsü                      | 6           |
+| Multi-image                   | Tek upload                 | Variant, sıra, cover, delete                     | 6           |
+| Join request                  | Kısmi                      | Mine/history/withdraw/waitlist                   | 7           |
+| Invitations                   | Yok                        | Inbox, send, accept/reject/revoke                | 7           |
+| Participants/attendance       | Yok                        | Liste, remove, leave, bulk, transfer, attendance | 7           |
+| Comments/ratings/reviews      | Kısmi                      | Pagination, cursor, organizer response           | 8           |
+| Reports/blocking              | Yok                        | Consumer safety merkezi                          | 8           |
+| Chat                          | Poll/reload, text          | SignalR + cursor + 4 mesaj tipi                  | 9           |
+| Chat edit/delete/announcement | Yok                        | Tam destek                                       | 9           |
+| Notification list             | Kısmi                      | Pagination ve doğru routing                      | 10          |
+| Push/preferences              | Yok                        | Native push lifecycle ve tercihler               | 10          |
+| Profile                       | Kısmi, concurrency eksik   | Typed ve conflict-safe                           | 11          |
+| Password/security             | Yok                        | Change password + active sessions                | 4, 11       |
+| Export/deactivate/delete      | Yok                        | Tam privacy lifecycle                            | 11          |
+| Admin moderation/audit        | Bilinçli kapsam dışı       | Ayrı admin istemcisi                             | Kapsam dışı |
 
 ## 7. Önerilen teslim organizasyonu
 
