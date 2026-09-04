@@ -1,4 +1,22 @@
-import { AuthApi, CampApi } from "../generated/api/apis";
+import {
+  AuthApi,
+  CampApi,
+  CampCommentApi,
+  CampFavoriteApi,
+  CampImageApi,
+  CampInvitationApi,
+  CampJoinRequestApi,
+  CampParticipantApi,
+  CampRatingApi,
+  ChatApi,
+  ContentReportApi,
+  LegalApi,
+  MetadataApi,
+  NotificationApi,
+  UploadApi,
+  UserApi,
+  UserBlockApi,
+} from "../generated/api/apis";
 import type { AuthResponse } from "../generated/api/models";
 import {
   Configuration,
@@ -126,12 +144,27 @@ export function createCampiqoClient(
     fetchApi: fetchWithRefresh,
   });
 
-  return {
-    auth: new AuthApi(configuration),
-    camps: new CampApi(configuration),
-    sessionStore,
-    createIdempotencyKey: idempotencyKeyFactory,
-  };
+return {
+  auth: new AuthApi(configuration),
+  camps: new CampApi(configuration),
+  comments: new CampCommentApi(configuration),
+  favorites: new CampFavoriteApi(configuration),
+  campImages: new CampImageApi(configuration),
+  invitations: new CampInvitationApi(configuration),
+  joinRequests: new CampJoinRequestApi(configuration),
+  participants: new CampParticipantApi(configuration),
+  ratings: new CampRatingApi(configuration),
+  chat: new ChatApi(configuration),
+  reports: new ContentReportApi(configuration),
+  legal: new LegalApi(configuration),
+  metadata: new MetadataApi(configuration),
+  notifications: new NotificationApi(configuration),
+  uploads: new UploadApi(configuration),
+  users: new UserApi(configuration),
+  userBlocks: new UserBlockApi(configuration),
+  sessionStore,
+  createIdempotencyKey: idempotencyKeyFactory,
+};
 }
 
 export async function saveAuthResponse(
