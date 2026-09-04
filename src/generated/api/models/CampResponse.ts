@@ -135,6 +135,14 @@ export interface CampResponse {
     /**
      * 
      */
+    thumbnailUrl?: string | null;
+    /**
+     * 
+     */
+    detailImageUrl?: string | null;
+    /**
+     * 
+     */
     visibility?: CampVisibility;
     /**
      * 
@@ -251,6 +259,14 @@ export interface CampResponse {
     /**
      * 
      */
+    cancelledOrganizedCampCount?: number;
+    /**
+     * 
+     */
+    organizerCancellationRate?: number;
+    /**
+     * 
+     */
     isCompleted?: boolean;
     /**
      * 
@@ -302,6 +318,8 @@ export function CampResponseFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'ownerName': json['ownerName'] === undefined ? undefined : json['ownerName'] === null ? null : json['ownerName'],
         'ownerId': json['ownerId'] == null ? undefined : json['ownerId'],
         'imageUrl': json['imageUrl'] === undefined ? undefined : json['imageUrl'] === null ? null : json['imageUrl'],
+        'thumbnailUrl': json['thumbnailUrl'] === undefined ? undefined : json['thumbnailUrl'] === null ? null : json['thumbnailUrl'],
+        'detailImageUrl': json['detailImageUrl'] === undefined ? undefined : json['detailImageUrl'] === null ? null : json['detailImageUrl'],
         'visibility': json['visibility'] == null ? undefined : CampVisibilityFromJSON(json['visibility']),
         'visibilityName': json['visibilityName'] === undefined ? undefined : json['visibilityName'] === null ? null : json['visibilityName'],
         'category': json['category'] == null ? undefined : CampCategoryFromJSON(json['category']),
@@ -331,6 +349,8 @@ export function CampResponseFromJSONTyped(json: any, ignoreDiscriminator: boolea
         'organizerAverageRating': json['organizerAverageRating'] == null ? undefined : json['organizerAverageRating'],
         'organizerRatingCount': json['organizerRatingCount'] == null ? undefined : json['organizerRatingCount'],
         'completedOrganizedCampCount': json['completedOrganizedCampCount'] == null ? undefined : json['completedOrganizedCampCount'],
+        'cancelledOrganizedCampCount': json['cancelledOrganizedCampCount'] == null ? undefined : json['cancelledOrganizedCampCount'],
+        'organizerCancellationRate': json['organizerCancellationRate'] == null ? undefined : json['organizerCancellationRate'],
         'isCompleted': json['isCompleted'] == null ? undefined : json['isCompleted'],
         'joinActionId': json['joinActionId'] == null ? undefined : json['joinActionId'],
         'joinActionName': json['joinActionName'] === undefined ? undefined : json['joinActionName'] === null ? null : json['joinActionName'],
@@ -368,6 +388,8 @@ export function CampResponseToJSONTyped(value?: Omit<CampResponse, 'availableSpo
         'ownerName': value['ownerName'],
         'ownerId': value['ownerId'],
         'imageUrl': value['imageUrl'],
+        'thumbnailUrl': value['thumbnailUrl'],
+        'detailImageUrl': value['detailImageUrl'],
         'visibility': CampVisibilityToJSON(value['visibility']),
         'category': CampCategoryToJSON(value['category']),
         'difficulty': CampDifficultyToJSON(value['difficulty']),
@@ -393,6 +415,8 @@ export function CampResponseToJSONTyped(value?: Omit<CampResponse, 'availableSpo
         'organizerAverageRating': value['organizerAverageRating'],
         'organizerRatingCount': value['organizerRatingCount'],
         'completedOrganizedCampCount': value['completedOrganizedCampCount'],
+        'cancelledOrganizedCampCount': value['cancelledOrganizedCampCount'],
+        'organizerCancellationRate': value['organizerCancellationRate'],
         'isCompleted': value['isCompleted'],
         'joinActionId': value['joinActionId'],
         'joinActionName': value['joinActionName'],

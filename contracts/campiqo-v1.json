@@ -6,6 +6,130 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/v1/admin/audit-logs": {
+      "get": {
+        "tags": [
+          "AdminAudit"
+        ],
+        "operationId": "AdminAudit_GetLogs",
+        "parameters": [
+          {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "ActorUserId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "Action",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Outcome",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AuditOutcome"
+            }
+          },
+          {
+            "name": "TargetType",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "TargetId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "CorrelationId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "FromUtc",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "ToUtc",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/audit-logs/archives": {
+      "get": {
+        "tags": [
+          "AdminAudit"
+        ],
+        "operationId": "AdminAudit_GetArchives",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 50
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/admin/reports": {
       "get": {
         "tags": [
@@ -5560,6 +5684,14 @@
         },
         "additionalProperties": false
       },
+      "AuditOutcome": {
+        "enum": [
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
       "AuthResponse": {
         "type": "object",
         "properties": {
@@ -5902,6 +6034,14 @@
             "type": "string",
             "nullable": true
           },
+          "thumbnailUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "detailUrl": {
+            "type": "string",
+            "nullable": true
+          },
           "altText": {
             "type": "string",
             "nullable": true
@@ -5959,6 +6099,16 @@
           }
         },
         "additionalProperties": false
+      },
+      "CampMessageType": {
+        "enum": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "type": "integer",
+        "format": "int32"
       },
       "CampMetadataResponse": {
         "type": "object",
@@ -6138,6 +6288,14 @@
             "type": "string",
             "nullable": true
           },
+          "thumbnailUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "detailImageUrl": {
+            "type": "string",
+            "nullable": true
+          },
           "visibility": {
             "$ref": "#/components/schemas/CampVisibility"
           },
@@ -6258,6 +6416,14 @@
           "completedOrganizedCampCount": {
             "type": "integer",
             "format": "int32"
+          },
+          "cancelledOrganizedCampCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "organizerCancellationRate": {
+            "type": "number",
+            "format": "double"
           },
           "isCompleted": {
             "type": "boolean"
@@ -6479,7 +6645,29 @@
       "CreateCampMessageRequest": {
         "type": "object",
         "properties": {
+          "type": {
+            "$ref": "#/components/schemas/CampMessageType"
+          },
           "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "latitude": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "locationName": {
             "type": "string",
             "nullable": true
           }

@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from '../runtime';
+import type { CampMessageType } from './CampMessageType';
+import {
+    CampMessageTypeFromJSON,
+    CampMessageTypeFromJSONTyped,
+    CampMessageTypeToJSON,
+    CampMessageTypeToJSONTyped,
+} from './CampMessageType';
+
 /**
  * 
  * @export
@@ -22,8 +30,30 @@ export interface CreateCampMessageRequest {
     /**
      * 
      */
+    type?: CampMessageType;
+    /**
+     * 
+     */
     message?: string | null;
+    /**
+     * 
+     */
+    fileId?: string | null;
+    /**
+     * 
+     */
+    latitude?: number | null;
+    /**
+     * 
+     */
+    longitude?: number | null;
+    /**
+     * 
+     */
+    locationName?: string | null;
 }
+
+
 
 /**
  * Check if a given object implements the CreateCampMessageRequest interface.
@@ -42,7 +72,12 @@ export function CreateCampMessageRequestFromJSONTyped(json: any, ignoreDiscrimin
     }
     return {
         
+        'type': json['type'] == null ? undefined : CampMessageTypeFromJSON(json['type']),
         'message': json['message'] === undefined ? undefined : json['message'] === null ? null : json['message'],
+        'fileId': json['fileId'] === undefined ? undefined : json['fileId'] === null ? null : json['fileId'],
+        'latitude': json['latitude'] === undefined ? undefined : json['latitude'] === null ? null : json['latitude'],
+        'longitude': json['longitude'] === undefined ? undefined : json['longitude'] === null ? null : json['longitude'],
+        'locationName': json['locationName'] === undefined ? undefined : json['locationName'] === null ? null : json['locationName'],
     };
 }
 
@@ -57,7 +92,12 @@ export function CreateCampMessageRequestToJSONTyped(value?: CreateCampMessageReq
 
     return {
         
+        'type': CampMessageTypeToJSON(value['type']),
         'message': value['message'],
+        'fileId': value['fileId'],
+        'latitude': value['latitude'],
+        'longitude': value['longitude'],
+        'locationName': value['locationName'],
     };
 }
 

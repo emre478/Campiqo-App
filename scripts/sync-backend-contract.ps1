@@ -1,10 +1,16 @@
 [CmdletBinding()]
 param(
-    [string]$BackendRoot = (Join-Path $PSScriptRoot "../..\Campiqo")
+    [string]$BackendRoot
 )
 
 $ErrorActionPreference = "Stop"
 Set-StrictMode -Version Latest
+
+if ([string]::IsNullOrWhiteSpace($BackendRoot))
+{
+    $BackendRoot = [System.IO.Path]::GetFullPath(
+        (Join-Path $PSScriptRoot "../..\Campiqo"))
+}
 
 $mobileRoot = [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot ".."))
 $source = [System.IO.Path]::GetFullPath(

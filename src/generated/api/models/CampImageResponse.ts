@@ -34,6 +34,14 @@ export interface CampImageResponse {
     /**
      * 
      */
+    thumbnailUrl?: string | null;
+    /**
+     * 
+     */
+    detailUrl?: string | null;
+    /**
+     * 
+     */
     altText?: string | null;
     /**
      * 
@@ -65,6 +73,8 @@ export function CampImageResponseFromJSONTyped(json: any, ignoreDiscriminator: b
         'id': json['id'] == null ? undefined : json['id'],
         'fileId': json['fileId'] === undefined ? undefined : json['fileId'] === null ? null : json['fileId'],
         'url': json['url'] === undefined ? undefined : json['url'] === null ? null : json['url'],
+        'thumbnailUrl': json['thumbnailUrl'] === undefined ? undefined : json['thumbnailUrl'] === null ? null : json['thumbnailUrl'],
+        'detailUrl': json['detailUrl'] === undefined ? undefined : json['detailUrl'] === null ? null : json['detailUrl'],
         'altText': json['altText'] === undefined ? undefined : json['altText'] === null ? null : json['altText'],
         'sortOrder': json['sortOrder'] == null ? undefined : json['sortOrder'],
         'isCover': json['isCover'] == null ? undefined : json['isCover'],
@@ -85,6 +95,8 @@ export function CampImageResponseToJSONTyped(value?: CampImageResponse | null, i
         'id': value['id'],
         'fileId': value['fileId'],
         'url': value['url'],
+        'thumbnailUrl': value['thumbnailUrl'],
+        'detailUrl': value['detailUrl'],
         'altText': value['altText'],
         'sortOrder': value['sortOrder'],
         'isCover': value['isCover'],
