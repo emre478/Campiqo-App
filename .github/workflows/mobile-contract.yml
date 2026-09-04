@@ -1,0 +1,31 @@
+name: Mobile contract
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  generated-client:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 20.19.4
+          cache: npm
+      - run: npm ci
+      - name: Reject critical and high production advisories
+        run: npm audit --omit=dev --audit-level=high
+      - name: Regenerate pinned OpenAPI client
+        shell: pwsh
+        run: ./scripts/generate-api-client.ps1
+      - name: Reject generated client drift
+        run: git diff --exit-code -- contracts src/generated/api
+      - run: npm run typecheck
+      - run: npm run test:contract
