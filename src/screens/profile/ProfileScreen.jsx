@@ -1,19 +1,20 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
 import {
-	ScrollView,
+	Alert,
 	SafeAreaView,
+	ScrollView,
 	StyleSheet,
 	Text,
 	View,
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import ProfileHeader from "../../components/profile/ProfileHeader";
 import ProfileMenuItem from "../../components/profile/ProfileMenuItem";
 import ProfileStats from "../../components/profile/ProfileStats";
+import { logoutCurrentSession } from "../../features/auth/logout";
 import { logout } from "../../redux/slices/authSlice";
 import { setProfile } from "../../redux/slices/profileSlice";
-import { removeToken } from "../../services/tokenService";
 import {
 	getMyCreatedCamps,
 	getMyJoinedCamps,
@@ -50,7 +51,7 @@ const ProfileScreen = ({ navigation }) => {
 
 	const handleLogout = async () => {
 		try {
-			await removeToken();
+			await logoutCurrentSession();
 
 			dispatch(logout());
 
@@ -58,8 +59,11 @@ const ProfileScreen = ({ navigation }) => {
 				index: 0,
 				routes: [{ name: "Login" }],
 			});
-		} catch (error) {
-			console.log(error);
+		} catch {
+			Alert.alert(
+				"Çıkış yapılamadı",
+				"Güvenli oturum bilgileri temizlenemedi. Lütfen tekrar dene."
+			);
 		}
 	};
 
