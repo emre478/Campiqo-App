@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { parseAppEnvironment, resolveApiServerUrl } from "../src/api/apiConfig";
+import { getAppProblemMessage, toAppProblem } from "../src/api/appProblem";
 import {
 	createCampiqoClient,
 	saveAuthResponse,
-	toCampiqoProblem,
 } from "../src/api/campiqoClient";
 import {
 	deserializeAuthSession,
@@ -526,12 +526,16 @@ test("Problem Details is normalized and generated contract stays nullable", asyn
 		detail: null,
 		errors: { email: ["Invalid"] },
 	};
-	const problem = await toCampiqoProblem(
-		new ResponseError(json(details, 400))
-	);
+	const problem = await toAppProblem(new ResponseError(json(details, 400)));
 
 	assert.equal(problem.status, 400);
 	assert.deepEqual(problem.errors, { email: ["Invalid"] });
+	assert.equal(problem.kind, "http");
+	assert.equal(problem.retryable, false);
+	assert.equal(
+		getAppProblemMessage(problem),
+		"Lütfen form alanlarını kontrol et."
+	);
 
 	const sessionStore = new MemorySessionStore();
 	await saveAuthResponse(
@@ -539,4 +543,59 @@ test("Problem Details is normalized and generated contract stays nullable", asyn
 		sessionStore
 	);
 	assert.equal(sessionStore.value?.refreshToken, "r");
+});
+
+test("wrapped HTTP errors preserve status and Problem Details", async () => {
+	const responseError = new ResponseError(
+		json(
+			{
+				title: "Too many requests",
+				status: 429,
+				code: "RATE_LIMITED",
+				traceId: "trace-123",
+			},
+			429
+		)
+	);
+
+	const problem = await toAppProblem(
+		new FetchError(
+			responseError,
+			"Generated runtime wrapped the response error"
+		)
+	);
+
+	assert.equal(problem.kind, "http");
+	assert.equal(problem.status, 429);
+	assert.equal(problem.code, "RATE_LIMITED");
+	assert.equal(problem.traceId, "trace-123");
+	assert.equal(problem.retryable, true);
+	assert.equal(
+		getAppProblemMessage(problem),
+		"Çok fazla istek gönderildi. Bir süre sonra tekrar dene."
+	);
+});
+
+test("network errors do not expose their raw message", async () => {
+	const problem = await toAppProblem(
+		new FetchError(
+			new TypeError(
+				"Request to private-host.example with secret query failed"
+			),
+			"Generated runtime request failure"
+		)
+	);
+
+	assert.equal(problem.kind, "network");
+	assert.equal(problem.retryable, true);
+	assert.equal(problem.title, "Bağlantı hatası");
+
+	const message = getAppProblemMessage(problem);
+
+	assert.equal(
+		message,
+		"İnternet bağlantısı kurulamadı. Bağlantını kontrol edip tekrar dene."
+	);
+	assert.doesNotMatch(message, /private-host/);
+	assert.doesNotMatch(message, /secret/);
 });
