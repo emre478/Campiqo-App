@@ -1,15 +1,15 @@
-import {
-	getAppProblemMessage,
-	toAppProblem,
-	type AppProblem,
-} from "../../api/appProblem";
-import { campiqoClient, saveAuthResponse } from "../../api/campiqoClient";
-import type { SessionStore } from "../../api/sessionStore";
 import type { AuthLoginRequest } from "../../generated/api/apis/AuthApi";
 import type {
 	AuthenticatedUserResponse,
 	AuthResponseApiResponse,
 } from "../../generated/api/models";
+import { campiqoClient, saveAuthResponse } from "../../api/campiqoClient";
+import {
+	getAppProblemMessage,
+	toAppProblem,
+	type AppProblem,
+} from "../../api/appProblem";
+import type { SessionStore } from "../../api/sessionStore";
 
 interface PasswordLoginClient {
 	auth: {

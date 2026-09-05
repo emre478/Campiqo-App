@@ -12,6 +12,7 @@ import {
 	type AuthSession,
 	type SessionStore,
 } from "../src/api/sessionStore";
+import { loginWithPassword } from "../src/features/auth/login";
 import type {
 	AuthResponseApiResponse,
 	CampResponsePaginatedResponseApiResponse,
@@ -37,6 +38,54 @@ const json = (body: unknown, status = 200) =>
 		status,
 		headers: { "Content-Type": "application/json" },
 	});
+
+test("password login saves the generated AuthResponse session", async () => {
+	const sessionStore = new MemorySessionStore();
+
+	const result = await loginWithPassword(
+		"  USER@CAMPIQO.TEST ",
+		"StrongPassword123!",
+		{
+			sessionStore,
+			auth: {
+				async authLogin(request) {
+					assert.equal(request.loginRequest?.email, "user@campiqo.test");
+					assert.equal(
+						request.loginRequest?.password,
+						"StrongPassword123!"
+					);
+
+					return {
+						isSuccess: true,
+						data: {
+							accessToken: "access-token",
+							refreshToken: "refresh-token",
+							expiresAtUtc: "2026-09-06T00:00:00Z",
+							refreshTokenExpiresAtUtc: "2026-10-06T00:00:00Z",
+							user: {
+								id: "user-id",
+								email: "user@campiqo.test",
+								firstName: "Test",
+								lastName: "User",
+								isEmailVerified: true,
+							},
+						},
+					};
+				},
+			},
+		}
+	);
+
+	assert.equal(result.ok, true);
+
+	if (!result.ok) {
+		assert.fail(result.message);
+	}
+
+	assert.equal(result.user.id, "user-id");
+	assert.equal(sessionStore.value?.accessToken, "access-token");
+	assert.equal(sessionStore.value?.refreshToken, "refresh-token");
+});
 
 test("session validation rejects malformed or incomplete values", () => {
 	assert.equal(deserializeAuthSession("not-json"), null);
