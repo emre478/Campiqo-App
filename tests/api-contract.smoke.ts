@@ -703,7 +703,7 @@ test("network errors do not expose their raw message", async () => {
 });
 
 test("registration loads current legal document versions", async () => {
-	const sessionStore = createMemorySessionStore();
+	const sessionStore = new MemorySessionStore();
 
 	const result = await loadRegistrationLegalDocuments({
 		auth: {
@@ -746,7 +746,7 @@ test("registration loads current legal document versions", async () => {
 });
 
 test("password registration sends legal versions and saves session", async () => {
-	const sessionStore = createMemorySessionStore();
+	const sessionStore = new MemorySessionStore();
 
 	let sentRequest:
 		| {
@@ -789,7 +789,8 @@ test("password registration sends legal versions and saves session", async () =>
 						data: {
 							accessToken: "new-access-token",
 							refreshToken: "new-refresh-token",
-							expiresAt: new Date(Date.now() + 60_000).toISOString(),
+							expiresAtUtc: "2026-09-06T00:00:00Z",
+							refreshTokenExpiresAtUtc: "2026-10-06T00:00:00Z",
 							user: {
 								id: "user-1",
 								email: "emre@example.com",
@@ -823,8 +824,6 @@ test("password registration sends legal versions and saves session", async () =>
 	assert.equal(sentRequest?.registerRequest?.hasAcceptedPrivacyPolicy, true);
 	assert.equal(result.user.id, "user-1");
 
-	const savedSession = await sessionStore.read();
-
-	assert.equal(savedSession?.accessToken, "new-access-token");
-	assert.equal(savedSession?.refreshToken, "new-refresh-token");
+	assert.equal(sessionStore.value?.accessToken, "new-access-token");
+	assert.equal(sessionStore.value?.refreshToken, "new-refresh-token");
 });
