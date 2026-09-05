@@ -76,9 +76,7 @@ test("password login saves the generated AuthResponse session", async () => {
 		}
 	);
 
-	assert.equal(result.ok, true);
-
-	if (!result.ok) {
+	if (result.ok === false) {
 		assert.fail(result.message);
 	}
 
