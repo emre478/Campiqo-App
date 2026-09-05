@@ -429,6 +429,10 @@ test(
 		const refreshGate = new Promise<void>((resolve) => {
 			releaseRefresh = resolve;
 		});
+		let reportRefreshStarted!: () => void;
+		const refreshStarted = new Promise<void>((resolve) => {
+			reportRefreshStarted = resolve;
+		});
 
 		let reportAllUnauthorized!: () => void;
 		const allUnauthorizedSeen = new Promise<void>((resolve) => {
@@ -443,6 +447,7 @@ test(
 
 				if (url.endsWith("/api/v1/auth/refresh")) {
 					refreshCalls += 1;
+					reportRefreshStarted();
 					await refreshGate;
 
 					return json({
@@ -493,6 +498,7 @@ test(
 		);
 
 		await allUnauthorizedSeen;
+		await refreshStarted;
 
 		assert.equal(unauthorizedCalls, 10);
 		assert.equal(
