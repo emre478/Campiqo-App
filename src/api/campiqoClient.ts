@@ -25,6 +25,7 @@ import {
 } from "../generated/api/runtime";
 import { API_SERVER_URL } from "./apiConfig";
 import {
+  isAuthSession,
   secureSessionStore,
   type AuthSession,
   type SessionStore,
@@ -51,11 +52,18 @@ const authPaths = [
   "/api/v1/auth/register",
   "/api/v1/auth/refresh",
 ];
+const INVALID_REFRESH_STATUSES = new Set([400, 401, 403]);
 
 function toSession(response: AuthResponse): AuthSession | null {
-  if (!response.accessToken || !response.refreshToken) {
-    return null;
-  }
+  const session = {
+    accessToken: response.accessToken,
+    refreshToken: response.refreshToken,
+    expiresAtUtc: response.expiresAtUtc,
+    refreshTokenExpiresAtUtc: response.refreshTokenExpiresAtUtc,
+  };
+
+  return isAuthSession(session) ? session : null;
+}
 
   return {
     accessToken: response.accessToken,
@@ -64,6 +72,7 @@ function toSession(response: AuthResponse): AuthSession | null {
     refreshTokenExpiresAtUtc: response.refreshTokenExpiresAtUtc,
   };
 }
+
 
 export function createCampiqoClient(
   options: CampiqoClientOptions = {},
@@ -92,10 +101,17 @@ export function createCampiqoClient(
         body: JSON.stringify({ refreshToken: current.refreshToken }),
       });
 
-      if (!response.ok) {
-        await sessionStore.clear();
-        return null;
-      }
+if (!response.ok) {
+  if (INVALID_REFRESH_STATUSES.has(response.status)) {
+    await sessionStore.clear();
+    return null;
+  }
+
+  throw new ResponseError(
+    response,
+    `Session refresh geçici olarak başarısız: ${response.status}`,
+  );
+}
 
       const envelope = (await response.json()) as {
         data?: AuthResponse | null;
