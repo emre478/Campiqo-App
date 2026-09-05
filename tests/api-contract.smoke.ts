@@ -6,13 +6,18 @@ import {
 	saveAuthResponse,
 	toCampiqoProblem,
 } from "../src/api/campiqoClient";
-import type { AuthSession, SessionStore } from "../src/api/sessionStore";
+import {
+	deserializeAuthSession,
+	isAuthSession,
+	type AuthSession,
+	type SessionStore,
+} from "../src/api/sessionStore";
 import type {
 	AuthResponseApiResponse,
 	CampResponsePaginatedResponseApiResponse,
 	ProblemDetails,
 } from "../src/generated/api/models";
-import { ResponseError } from "../src/generated/api/runtime";
+import { FetchError, ResponseError } from "../src/generated/api/runtime";
 
 class MemorySessionStore implements SessionStore {
 	value: AuthSession | null = null;
@@ -32,6 +37,145 @@ const json = (body: unknown, status = 200) =>
 		status,
 		headers: { "Content-Type": "application/json" },
 	});
+
+test("session validation rejects malformed or incomplete values", () => {
+	assert.equal(deserializeAuthSession("not-json"), null);
+	assert.equal(deserializeAuthSession("{}"), null);
+
+	assert.equal(
+		deserializeAuthSession(
+			JSON.stringify({
+				accessToken: "access",
+			})
+		),
+		null
+	);
+
+	assert.equal(
+		deserializeAuthSession(
+			JSON.stringify({
+				accessToken: " ",
+				refreshToken: "refresh",
+			})
+		),
+		null
+	);
+
+	assert.equal(
+		deserializeAuthSession(
+			JSON.stringify({
+				accessToken: "access",
+				refreshToken: "refresh",
+				expiresAtUtc: "invalid-date",
+			})
+		),
+		null
+	);
+
+	assert.equal(
+		isAuthSession({
+			accessToken: "access",
+			refreshToken: "refresh",
+		}),
+		true
+	);
+});
+
+test("invalid refresh credentials clear the session", async () => {
+	for (const status of [400, 401, 403]) {
+		const sessionStore = new MemorySessionStore();
+		sessionStore.value = {
+			accessToken: "expired",
+			refreshToken: "invalid-refresh",
+		};
+
+		const client = createCampiqoClient({
+			baseUrl: "https://api.campiqo.test",
+			sessionStore,
+			fetchApi: async (input) => {
+				if (String(input).endsWith("/api/v1/auth/refresh")) {
+					return json({ title: "Invalid refresh token" }, status);
+				}
+
+				return json({ title: "Unauthorized" }, 401);
+			},
+		});
+
+		await assert.rejects(() => client.camps.campGetAll({}), ResponseError);
+
+		assert.equal(
+			sessionStore.value,
+			null,
+			`${status} refresh cevabında session temizlenmedi`
+		);
+	}
+});
+
+test("transient refresh responses preserve the session", async () => {
+	for (const status of [429, 500, 503]) {
+		const sessionStore = new MemorySessionStore();
+		sessionStore.value = {
+			accessToken: "expired",
+			refreshToken: "valid-refresh",
+		};
+
+		const client = createCampiqoClient({
+			baseUrl: "https://api.campiqo.test",
+			sessionStore,
+			fetchApi: async (input) => {
+				if (String(input).endsWith("/api/v1/auth/refresh")) {
+					return json({ title: "Temporary failure" }, status);
+				}
+
+				return json({ title: "Unauthorized" }, 401);
+			},
+		});
+
+		await assert.rejects(
+			() => client.camps.campGetAll({}),
+			(error: unknown) => {
+				assert.ok(error instanceof FetchError);
+				assert.ok(error.cause instanceof ResponseError);
+				assert.equal(error.cause.response.status, status);
+				return true;
+			}
+		);
+
+		assert.equal(sessionStore.value?.refreshToken, "valid-refresh");
+	}
+});
+
+test("network failure during refresh preserves the session", async () => {
+	const sessionStore = new MemorySessionStore();
+	sessionStore.value = {
+		accessToken: "expired",
+		refreshToken: "valid-refresh",
+	};
+
+	const client = createCampiqoClient({
+		baseUrl: "https://api.campiqo.test",
+		sessionStore,
+		fetchApi: async (input) => {
+			if (String(input).endsWith("/api/v1/auth/refresh")) {
+				throw new TypeError("Network unavailable");
+			}
+
+			return json({ title: "Unauthorized" }, 401);
+		},
+	});
+
+	await assert.rejects(
+		() => client.camps.campGetAll({}),
+		(error: unknown) => {
+			assert.ok(error instanceof FetchError);
+			assert.ok(error.cause instanceof TypeError);
+			assert.match(error.cause.message, /Network unavailable/);
+			return true;
+		}
+	);
+
+	assert.equal(sessionStore.value?.refreshToken, "valid-refresh");
+});
 
 test("development uses the Android emulator API URL by default", () => {
 	assert.equal(resolveApiServerUrl("development"), "http://10.0.2.2:5170");
