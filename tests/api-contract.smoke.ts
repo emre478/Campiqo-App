@@ -13,6 +13,7 @@ import {
 	type SessionStore,
 } from "../src/api/sessionStore";
 import { loginWithPassword } from "../src/features/auth/login";
+import { logoutCurrentSession } from "../src/features/auth/logout";
 import type {
 	AuthResponseApiResponse,
 	CampResponsePaginatedResponseApiResponse,
@@ -83,6 +84,56 @@ test("password login saves the generated AuthResponse session", async () => {
 	assert.equal(result.user.id, "user-id");
 	assert.equal(sessionStore.value?.accessToken, "access-token");
 	assert.equal(sessionStore.value?.refreshToken, "refresh-token");
+});
+
+test("logout revokes the refresh token and clears local session", async () => {
+	const sessionStore = new MemorySessionStore();
+	sessionStore.value = {
+		accessToken: "access-token",
+		refreshToken: "refresh-token",
+	};
+
+	let receivedRefreshToken: string | undefined;
+
+	const result = await logoutCurrentSession({
+		sessionStore,
+		auth: {
+			async authLogout(request) {
+				receivedRefreshToken = request.logoutRequest?.refreshToken;
+
+				return {
+					isSuccess: true,
+					data: true,
+				};
+			},
+		},
+	});
+
+	assert.equal(receivedRefreshToken, "refresh-token");
+	assert.equal(result.serverRevoked, true);
+	assert.equal(result.problem, undefined);
+	assert.equal(sessionStore.value, null);
+});
+
+test("logout clears local session when server revoke fails", async () => {
+	const sessionStore = new MemorySessionStore();
+	sessionStore.value = {
+		accessToken: "access-token",
+		refreshToken: "refresh-token",
+	};
+
+	const result = await logoutCurrentSession({
+		sessionStore,
+		auth: {
+			async authLogout() {
+				throw new TypeError("Network unavailable");
+			},
+		},
+	});
+
+	assert.equal(result.serverRevoked, false);
+	assert.equal(result.problem?.kind, "network");
+	assert.equal(sessionStore.value, null);
 });
 
 test("session validation rejects malformed or incomplete values", () => {
