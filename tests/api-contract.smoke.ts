@@ -411,6 +411,108 @@ test("401 triggers a single refresh and retries with the new token", async () =>
 	assert.equal(sessionStore.value?.accessToken, "new");
 });
 
+test(
+	"ten concurrent 401 responses share one refresh request",
+	{ timeout: 5000 },
+	async () => {
+		const sessionStore = new MemorySessionStore();
+		sessionStore.value = {
+			accessToken: "expired-access",
+			refreshToken: "valid-refresh",
+		};
+
+		let refreshCalls = 0;
+		let unauthorizedCalls = 0;
+		let successfulRetries = 0;
+
+		let releaseRefresh!: () => void;
+		const refreshGate = new Promise<void>((resolve) => {
+			releaseRefresh = resolve;
+		});
+
+		let reportAllUnauthorized!: () => void;
+		const allUnauthorizedSeen = new Promise<void>((resolve) => {
+			reportAllUnauthorized = resolve;
+		});
+
+		const client = createCampiqoClient({
+			baseUrl: "https://api.campiqo.test",
+			sessionStore,
+			fetchApi: async (input, init) => {
+				const url = String(input);
+
+				if (url.endsWith("/api/v1/auth/refresh")) {
+					refreshCalls += 1;
+					await refreshGate;
+
+					return json({
+						isSuccess: true,
+						data: {
+							accessToken: "new-access",
+							refreshToken: "rotated-refresh",
+						},
+					});
+				}
+
+				const authorization = new Headers(init?.headers).get(
+					"Authorization"
+				);
+
+				if (authorization === "Bearer expired-access") {
+					unauthorizedCalls += 1;
+
+					if (unauthorizedCalls === 10) {
+						reportAllUnauthorized();
+					}
+
+					return json({ title: "Unauthorized" }, 401);
+				}
+
+				assert.equal(
+					authorization,
+					"Bearer new-access",
+					"İstek yeni access token ile tekrar gönderilmedi"
+				);
+
+				successfulRetries += 1;
+
+				return json({
+					isSuccess: true,
+					data: {
+						items: [],
+						totalCount: 0,
+						page: 1,
+						pageSize: 10,
+					},
+				});
+			},
+		});
+
+		const requests = Array.from({ length: 10 }, () =>
+			client.camps.campGetAll({})
+		);
+
+		await allUnauthorizedSeen;
+
+		assert.equal(unauthorizedCalls, 10);
+		assert.equal(
+			refreshCalls,
+			1,
+			"Eşzamanlı 401 cevapları birden fazla refresh başlattı"
+		);
+
+		releaseRefresh();
+
+		const results = await Promise.all(requests);
+
+		assert.equal(results.length, 10);
+		assert.equal(successfulRetries, 10);
+		assert.equal(refreshCalls, 1);
+		assert.equal(sessionStore.value?.accessToken, "new-access");
+		assert.equal(sessionStore.value?.refreshToken, "rotated-refresh");
+	}
+);
+
 test("Problem Details is normalized and generated contract stays nullable", async () => {
 	const details: ProblemDetails = {
 		title: "Validation failed",
