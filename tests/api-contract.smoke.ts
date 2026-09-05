@@ -14,6 +14,10 @@ import {
 } from "../src/api/sessionStore";
 import { loginWithPassword } from "../src/features/auth/login";
 import { logoutCurrentSession } from "../src/features/auth/logout";
+import {
+	loadRegistrationLegalDocuments,
+	registerWithPassword,
+} from "../src/features/auth/register";
 import type {
 	AuthResponseApiResponse,
 	CampResponsePaginatedResponseApiResponse,
@@ -696,4 +700,131 @@ test("network errors do not expose their raw message", async () => {
 	);
 	assert.doesNotMatch(message, /private-host/);
 	assert.doesNotMatch(message, /secret/);
+});
+
+test("registration loads current legal document versions", async () => {
+	const sessionStore = createMemorySessionStore();
+
+	const result = await loadRegistrationLegalDocuments({
+		auth: {
+			async authRegister() {
+				throw new Error("authRegister çağrılmamalı");
+			},
+		},
+		legal: {
+			async legalGetCurrentDocuments() {
+				return {
+					isSuccess: true,
+					data: {
+						documents: [
+							{
+								documentType: 1,
+								documentTypeName: "TermsOfUse",
+								version: "terms-v3",
+								url: "https://campiqo.com/legal/terms",
+							},
+							{
+								documentType: 2,
+								documentTypeName: "PrivacyPolicy",
+								version: "privacy-v5",
+								url: "https://campiqo.com/legal/privacy",
+							},
+						],
+					},
+				};
+			},
+		},
+		sessionStore,
+	});
+
+	if (result.ok === false) {
+		assert.fail(result.message);
+	}
+
+	assert.equal(result.documents.termsOfUse.version, "terms-v3");
+	assert.equal(result.documents.privacyPolicy.version, "privacy-v5");
+});
+
+test("password registration sends legal versions and saves session", async () => {
+	const sessionStore = createMemorySessionStore();
+
+	let sentRequest:
+		| {
+				registerRequest?: {
+					termsOfUseVersion?: string;
+					privacyPolicyVersion?: string;
+					hasAcceptedTermsOfUse?: boolean;
+					hasAcceptedPrivacyPolicy?: boolean;
+				};
+		  }
+		| undefined;
+
+	const result = await registerWithPassword(
+		{
+			firstName: "Emre",
+			lastName: "Özer",
+			email: "EMRE@EXAMPLE.COM",
+			password: "StrongPassword123!",
+			confirmPassword: "StrongPassword123!",
+			hasAcceptedTermsOfUse: true,
+			hasAcceptedPrivacyPolicy: true,
+			legalDocuments: {
+				termsOfUse: {
+					version: "terms-v3",
+					url: "https://campiqo.com/legal/terms",
+				},
+				privacyPolicy: {
+					version: "privacy-v5",
+					url: "https://campiqo.com/legal/privacy",
+				},
+			},
+		},
+		{
+			auth: {
+				async authRegister(request) {
+					sentRequest = request;
+
+					return {
+						isSuccess: true,
+						data: {
+							accessToken: "new-access-token",
+							refreshToken: "new-refresh-token",
+							expiresAt: new Date(Date.now() + 60_000).toISOString(),
+							user: {
+								id: "user-1",
+								email: "emre@example.com",
+								firstName: "Emre",
+								lastName: "Özer",
+								isEmailVerified: false,
+							},
+						},
+					};
+				},
+			},
+			legal: {
+				async legalGetCurrentDocuments() {
+					throw new Error("legalGetCurrentDocuments çağrılmamalı");
+				},
+			},
+			sessionStore,
+		}
+	);
+
+	if (result.ok === false) {
+		assert.fail(result.message);
+	}
+
+	assert.equal(sentRequest?.registerRequest?.termsOfUseVersion, "terms-v3");
+	assert.equal(
+		sentRequest?.registerRequest?.privacyPolicyVersion,
+		"privacy-v5"
+	);
+	assert.equal(sentRequest?.registerRequest?.hasAcceptedTermsOfUse, true);
+	assert.equal(sentRequest?.registerRequest?.hasAcceptedPrivacyPolicy, true);
+	assert.equal(result.user.id, "user-1");
+
+	const savedSession = await sessionStore.read();
+
+	assert.equal(savedSession?.accessToken, "new-access-token");
+	assert.equal(savedSession?.refreshToken, "new-refresh-token");
 });

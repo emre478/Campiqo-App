@@ -1,5 +1,9 @@
-import { toAppProblem, type AppProblem } from "../../api/appProblem";
-import { campiqoClient, type CampiqoClient } from "../../api/campiqoClient";
+import {
+	getAppProblemMessage,
+	toAppProblem,
+	type AppProblem,
+} from "../../api/appProblem";
+import { campiqoClient, saveAuthResponse } from "../../api/campiqoClient";
 import type { SessionStore } from "../../api/sessionStore";
 import type {
 	AuthRegisterRequest,
@@ -41,7 +45,7 @@ export type LoadRegistrationLegalDocumentsResult =
 	| {
 			ok: false;
 			message: string;
-			problem: AppProblem;
+			problem?: AppProblem;
 	  };
 
 export type PasswordRegistrationResult =
@@ -65,16 +69,6 @@ interface RegistrationClient {
 		legalGetCurrentDocuments(): Promise<CurrentLegalDocumentsResponseApiResponse>;
 	};
 	sessionStore: SessionStore;
-}
-
-function toRegistrationClient(
-	client: CampiqoClient = campiqoClient
-): RegistrationClient {
-	return {
-		auth: client.auth,
-		legal: client.legal,
-		sessionStore: client.sessionStore,
-	};
 }
 
 function isValidDocumentUrl(value: string): boolean {
@@ -104,7 +98,7 @@ function mapLegalDocument(
 }
 
 export async function loadRegistrationLegalDocuments(
-	client: RegistrationClient = toRegistrationClient()
+	client: RegistrationClient = campiqoClient
 ): Promise<LoadRegistrationLegalDocumentsResult> {
 	try {
 		const response = await client.legal.legalGetCurrentDocuments();
@@ -127,11 +121,6 @@ export async function loadRegistrationLegalDocuments(
 				ok: false,
 				message:
 					"Güncel kullanım koşulları veya gizlilik politikası alınamadı.",
-				problem: {
-					kind: "contract",
-					message:
-						"Güncel kullanım koşulları veya gizlilik politikası alınamadı.",
-				},
 			};
 		}
 
@@ -147,7 +136,7 @@ export async function loadRegistrationLegalDocuments(
 
 		return {
 			ok: false,
-			message: problem.message,
+			message: getAppProblemMessage(problem),
 			problem,
 		};
 	}
@@ -155,7 +144,7 @@ export async function loadRegistrationLegalDocuments(
 
 export async function registerWithPassword(
 	input: PasswordRegistrationInput,
-	client: RegistrationClient = toRegistrationClient()
+	client: RegistrationClient = campiqoClient
 ): Promise<PasswordRegistrationResult> {
 	const firstName = input.firstName.trim();
 	const lastName = input.lastName.trim();
@@ -201,17 +190,15 @@ export async function registerWithPassword(
 		const user = authResponse?.user;
 
 		if (!response.isSuccess || !authResponse || !user?.id) {
+			await client.sessionStore.clear();
+
 			return {
 				ok: false,
 				message: response.message || "Kayıt işlemi tamamlanamadı.",
-				problem: {
-					kind: "contract",
-					message: response.message || "Kayıt işlemi tamamlanamadı.",
-				},
 			};
 		}
 
-		await client.sessionStore.saveAuthResponse(authResponse);
+		await saveAuthResponse(authResponse, client.sessionStore);
 
 		return {
 			ok: true,
@@ -222,7 +209,7 @@ export async function registerWithPassword(
 
 		return {
 			ok: false,
-			message: problem.message,
+			message: getAppProblemMessage(problem),
 			problem,
 		};
 	}
