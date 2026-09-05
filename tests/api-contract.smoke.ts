@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-
+import { parseAppEnvironment, resolveApiServerUrl } from "../src/api/apiConfig";
 import {
 	createCampiqoClient,
 	saveAuthResponse,
@@ -32,6 +32,70 @@ const json = (body: unknown, status = 200) =>
 		status,
 		headers: { "Content-Type": "application/json" },
 	});
+
+test("development uses the Android emulator API URL by default", () => {
+	assert.equal(resolveApiServerUrl("development"), "http://10.0.2.2:5170");
+});
+
+test("API origin removes a trailing slash", () => {
+	assert.equal(
+		resolveApiServerUrl("production", "https://api.campiqo.example/"),
+		"https://api.campiqo.example"
+	);
+});
+
+test("staging and production require an explicit API URL", () => {
+	assert.throws(() => resolveApiServerUrl("staging"), /zorunludur/);
+
+	assert.throws(() => resolveApiServerUrl("production"), /zorunludur/);
+});
+
+test("staging and production reject HTTP", () => {
+	assert.throws(
+		() =>
+			resolveApiServerUrl("staging", "http://staging-api.campiqo.example"),
+		/HTTPS/
+	);
+
+	assert.throws(
+		() => resolveApiServerUrl("production", "http://api.campiqo.example"),
+		/HTTPS/
+	);
+});
+
+test("production rejects local API hosts", () => {
+	assert.throws(
+		() => resolveApiServerUrl("production", "https://localhost:5170"),
+		/yerel API hostu/
+	);
+});
+
+test("API URL rejects paths, query strings and hashes", () => {
+	assert.throws(
+		() =>
+			resolveApiServerUrl(
+				"production",
+				"https://api.campiqo.example/api/v1"
+			),
+		/yalnızca server origin/
+	);
+
+	assert.throws(
+		() =>
+			resolveApiServerUrl(
+				"production",
+				"https://api.campiqo.example?debug=true"
+			),
+		/yalnızca server origin/
+	);
+});
+
+test("application environment rejects unknown values", () => {
+	assert.throws(
+		() => parseAppEnvironment("qa"),
+		/Geçersiz EXPO_PUBLIC_APP_ENV/
+	);
+});
 
 test("client exposes every consumer API group and excludes admin APIs", () => {
 	const client = createCampiqoClient({
