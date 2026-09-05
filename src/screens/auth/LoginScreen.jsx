@@ -1,3 +1,4 @@
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
 	ActivityIndicator,
@@ -9,15 +10,13 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import AuthCard from "../../components/auth/AuthCard";
 import AuthHeader from "../../components/auth/AuthHeader";
 import AuthInput from "../../components/auth/AuthInput";
 import SocialAuthButton from "../../components/auth/SocialAuthButton";
+import { loginWithPassword } from "../../features/auth/login";
 import { loginSuccess } from "../../redux/slices/authSlice";
-import { login } from "../../services/authService";
-import { saveToken } from "../../services/tokenService";
 
 const LoginScreen = ({ navigation }) => {
 	const dispatch = useDispatch();
@@ -36,35 +35,28 @@ const LoginScreen = ({ navigation }) => {
 			setErrorMessage("");
 			setLoading(true);
 
-			const response = await login(email, password);
+			const result = await loginWithPassword(email, password);
 
-			if (response.isSuccess) {
-				const token = response.data;
-
-				await saveToken(token);
-
-				dispatch(
-					loginSuccess({
-						token,
-						user: null,
-					})
-				);
-				navigation.replace("Main");
-			} else {
-				showError(response.message || "Giriş yapılamadı.");
+			if (!result.ok) {
+				showError(result.message);
+				return;
 			}
-		} catch (error) {
-			console.log("LOGIN ERROR", error?.response?.data || error?.message);
-			showError("Giriş yapılırken hata oluştu.");
+
+			dispatch(loginSuccess(result.user));
+
+			navigation.reset({
+				index: 0,
+				routes: [{ name: "Main" }],
+			});
+		} catch {
+			showError("Giriş sırasında beklenmeyen bir hata oluştu.");
 		} finally {
 			setLoading(false);
 		}
 	};
 
 	const handleSocialLogin = (provider) => {
-		showError(
-			`${provider} ile giriş özelliği yakında eklenecek.`
-		);
+		showError(`${provider} ile giriş özelliği yakında eklenecek.`);
 	};
 
 	return (
