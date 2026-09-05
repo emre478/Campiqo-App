@@ -31,15 +31,6 @@ import {
 	type SessionStore,
 } from "./sessionStore";
 
-export interface CampiqoProblem {
-	status?: number;
-	title: string;
-	detail?: string;
-	code?: string;
-	traceId?: string;
-	errors?: Record<string, string[]>;
-}
-
 export interface CampiqoClientOptions {
 	baseUrl?: string;
 	sessionStore?: SessionStore;
@@ -185,36 +176,6 @@ export async function saveAuthResponse(
 
 	await sessionStore.set(session);
 	return session;
-}
-
-export async function toCampiqoProblem(
-	error: unknown
-): Promise<CampiqoProblem> {
-	if (!(error instanceof ResponseError)) {
-		return {
-			title: error instanceof Error ? error.message : "Beklenmeyen hata",
-		};
-	}
-
-	let body: Record<string, unknown> = {};
-	try {
-		body = (await error.response.clone().json()) as Record<string, unknown>;
-	} catch {
-		// Non-JSON error bodies still retain their HTTP status below.
-	}
-
-	return {
-		status: error.response.status,
-		title:
-			typeof body.title === "string" ? body.title : "API isteği başarısız",
-		detail: typeof body.detail === "string" ? body.detail : undefined,
-		code: typeof body.code === "string" ? body.code : undefined,
-		traceId: typeof body.traceId === "string" ? body.traceId : undefined,
-		errors:
-			typeof body.errors === "object" && body.errors !== null
-				? (body.errors as Record<string, string[]>)
-				: undefined,
-	};
 }
 
 export const campiqoClient = createCampiqoClient();
