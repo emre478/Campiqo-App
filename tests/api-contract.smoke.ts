@@ -12,6 +12,7 @@ import {
 	type AuthSession,
 	type SessionStore,
 } from "../src/api/sessionStore";
+import { bootstrapSession } from "../src/features/auth/bootstrapSession";
 import { loginWithPassword } from "../src/features/auth/login";
 import { logoutCurrentSession } from "../src/features/auth/logout";
 import {
@@ -826,4 +827,91 @@ test("password registration sends legal versions and saves session", async () =>
 
 	assert.equal(sessionStore.value?.accessToken, "new-access-token");
 	assert.equal(sessionStore.value?.refreshToken, "new-refresh-token");
+});
+
+test("session bootstrap stays signed out without a stored session", async () => {
+	const sessionStore = new MemorySessionStore();
+	let profileRequestCount = 0;
+
+	const result = await bootstrapSession({
+		sessionStore,
+		users: {
+			async userGetMyProfile() {
+				profileRequestCount += 1;
+
+				throw new Error("Profil isteği yapılmamalı");
+			},
+		},
+	});
+
+	assert.equal(result.status, "signedOut");
+	assert.equal(profileRequestCount, 0);
+});
+
+test("session bootstrap restores the authenticated user", async () => {
+	const sessionStore = new MemorySessionStore();
+
+	sessionStore.value = {
+		accessToken: "stored-access-token",
+		refreshToken: "stored-refresh-token",
+		expiresAtUtc: "2026-09-06T00:00:00Z",
+		refreshTokenExpiresAtUtc: "2026-10-06T00:00:00Z",
+	};
+
+	const result = await bootstrapSession({
+		sessionStore,
+		users: {
+			async userGetMyProfile() {
+				return {
+					isSuccess: true,
+					data: {
+						id: "user-1",
+						email: "user@campiqo.test",
+						firstName: "Test",
+						lastName: "User",
+						isEmailVerified: true,
+					},
+				};
+			},
+		},
+	});
+
+	assert.equal(result.status, "authenticated");
+
+	if (result.status !== "authenticated") {
+		assert.fail("Geçerli oturum geri yüklenemedi.");
+	}
+
+	assert.equal(result.user.id, "user-1");
+	assert.equal(result.user.email, "user@campiqo.test");
+	assert.equal(sessionStore.value?.accessToken, "stored-access-token");
+});
+
+test("session bootstrap preserves the session on network failure", async () => {
+	const sessionStore = new MemorySessionStore();
+
+	sessionStore.value = {
+		accessToken: "stored-access-token",
+		refreshToken: "stored-refresh-token",
+		expiresAtUtc: "2026-09-06T00:00:00Z",
+		refreshTokenExpiresAtUtc: "2026-10-06T00:00:00Z",
+	};
+
+	const result = await bootstrapSession({
+		sessionStore,
+		users: {
+			async userGetMyProfile() {
+				throw new TypeError("private-host connection refused");
+			},
+		},
+	});
+
+	assert.equal(result.status, "error");
+	assert.equal(sessionStore.value?.refreshToken, "stored-refresh-token");
+
+	if (result.status !== "error") {
+		assert.fail("Ağ hatası başlangıç hatası olarak dönmedi.");
+	}
+
+	assert.doesNotMatch(result.message, /private-host|connection refused/);
 });
