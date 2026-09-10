@@ -100,11 +100,6 @@ const RegisterScreen = ({ navigation }) => {
 			}
 
 			dispatch(loginSuccess(result.user));
-
-			navigation.reset({
-				index: 0,
-				routes: [{ name: "Main" }],
-			});
 		} catch {
 			setMessage("Kayıt sırasında beklenmeyen bir hata oluştu.");
 		} finally {

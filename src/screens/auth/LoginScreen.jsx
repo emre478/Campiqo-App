@@ -43,11 +43,6 @@ const LoginScreen = ({ navigation }) => {
 			}
 
 			dispatch(loginSuccess(result.user));
-
-			navigation.reset({
-				index: 0,
-				routes: [{ name: "Main" }],
-			});
 		} catch {
 			showError("Giriş sırasında beklenmeyen bir hata oluştu.");
 		} finally {

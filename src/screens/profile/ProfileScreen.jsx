@@ -54,11 +54,6 @@ const ProfileScreen = ({ navigation }) => {
 			await logoutCurrentSession();
 
 			dispatch(logout());
-
-			navigation.reset({
-				index: 0,
-				routes: [{ name: "Login" }],
-			});
 		} catch {
 			Alert.alert(
 				"Çıkış yapılamadı",
